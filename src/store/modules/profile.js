@@ -21,7 +21,7 @@ export const actions = {
     }
   },
   async saveProfile({ commit }, profile) {
-    profile = await ProfileService.update(profile._id, profile);
+    profile = await ProfileService.update(profile.id, profile);
 
     if (profile) {
       commit("SET_PROFILE", profile);

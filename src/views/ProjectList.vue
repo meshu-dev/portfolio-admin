@@ -7,7 +7,7 @@
         New
       </router-link>
     </div>
-    <ProjectRow v-for="project in project.projects" :key="project._id" :project="project" />
+    <ProjectRow v-for="project in project.projects" :key="project.id" :project="project" />
     <template v-if="page != 1">
       <router-link :to="{ name: 'project-list', params: { page: parseInt(page) - 1 } }" rel="prev">Prev Page</router-link>
       <template v-if="hasNextPage">

@@ -5,10 +5,10 @@ profileService.path = "/profiles";
 
 profileService.readByName = async function(name) {
   let res = await this.apiClient.get(`${this.path}?name=${name}`);
-  let data = res.data;
+  let profiles = res.data;
 
-  if (data.profiles !== undefined && data.profiles[0] !== undefined) {
-    return data.profiles[0];
+  if (profiles !== undefined && profiles[0] !== undefined) {
+    return profiles[0];
   }
   return null;
 };

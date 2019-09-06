@@ -61,7 +61,7 @@ export const actions = {
     return project;
   },
   async editProject({ commit }, project) {
-    project = await ProjectService.update(project._id, project);
+    project = await ProjectService.update(project.id, project);
 
     if (project) {
       commit("SET_PROJECT", project);
@@ -81,6 +81,6 @@ export const actions = {
 
 export const getters = {
   getProjectById: state => id => {
-    return state.projects.find(project => project._id === id);
+    return state.projects.find(project => project.id === id);
   }
 };

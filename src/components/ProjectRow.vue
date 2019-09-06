@@ -1,5 +1,7 @@
 <template>
-  <router-link class="project-link" :to="{ name: 'project-view', params: { id: project._id } }">
+  <router-link
+    class="project-link"
+    :to="{ name: 'project-view', params: { id: project.id } }">
     <div class="project-row">
       <h2>{{ project.title }}</h2>
     </div>
@@ -10,11 +12,11 @@
 export default {
   props: {
     project: {
-        type: Object,
-        required: true
+      type: Object,
+      required: true
     }
   }
-}
+};
 </script>
 
 <style scoped>

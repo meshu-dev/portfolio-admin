@@ -1,8 +1,12 @@
 <template>
-	<div>
+  <div>
     <div id="page-header">
-		  <h1>Project</h1>
-      <router-link class="button" :to="{ name: 'project-form', params: { id: project._id } }">Edit</router-link>
+      <h1>Project</h1>
+      <router-link
+        class="button"
+        :to="{ name: 'project-form', params: { id: project.id } }">
+        Edit
+      </router-link>
     </div>
     <dl>
       <dt>Title</dt>
@@ -16,13 +20,13 @@
       <dt>Thumb Url</dt>
       <dd><img :src="project.thumbUrl" /></dd>
     </dl>
-	</div>
+  </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-  
+
 export default {
   props: {
     id: {
