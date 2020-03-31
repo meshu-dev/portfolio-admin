@@ -1,7 +1,9 @@
 <template>
   <nav v-if="isLoggedIn">
-    <router-link to="/">Profile</router-link> |
-    <router-link to="/projects">Projects</router-link> |
+    <router-link to="/">Profile</router-link>
+    <span>|</span>
+    <router-link to="/projects">Projects</router-link>
+    <span>|</span>
     <span class="link" @click="logout">
       Logout
     </span>
@@ -28,17 +30,17 @@ export default {
 <style scoped>
 nav {
   display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
+  justify-content: flex-end;
+  flex-grow: 2;
 }
 nav a,
 nav span {
-  font-weight: bold;
   color: #2c3e50;
-  padding: 0 10px;
+  text-align: center;
+  flex-basis: 3rem;
+  flex-shrink: 1;
 }
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #35495D;
 }
 </style>
