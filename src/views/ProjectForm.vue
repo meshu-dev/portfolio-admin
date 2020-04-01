@@ -4,7 +4,6 @@
       <h1 v-if="project.id">Edit Project</h1>
       <h1 v-else>New Project</h1>
       <b-button
-        id="delete-button"
         pill
         variant="primary"
         @click="showDeletePopUp = !showDeletePopUp"
@@ -52,12 +51,14 @@
           drop-placeholder="Drop file here..."
         ></b-form-file>
         <template v-if="project.id && !changeImage">
-          <img :src="project.images[0] ? project.images[0]['thumbUrl'] : ''" />
-          <b-button
-            pill
-            variant="primary"
-            @click="changeImage = true">Change Image
-          </b-button>
+          <div id="project-thumb">
+            <img :src="project.images[0] ? project.images[0]['thumbUrl'] : ''" />
+            <b-button
+              pill
+              variant="primary"
+              @click="changeImage = true">Change Image
+            </b-button>
+          </div>
         </template>
       </b-form-group>
       <b-form-group
@@ -198,8 +199,9 @@ export default {
   #page-header span {
     float: right;
   }
-  #delete-button {
-    max-height: 40px;
+  #project-thumb {
+    display: flex;
+    justify-content: space-between;
   }
   #save-button {
     display: flex;

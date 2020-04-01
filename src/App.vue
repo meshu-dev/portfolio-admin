@@ -57,6 +57,9 @@ export default {
     border-color: rgba(255,255,255,1);
     cursor: pointer;
   }
+  .btn {
+    max-height: 40px;
+  }
   h1 {
     font-size: 3rem;
   }
