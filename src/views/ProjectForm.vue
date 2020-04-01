@@ -1,12 +1,22 @@
 <template>
   <div>
     <div id="page-header">
-      <h1 v-if="project._id">Edit Project</h1>
+      <h1 v-if="project.id">Edit Project</h1>
       <h1 v-else>New Project</h1>
-      <span class="button" @click="showDeletePopUp = true" v-show="project.id">
-        Delete
-      </span>
-      <span class="button" @click="saveData">Save</span>
+      <!--
+      <b-button
+        pill
+        variant="primary"
+        @click="showDeletePopUp = true"
+        v-show="project.id">Delete
+      </b-button> -->
+      <b-button
+        id="delete-button"
+        pill
+        variant="primary"
+        @click="showDeletePopUp = !showDeletePopUp"
+        v-show="project.id">Delete
+      </b-button>
     </div>
     <b-form @submit.prevent>
       <b-form-group
@@ -17,7 +27,7 @@
       >
         <b-form-input
           id="title"
-          v-model="project.email"
+          v-model="project.title"
           type="text"
           required
         ></b-form-input>
@@ -43,35 +53,58 @@
       >
         <b-form-file
           id="image"
-          v-model="project.file"
+          v-model="image.image"
           placeholder="Choose a file or drop it here..."
           drop-placeholder="Drop file here..."
         ></b-form-file>
       </b-form-group>
+      <b-form-group
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-button
+          id="save-button"
+          pill
+          variant="primary"
+          @click="saveData"
+          v-bind:disabled="isSaving === true">
+          <template v-if="isSaving === true">
+            <b-spinner large></b-spinner>
+            <span id="loading-text">Loading...</span>
+          </template>
+          <template v-else>
+            Save
+          </template>
+        </b-button>
+      </b-form-group>
     </b-form>
-    <PopUp v-show="showDeletePopUp">
-      <template v-slot:message>
-        Are you sure you want to delete project {{ project.id }}?
+    <b-modal v-model="showDeletePopUp">
+      <template v-slot:modal-title>
+        Confirm Delete
       </template>
-      <template v-slot:buttons>
-        <button class="button" @click="deleteData">Yes</button>
-        <button class="button" @click="showDeletePopUp = false">No</button>
+      Are you sure you want to delete project {{ project.id }}?
+      <template v-slot:modal-footer>
+        <div class="container w-100 d-flex justify-content-center mb-3">
+          <b-button
+            variant="primary"
+            @click="deleteData"
+          >
+            Delete
+          </b-button>
+        </div>
       </template>
-    </PopUp>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-import PopUp from "@/components/PopUp.vue";
 
 export default {
-  components: {
-    PopUp: PopUp
-  },
   data() {
     return {
+      isSaving: false,
       showDeletePopUp: false
     }
   },
@@ -90,34 +123,63 @@ export default {
   },
   methods: {
     async saveData() {
+      this.isSaving = true;
+
       if (this.project.id) {
         await store.dispatch("project/editProject", this.project);
       } else {
+        let formData = new FormData();
+        formData.append('image', this.image.image);
+
+        await store.dispatch("image/addImage", formData);
+
+        this.project.images = [
+          {
+            imageKey: this.image.imageKey,
+            thumbKey: this.image.thumbKey,
+            imageUrl: this.image.imageUrl,
+            thumbUrl: this.image.thumbUrl
+          }
+        ];
         await store.dispatch("project/addProject", this.project);
       }
+      this.isSaving = false;
+
       this.$router.push({ name: "project-list" });
     },
     async deleteData() {
-      await store.dispatch("project/deleteProject", this.project.id);
-      this.$router.push({ name: "project-list" });
+      console.log('DELETE');
+      //await store.dispatch("project/deleteProject", this.project.id);
+      //this.$router.push({ name: "project-list" });
     }
   },
   computed: mapState({
-    project: state => state.project.project
+    project: state => state.project.project,
+    image: state => state.image.image
   })
 };
 </script>
 
 <style scoped>
-#page-header {
-  overflow: hidden;
-  margin: 20px 0;
-}
-#page-header h1 {
-  float: left;
-  margin: 0;
-}
-#page-header span {
-  float: right;
-}
+  #page-header {
+    justify-content: space-between;
+    display: flex;
+    margin: 20px 0;
+  }
+  #page-header h1 {
+    float: left;
+    margin: 0;
+  }
+  #page-header span {
+    float: right;
+  }
+  #delete-button {
+    max-height: 40px;
+  }
+  #save-button {
+    display: flex;
+  }
+  #loading-text {
+    margin: .3rem 0 0 .3rem;
+  }
 </style>

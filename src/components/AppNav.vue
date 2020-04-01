@@ -35,12 +35,16 @@ nav {
 }
 nav a,
 nav span {
-  color: #2c3e50;
+  color: #FFF;
   text-align: center;
   flex-basis: 3rem;
   flex-shrink: 1;
 }
 nav a.router-link-exact-active {
   color: #35495D;
+}
+nav a.router-link-exact-active:hover {
+  text-decoration: none;
+  cursor: default;
 }
 </style>

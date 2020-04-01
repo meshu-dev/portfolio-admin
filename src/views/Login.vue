@@ -27,7 +27,7 @@
         <b-form-input
           id="password"
           v-model="password"
-          type="text"
+          type="password"
           required
         ></b-form-input>
       </b-form-group>

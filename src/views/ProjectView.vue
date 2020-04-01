@@ -3,9 +3,11 @@
     <div id="page-header">
       <h1>Project</h1>
       <router-link
-        class="button"
         :to="{ name: 'project-form', params: { id: project.id } }">
-        Edit
+        <b-button
+          pill
+          variant="primary">Edit
+        </b-button>
       </router-link>
     </div>
     <dl>
@@ -13,12 +15,10 @@
       <dd>{{ project.title }}</dd>
       <dt>Description</dt>
       <dd>{{ project.description }}</dd>
-      <dt>Url</dt>
+      <dt>Image</dt>
       <dd>
-        <a :href="project.url">{{ project.url }}</a>
+        <img :src="project.images[0] ? project.images[0]['imageUrl'] : ''" />
       </dd>
-      <dt>Thumb Url</dt>
-      <dd><img :src="project.thumbUrl" /></dd>
     </dl>
   </div>
 </template>

@@ -70,7 +70,7 @@ export const actions = {
     }
   },
   async deleteProject({ commit }, id) {
-    let response.data = await ProjectService.delete(id);
+    let response = await ProjectService.delete(id);
 
     if (response.data) {
       commit("DELETE_PROJECT");

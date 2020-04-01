@@ -60,6 +60,9 @@ export default {
   h1 {
     font-size: 3rem;
   }
+  .modal-header {
+    border-bottom: none;
+  }
   #app {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -83,6 +86,7 @@ export default {
     font-size: 1.6rem;
     font-weight: bold;
     flex-grow: 1;
+    color: #FFF;
   }
   #content {
     max-width: 1000px;

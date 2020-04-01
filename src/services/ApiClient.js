@@ -8,7 +8,7 @@ const apiClient = axios.create({
     Accept: "application/json",
     "Content-Type": "application/json"
   },
-  timeout: 10000
+  timeout: 100000
 });
 
 /*
