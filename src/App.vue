@@ -86,6 +86,6 @@ export default {
   }
   #content {
     max-width: 1000px;
-    margin: 3rem auto 0;
+    margin: 2rem auto 0;
   }
 </style>

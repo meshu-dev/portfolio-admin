@@ -8,64 +8,63 @@
       </span>
       <span class="button" @click="saveData">Save</span>
     </div>
-    <form @submit.prevent>
-      <FormTextField
-        type="text"
-        v-model="project.title"
-        label="Title"
-        placeholder="Title"
-        class="field"
-      />
-      <FormTextArea
-        v-model="project.description"
-        label="Description"
-        placeholder="Description"
-        class="field"
-      />
-      <FormTextField
-        type="text"
-        v-model="project.url"
-        label="Url"
-        placeholder="Url"
-        class="field"
-      />
-      <FormTextField
-        type="text"
-        v-model="project.thumbUrl"
-        label="Thumb Url"
-        placeholder="Thumb Url"
-        class="field"
-      />
-      <PopUp v-show="showDeletePopUp">
-        <template v-slot:message>
-          Are you sure you want to delete project {{ project.id }}?
-        </template>
-        <template v-slot:buttons>
-          <button class="button" @click="deleteData">Yes</button>
-          <button class="button" @click="showDeletePopUp = false">No</button>
-        </template>
-      </PopUp>
-    </form>
+    <b-form @submit.prevent>
+      <b-form-group
+        label="Title:"
+        label-for="title"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-input
+          id="title"
+          v-model="project.title"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        label="Description:"
+        label-for="description"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-textarea
+          id="description"
+          v-model="project.description"
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+      </b-form-group>
+      <b-form-group
+        label="Image:"
+        label-for="image"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-file
+          id="image"
+          v-model="project.file"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+        ></b-form-file>
+      </b-form-group>
+    </b-form>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-import FormTextField from "@/components/FormTextField.vue";
-import FormTextArea from "@/components/FormTextArea.vue";
 import PopUp from "@/components/PopUp.vue";
 
 export default {
   components: {
-    FormTextField: FormTextField,
-    FormTextArea: FormTextArea,
     PopUp: PopUp
   },
   data() {
     return {
       showDeletePopUp: false
-    };
+    }
   },
   props: {
     id: {

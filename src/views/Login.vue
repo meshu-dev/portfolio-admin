@@ -4,37 +4,45 @@
       <h1>Login</h1>
     </div>
     <p>{{ user.error }}</p>
-    <form @submit.prevent="login">
-      <FormTextField
-        type="text"
-        v-model="username"
-        label="Username"
-        placeholder="Username"
-        class="field"
-      />
-      <FormTextField
-        type="password"
-        v-model="password"
-        label="Password"
-        placeholder="Password"
-        class="field"
-      />
+    <b-form @submit.prevent="login">
+      <b-form-group
+        label="Username:"
+        label-for="username"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-input
+          id="username"
+          v-model="username"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        label="Password:"
+        label-for="password"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-input
+          id="password"
+          v-model="password"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
       <button type="submit" class="button">Submit</button>
-    </form>
+    </b-form>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-import FormTextField from "@/components/FormTextField.vue";
 
 import axios from "axios";
 
 export default {
-  components: {
-    FormTextField: FormTextField
-  },
   data() {
     return {
       username: "",

@@ -1,13 +1,20 @@
-import Vue from "vue";
-import App from "./App.vue";
-import store from "./store/store";
-import router from "./router";
+import Vue from 'vue';
+import store from './store/store';
+import router from './router';
 
-import CapitaliseFilter from "./filters/capitalise";
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+import App from './App.vue';
+
+import CapitaliseFilter from './filters/capitalise';
 
 Vue.filter("capitalise", CapitaliseFilter);
 
 Vue.config.productionTip = false;
+
+Vue.use(BootstrapVue);
 
 new Vue({
   router,
