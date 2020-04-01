@@ -47,9 +47,18 @@
         <b-form-file
           id="image"
           v-model="image.image"
+          v-show="!project.id || changeImage"
           placeholder="Choose a file or drop it here..."
           drop-placeholder="Drop file here..."
         ></b-form-file>
+        <template v-if="project.id && !changeImage">
+          <img :src="project.images[0] ? project.images[0]['thumbUrl'] : ''" />
+          <b-button
+            pill
+            variant="primary"
+            @click="changeImage = true">Change Image
+          </b-button>
+        </template>
       </b-form-group>
       <b-form-group
         label-cols-sm="4"
@@ -59,7 +68,7 @@
           id="save-button"
           pill
           variant="primary"
-          @click="saveData"
+          @click="project.id ? editData() : addData()"
           v-bind:disabled="isSaving === true">
           <template v-if="isSaving === true">
             <b-spinner large></b-spinner>
@@ -98,6 +107,7 @@ export default {
   data() {
     return {
       isSaving: false,
+      changeImage: false,
       showDeletePopUp: false
     }
   },
@@ -115,27 +125,42 @@ export default {
     next();
   },
   methods: {
-    async saveData() {
+    createImageData() {
+      return [{
+        imageKey: this.image.imageKey,
+        thumbKey: this.image.thumbKey,
+        imageUrl: this.image.imageUrl,
+        thumbUrl: this.image.thumbUrl
+      }];
+    },
+    async uploadImage() {
+      let formData = new FormData();
+      formData.append('image', this.image.image);
+
+      await store.dispatch("image/addImage", formData);
+    },
+    async addData() {
       this.isSaving = true;
 
-      if (this.project.id) {
-        await store.dispatch("project/editProject", this.project);
-      } else {
-        let formData = new FormData();
-        formData.append('image', this.image.image);
+      await this.uploadImage();
 
-        await store.dispatch("image/addImage", formData);
+      this.project.images = this.createImageData();
+      await store.dispatch("project/addProject", this.project);
 
-        this.project.images = [
-          {
-            imageKey: this.image.imageKey,
-            thumbKey: this.image.thumbKey,
-            imageUrl: this.image.imageUrl,
-            thumbUrl: this.image.thumbUrl
-          }
-        ];
-        await store.dispatch("project/addProject", this.project);
+      this.isSaving = false;
+
+      this.$router.push({ name: "project-list" });
+    },
+    async editData() {
+      this.isSaving = true;
+
+      if (this.changeImage === true) {
+        await this.uploadImage();
+        this.project.images = this.createImageData();
       }
+
+      await store.dispatch("project/editProject", this.project);
+
       this.isSaving = false;
 
       this.$router.push({ name: "project-list" });
