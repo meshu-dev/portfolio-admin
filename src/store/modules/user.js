@@ -32,8 +32,8 @@ export const mutations = {
 
 export const actions = {
   async login({ commit }, { username, password }) {
-    let userData = await UserService.login(username, password);
-    commit("SET_USER_DATA", userData);
+    let response = await UserService.login(username, password);
+    commit("SET_USER_DATA", response.data);
   },
   logout({ commit }) {
     commit("CLEAR_USER");

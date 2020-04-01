@@ -12,7 +12,6 @@ export const state = {
 export const mutations = {
   ADD_PROJECT(state, project) {
     state.projects.push(project);
-    //state.project = project;
   },
   SET_PROJECTS(state, projects) {
     state.projects = projects;
@@ -30,19 +29,22 @@ export const mutations = {
 
 export const actions = {
   async addProject({ commit }, project) {
-    project = await ProjectService.create(project);
+    let response = await ProjectService.create(project);
 
-    if (project) {
-      commit("ADD_PROJECT", project);
+    if (response.data) {
+      commit("ADD_PROJECT", response.data);
     }
   },
   async fetchProjects({ commit }, { page }) {
     let offset = (parseInt(page) - 1) * state.pageLimit,
-      data = await ProjectService.readRows(state.pageLimit, offset);
+        response = await ProjectService.readRows(state.pageLimit, offset);
 
-    if (data.projects !== undefined) {
-      commit("SET_TOTAL_PROJECTS", data.total);
-      commit("SET_PROJECTS", data.projects);
+    if (response.headers['x-total-count']) {
+      commit("SET_TOTAL_PROJECTS", response.headers['x-total-count']);
+    }
+
+    if (response.data !== undefined) {
+      commit("SET_PROJECTS", response.data);
     }
   },
   async fetchProject({ commit, getters }, id) {
@@ -51,11 +53,11 @@ export const actions = {
     if (project) {
       commit("SET_PROJECT", project);
     } else {
-      let data = await ProjectService.read(id);
+      let response = await ProjectService.read(id);
 
-      if (data.project) {
-        commit("SET_PROJECT", data.project);
-        project = data.project;
+      if (response.data) {
+        commit("SET_PROJECT", response.data);
+        project = response.data;
       }
     }
     return project;
@@ -68,9 +70,9 @@ export const actions = {
     }
   },
   async deleteProject({ commit }, id) {
-    let data = await ProjectService.delete(id);
+    let response.data = await ProjectService.delete(id);
 
-    if (data) {
+    if (response.data) {
       commit("DELETE_PROJECT");
     }
   },

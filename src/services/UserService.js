@@ -9,8 +9,7 @@ let UserService = {
       password: password
     };
 
-    let res = await this.apiClient.post(`${this.path}/login`, data);
-    return res.data;
+    return await this.apiClient.post(`${this.path}/login`, data);
   }
 };
 
