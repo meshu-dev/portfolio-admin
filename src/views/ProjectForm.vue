@@ -3,13 +3,6 @@
     <div id="page-header">
       <h1 v-if="project.id">Edit Project</h1>
       <h1 v-else>New Project</h1>
-      <!--
-      <b-button
-        pill
-        variant="primary"
-        @click="showDeletePopUp = true"
-        v-show="project.id">Delete
-      </b-button> -->
       <b-button
         id="delete-button"
         pill
@@ -148,9 +141,16 @@ export default {
       this.$router.push({ name: "project-list" });
     },
     async deleteData() {
-      console.log('DELETE');
-      //await store.dispatch("project/deleteProject", this.project.id);
-      //this.$router.push({ name: "project-list" });
+      await store.dispatch(
+        "image/deleteImage",
+        {
+          imageKey: this.project.images[0]['imageKey'],
+          thumbKey: this.project.images[0]['thumbKey']
+        }
+      );
+      await store.dispatch("project/deleteProject", this.project.id);
+      
+      this.$router.push({ name: "project-list" });
     }
   },
   computed: mapState({

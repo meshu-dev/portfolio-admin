@@ -78,8 +78,8 @@ export const actions = {
     }
     return image;
   },
-  async deleteImage({ commit }, id) {
-    let response = await ImageService.delete(id);
+  async deleteImage({ commit }, keys) {
+    let response = await ImageService.delete(keys);
 
     if (response.data) {
       commit("DELETE_IMAGE");
