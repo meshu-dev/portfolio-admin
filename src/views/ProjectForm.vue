@@ -17,7 +17,7 @@
       >
         <b-form-input
           id="title"
-          v-model="project.title"
+          v-model="project.email"
           type="text"
           required
         ></b-form-input>
@@ -49,6 +49,15 @@
         ></b-form-file>
       </b-form-group>
     </b-form>
+    <PopUp v-show="showDeletePopUp">
+      <template v-slot:message>
+        Are you sure you want to delete project {{ project.id }}?
+      </template>
+      <template v-slot:buttons>
+        <button class="button" @click="deleteData">Yes</button>
+        <button class="button" @click="showDeletePopUp = false">No</button>
+      </template>
+    </PopUp>
   </div>
 </template>
 
