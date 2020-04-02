@@ -15,6 +15,8 @@
       <dd>{{ project.title }}</dd>
       <dt>Description</dt>
       <dd>{{ project.description }}</dd>
+      <dt>GitHub repository link</dt>
+      <dd>{{ project.githubUrl ? project.githubUrl : 'None'  }}</dd>
       <dt>Image</dt>
       <dd>
         <img :src="project.images[0] ? project.images[0]['imageUrl'] : ''" />

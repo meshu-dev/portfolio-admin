@@ -38,6 +38,18 @@
         ></b-form-textarea>
       </b-form-group>
       <b-form-group
+        label="GitHub repository link:"
+        label-for="github"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-input
+          v-model="project.githubUrl"
+          type="url"
+          pattern="https://.*"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
         label="Image:"
         label-for="image"
         label-cols-sm="4"
