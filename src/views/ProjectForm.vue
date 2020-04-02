@@ -201,7 +201,10 @@ export default {
   }
   #project-thumb {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+  }
+  #project-thumb img {
+    margin-right: 1rem;
   }
   #save-button {
     display: flex;
