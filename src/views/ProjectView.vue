@@ -16,7 +16,14 @@
       <dt>Description</dt>
       <dd>{{ project.description }}</dd>
       <dt>GitHub repository link</dt>
-      <dd>{{ project.githubUrl ? project.githubUrl : 'None'  }}</dd>
+      <dd>
+        <template v-if="project.githubUrl">
+          <a :href="project.githubUrl" target="_blank">{{ project.githubUrl }}</a>
+        </template>
+        <template v-else>
+          None
+        </template>
+      </dd>
       <dt>Image</dt>
       <dd>
         <img :src="project.images[0] ? project.images[0]['imageUrl'] : ''" />

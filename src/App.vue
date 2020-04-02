@@ -38,7 +38,7 @@ export default {
     cursor: pointer;
   }
   .btn {
-    max-height: 40px;
+    max-height: 46px;
   }
   .btn-primary {
     color: #fff;

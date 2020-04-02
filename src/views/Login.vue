@@ -31,7 +31,11 @@
           required
         ></b-form-input>
       </b-form-group>
-      <button type="submit" class="button">Submit</button>
+      <b-button
+        pill
+        variant="primary"
+        type="submit">Submit
+      </b-button>
     </b-form>
   </div>
 </template>
