@@ -24,6 +24,19 @@
           None
         </template>
       </dd>
+      <dt>Technologies</dt>
+      <dd>
+        <template v-if="project.technologies">
+          <b-list-group horizontal>
+            <b-list-group-item v-for="technology in project.technologies">
+              {{ technology }}
+            </b-list-group-item>
+          </b-list-group>
+        </template>
+        <template v-else>
+          None
+        </template>
+      </dd>
       <dt>Image</dt>
       <dd>
         <img :src="project.images[0] ? project.images[0]['imageUrl'] : ''" />

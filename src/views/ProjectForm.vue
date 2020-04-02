@@ -50,6 +50,14 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group
+        label="Technologies:"
+        label-for="technologies"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-tags v-model="project.technologies" class="mb-2"></b-form-tags>
+      </b-form-group>
+      <b-form-group
         label="Image:"
         label-for="image"
         label-cols-sm="4"
