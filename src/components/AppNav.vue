@@ -41,7 +41,7 @@ nav span {
   flex-shrink: 1;
 }
 nav a.router-link-exact-active {
-  color: #35495D;
+  color: #42b983;
 }
 nav a.router-link-exact-active:hover {
   text-decoration: none;

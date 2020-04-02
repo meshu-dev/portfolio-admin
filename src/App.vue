@@ -37,28 +37,17 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
-  .button {
-    display: inline-block;
-    padding: 0.5em 1.2em;
-    margin: 0 0.1em 0.1em 0;
-    border: 0.16em solid rgba(255,255,255,0);
-    border-radius: 2em;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Roboto',sans-serif;
-    font-weight: 300;
-    color: #000;
-    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-    text-align:center;
-    transition: all 0.2s;
-    background-color: #42b983;
-  }
-  .button:hover {
-    border-color: rgba(255,255,255,1);
-    cursor: pointer;
-  }
   .btn {
     max-height: 40px;
+  }
+  .btn-primary {
+    color: #fff;
+    background-color: #35495D;
+    border-color: #35495D;
+  }
+  .btn-primary:hover {
+    background-color: #4fc08d;
+    border-color: #4fc08d;
   }
   h1 {
     font-size: 3rem;
@@ -70,12 +59,12 @@ export default {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #35495D;
+    color: #4f5959;
   }
   header {
-    background-color: #42b983;
+    background-color: #35495D;
     font-size: 150%;
-    box-shadow: 0 2px 8px #35495D;
+    box-shadow: 0 2px 8px #000;
   }
   #header-content {
     flex-direction: row;

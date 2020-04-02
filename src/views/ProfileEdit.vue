@@ -2,7 +2,6 @@
   <div>
     <div id="page-header">
       <h1>Edit Profile</h1>
-      <span class="button" @click="saveData">Save</span>
     </div>
     <b-form @submit.prevent>
       <b-form-group
@@ -83,7 +82,11 @@
           required
         ></b-form-input>
       </b-form-group>
-      <button type="submit" class="button">Submit</button>
+      <b-button
+        pill
+        variant="primary"
+        @click="saveData">Save
+      </b-button>
     </b-form>
   </div>
 </template>

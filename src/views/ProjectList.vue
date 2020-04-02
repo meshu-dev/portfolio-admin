@@ -2,9 +2,11 @@
   <div>
     <div id="page-header">
       <h1>Projects</h1>
-      <router-link
-        class="button" :to="{ name: 'project-form' }">
-        New
+      <router-link :to="{ name: 'project-form' }">
+        <b-button
+          pill
+          variant="primary">New
+        </b-button>
       </router-link>
     </div>
     <ProjectRow v-for="project in project.projects" :key="project.id" :project="project" />

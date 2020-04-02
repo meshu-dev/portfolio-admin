@@ -8,7 +8,7 @@ let BaseService = {
   },
   readRows: async function(limit = 10, skip = 0, config = {}) {
     let response = await this.apiClient.get(
-      `${this.path}?limit=${limit}&skip=${skip}`,
+      `${this.path}?limit=${limit}&skip=${skip}&sort=desc`,
       config
     );
     return response;

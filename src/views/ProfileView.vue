@@ -2,7 +2,12 @@
   <div>
     <div id="page-header">
       <h1>Profile</h1>
-      <router-link class="button" :to="{ name: 'profile-edit' }">Edit</router-link>
+      <router-link :to="{ name: 'profile-edit' }">
+        <b-button
+          pill
+          variant="primary">Edit
+        </b-button>
+      </router-link>
     </div>
     <dl>
       <dt>Job Title</dt>
