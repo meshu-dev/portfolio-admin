@@ -187,13 +187,15 @@ export default {
       this.$router.push({ name: "project-list" });
     },
     async deleteData() {
-      await store.dispatch(
-        "image/deleteImage",
-        {
-          imageKey: this.project.images[0]['imageKey'],
-          thumbKey: this.project.images[0]['thumbKey']
-        }
-      );
+      if (this.project.images[0]['imageKey']) {
+        await store.dispatch(
+          "image/deleteImage",
+          {
+            imageKey: this.project.images[0]['imageKey'],
+            thumbKey: this.project.images[0]['thumbKey']
+          }
+        );
+      }
       await store.dispatch("project/deleteProject", this.project.id);
       
       this.$router.push({ name: "project-list" });
