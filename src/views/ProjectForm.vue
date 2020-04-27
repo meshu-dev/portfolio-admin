@@ -187,7 +187,7 @@ export default {
       this.$router.push({ name: "project-list" });
     },
     async deleteData() {
-      if (this.project.images) {
+      if (this.project.images[0]) {
         await store.dispatch(
           "image/deleteImage",
           {
