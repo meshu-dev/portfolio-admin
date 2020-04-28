@@ -38,16 +38,31 @@
         ></b-form-textarea>
       </b-form-group>
       <b-form-group
-        label="GitHub repository link:"
-        label-for="github"
+        label="Repositories:"
         label-cols-sm="4"
         label-cols-lg="3"
       >
-        <b-form-input
-          v-model="project.githubUrl"
-          type="url"
-          pattern="https://.*"
-        ></b-form-input>
+        <div class="repository-field" v-for="(repository, index) in project.repositories">
+          <b-form-input
+            v-model="project.repositories[index]"
+            type="url"
+            pattern="https://.*"
+          ></b-form-input>
+          <b-button
+            v-show="index > 0"
+            class="project-removefield"
+            pill
+            variant="primary"
+            @click="removeRepositoryField(index)">Remove Field
+          </b-button>
+        </div>
+        <b-button
+          v-show="project.repositories.length < 3"
+          id="project-addfield"
+          pill
+          variant="primary"
+          @click="addRepositoryField">Add Field
+        </b-button>
       </b-form-group>
       <b-form-group
         label="Technologies:"
@@ -154,6 +169,14 @@ export default {
         thumbUrl: this.image.thumbUrl
       }];
     },
+    addRepositoryField() {
+      if (this.project.repositories.length < 3) {
+        this.project.repositories.push('');
+      }
+    },
+    removeRepositoryField(index) {
+      this.project.repositories.splice(index, 1);
+    },
     async uploadImage() {
       let formData = new FormData();
       formData.append('image', this.image.image);
@@ -221,12 +244,21 @@ export default {
   #page-header span {
     float: right;
   }
+  .repository-field {
+    margin-bottom: 12px;
+  }
   #project-thumb {
     display: flex;
     justify-content: flex-start;
   }
   #project-thumb img {
     margin-right: 1rem;
+  }
+  #project-addfield {
+    margin-top: 10px;
+  }
+  .project-removefield {
+    margin-top: 8px;
   }
   #save-button {
     display: flex;

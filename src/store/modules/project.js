@@ -77,7 +77,9 @@ export const actions = {
     }
   },
   async clearProject({ commit }) {
-    commit("SET_PROJECT", {});
+    commit("SET_PROJECT", {
+      repositories: ['']
+    });
   }
 };
 

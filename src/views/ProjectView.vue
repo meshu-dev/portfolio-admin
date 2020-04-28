@@ -15,10 +15,14 @@
       <dd>{{ project.title }}</dd>
       <dt>Description</dt>
       <dd>{{ project.description }}</dd>
-      <dt>GitHub repository link</dt>
-      <dd>
-        <template v-if="project.githubUrl">
-          <a :href="project.githubUrl" target="_blank">{{ project.githubUrl }}</a>
+      <dt>Repositories</dt>
+      <dd id="repository-list">
+        <template v-if="project.repositories.length > 0">
+          <a
+            v-for="repository in project.repositories"
+            :href="repository"
+            target="_blank"
+          >{{ repository }}</a>
         </template>
         <template v-else>
           None
@@ -85,5 +89,9 @@ dt {
 }
 dd {
   margin-bottom: 20px;
+}
+#repository-list {
+  display: flex;
+  flex-direction: column;
 }
 </style>

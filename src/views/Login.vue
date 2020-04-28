@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="page-header">
-      <h1>Login 2</h1>
+      <h1>Login</h1>
     </div>
     <p>{{ user.error }}</p>
     <b-form @submit.prevent="login">

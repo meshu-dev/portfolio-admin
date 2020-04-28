@@ -56,32 +56,6 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-form-group
-        label="Email:"
-        label-for="email"
-        label-cols-sm="4"
-        label-cols-lg="3"
-      >
-        <b-form-input
-          id="email"
-          v-model="profile.email"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group
-        label="CV url:"
-        label-for="cvurl"
-        label-cols-sm="4"
-        label-cols-lg="3"
-      >
-        <b-form-input
-          id="cvurl"
-          v-model="profile.cvUrl"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
       <b-button
         pill
         variant="primary"

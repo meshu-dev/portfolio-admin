@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header>
+    <header id="header-main">
       <div id="header-content">
         <router-link to="/" id="logo">
           <span>Portfolio Admin</span>
@@ -61,7 +61,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     color: #4f5959;
   }
-  header {
+  #header-main {
     background-color: #35495D;
     font-size: 150%;
     box-shadow: 0 2px 8px #000;
