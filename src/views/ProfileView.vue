@@ -10,8 +10,10 @@
       </router-link>
     </div>
     <dl>
-      <dt>Job Title</dt>
-      <dd>{{ profile.jobTitle }}</dd>
+      <dt>Intro Line 1</dt>
+      <dd>{{ profile.introLine1 }}</dd>
+      <dt>Intro Line 2</dt>
+      <dd>{{ profile.introLine2 || 'None' }}</dd>
       <dt>Bio</dt>
       <dd>{{ profile.bio }}</dd>
       <dt>E-mail</dt>

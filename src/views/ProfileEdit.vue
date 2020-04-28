@@ -5,14 +5,27 @@
     </div>
     <b-form @submit.prevent>
       <b-form-group
-        label="Job title:"
-        label-for="jobtitle"
+        label="Intro Line 1:"
+        label-for="introline1"
         label-cols-sm="4"
         label-cols-lg="3"
       >
         <b-form-input
-          id="jobtitle"
-          v-model="profile.jobTitle"
+          id="introline1"
+          v-model="profile.introLine1"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        label="Intro Line 2:"
+        label-for="introline2"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-input
+          id="introline2"
+          v-model="profile.introLine2"
           type="text"
           required
         ></b-form-input>
