@@ -31,19 +31,6 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group
-        label="Bio:"
-        label-for="bio"
-        label-cols-sm="4"
-        label-cols-lg="3"
-      >
-        <b-form-textarea
-          id="bio"
-          v-model="profile.bio"
-          rows="3"
-          max-rows="6"
-        ></b-form-textarea>
-      </b-form-group>
-      <b-form-group
         label="Github url:"
         label-for="githuburl"
         label-cols-sm="4"
@@ -68,6 +55,19 @@
           type="text"
           required
         ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        label="Bio:"
+        label-for="bio"
+        label-cols-sm="4"
+        label-cols-lg="3"
+      >
+        <b-form-textarea
+          id="bio"
+          v-model="profile.bio"
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
       </b-form-group>
       <b-button
         pill
