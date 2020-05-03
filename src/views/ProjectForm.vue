@@ -33,8 +33,6 @@
         <b-form-textarea
           id="description"
           v-model="project.description"
-          rows="3"
-          max-rows="6"
         ></b-form-textarea>
       </b-form-group>
       <b-form-group
