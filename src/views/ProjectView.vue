@@ -14,7 +14,7 @@
       <dt>Title</dt>
       <dd>{{ project.title }}</dd>
       <dt>Description</dt>
-      <dd>{{ project.description }}</dd>
+      <dd id="description-text">{{ project.description }}</dd>
       <dt>Repositories</dt>
       <dd id="repository-list">
         <template v-if="project.repositories.length > 0">
@@ -89,6 +89,9 @@ dt {
 }
 dd {
   margin-bottom: 20px;
+}
+#description-text {
+  white-space: pre-line;
 }
 #repository-list {
   display: flex;
