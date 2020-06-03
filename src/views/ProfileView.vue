@@ -3,17 +3,14 @@
     <div id="page-header">
       <h1>Profile</h1>
       <router-link :to="{ name: 'profile-edit' }">
-        <b-button
-          pill
-          variant="primary">Edit
-        </b-button>
+        <b-button pill variant="primary">Edit </b-button>
       </router-link>
     </div>
     <dl>
       <dt>Intro Line 1</dt>
       <dd>{{ profile.introLine1 }}</dd>
       <dt>Intro Line 2</dt>
-      <dd>{{ profile.introLine2 || 'None' }}</dd>
+      <dd>{{ profile.introLine2 || "None" }}</dd>
       <dt>Bio</dt>
       <dd>{{ profile.bio }}</dd>
       <dt>E-mail</dt>
@@ -39,10 +36,13 @@
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-  
+
 export default {
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("profile/fetchProfile", process.env.VUE_APP_PROFILE_NAME);
+    await store.dispatch(
+      "profile/fetchProfile",
+      process.env.VUE_APP_PROFILE_NAME
+    );
     next();
   },
   computed: mapState({

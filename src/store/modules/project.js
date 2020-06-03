@@ -37,10 +37,10 @@ export const actions = {
   },
   async fetchProjects({ commit }, { page }) {
     let offset = (parseInt(page) - 1) * state.pageLimit,
-        response = await ProjectService.readRows(state.pageLimit, offset);
+      response = await ProjectService.readRows(state.pageLimit, offset);
 
-    if (response.headers['x-total-count']) {
-      commit("SET_TOTAL_PROJECTS", response.headers['x-total-count']);
+    if (response.headers["x-total-count"]) {
+      commit("SET_TOTAL_PROJECTS", response.headers["x-total-count"]);
     }
 
     if (response.data !== undefined) {
@@ -78,7 +78,7 @@ export const actions = {
   },
   async clearProject({ commit }) {
     commit("SET_PROJECT", {
-      repositories: ['']
+      repositories: [""]
     });
   }
 };

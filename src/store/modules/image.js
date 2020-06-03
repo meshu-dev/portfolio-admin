@@ -28,23 +28,23 @@ export const mutations = {
 };
 
 export const actions = {
-  async addImage({ commit }, image, form) {
-    let response = await ImageService.create(
-      image,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        transformRequest: [function (data) {
-          return data
-        }],
-        onUploadProgress: progressEvent => {
-          let complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-          console.log('complete: ', complete)
+  async addImage({ commit }, image) {
+    let response = await ImageService.create(image, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      transformRequest: [
+        function(data) {
+          return data;
         }
+      ],
+      onUploadProgress: progressEvent => {
+        let complete =
+          (((progressEvent.loaded / progressEvent.total) * 100) | 0) + "%";
+        console.log("complete: ", complete);
       }
-    );
-    console.log('addImage', response);
+    });
+    console.log("addImage", response);
 
     if (response.data) {
       commit("ADD_IMAGE", response.data);
@@ -53,10 +53,10 @@ export const actions = {
   },
   async fetchImages({ commit }, { page }) {
     let offset = (parseInt(page) - 1) * state.pageLimit,
-        response = await ImageService.readRows(state.pageLimit, offset);
+      response = await ImageService.readRows(state.pageLimit, offset);
 
-    if (response.headers['x-total-count']) {
-      commit("SET_TOTAL_IMAGES", response.headers['x-total-count']);
+    if (response.headers["x-total-count"]) {
+      commit("SET_TOTAL_IMAGES", response.headers["x-total-count"]);
     }
 
     if (response.data !== undefined) {

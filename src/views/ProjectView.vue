@@ -2,12 +2,8 @@
   <div>
     <div id="page-header">
       <h1>Project</h1>
-      <router-link
-        :to="{ name: 'project-form', params: { id: project.id } }">
-        <b-button
-          pill
-          variant="primary">Edit
-        </b-button>
+      <router-link :to="{ name: 'project-form', params: { id: project.id } }">
+        <b-button pill variant="primary">Edit </b-button>
       </router-link>
     </div>
     <dl>
@@ -19,10 +15,12 @@
       <dd id="repository-list">
         <template v-if="project.repositories.length > 0">
           <a
-            v-for="repository in project.repositories"
+            v-for="(repository, index) in project.repositories"
+            :key="index"
             :href="repository"
             target="_blank"
-          >{{ repository }}</a>
+            >{{ repository }}</a
+          >
         </template>
         <template v-else>
           None
@@ -32,8 +30,10 @@
       <dd>
         <template v-if="project.technologies">
           <b-list-group horizontal>
-            <b-list-group-item v-for="technology in project.technologies">
-              {{ technology }}
+            <b-list-group-item
+              v-for="(technology, index) in project.technologies"
+              :key="index"
+              >{{ technology }}
             </b-list-group-item>
           </b-list-group>
         </template>

@@ -7,12 +7,12 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      resource: {
-        type: String,
-        required: true
-      }
+export default {
+  props: {
+    resource: {
+      type: String,
+      required: true
     }
   }
+};
 </script>

@@ -3,19 +3,21 @@
     <div id="page-header">
       <h1>Projects</h1>
       <router-link :to="{ name: 'project-form' }">
-        <b-button
-          pill
-          variant="primary">New
-        </b-button>
+        <b-button pill variant="primary">New </b-button>
       </router-link>
     </div>
     <ProjectRow
       v-for="project in project.projects"
       :key="project.id"
-      :project="project" />
+      :project="project"
+    />
     <div v-if="project.totalProjects == 0">No projects available</div>
     <template v-if="page != 1">
-      <router-link :to="{ name: 'project-list', params: { page: parseInt(page) - 1 } }" rel="prev">Prev Page</router-link>
+      <router-link
+        :to="{ name: 'project-list', params: { page: parseInt(page) - 1 } }"
+        rel="prev"
+        >Prev Page</router-link
+      >
       <template v-if="hasNextPage">
         &nbsp;|&nbsp;
       </template>
@@ -23,7 +25,8 @@
     <router-link
       v-if="hasNextPage"
       :to="{ name: 'project-list', params: { page: parseInt(page) + 1 } }"
-      rel="next">
+      rel="next"
+    >
       Next Page
     </router-link>
   </div>

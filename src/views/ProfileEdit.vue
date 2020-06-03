@@ -69,11 +69,7 @@
           max-rows="6"
         ></b-form-textarea>
       </b-form-group>
-      <b-button
-        pill
-        variant="primary"
-        @click="saveData">Save
-      </b-button>
+      <b-button pill variant="primary" @click="saveData">Save </b-button>
     </b-form>
   </div>
 </template>
@@ -89,7 +85,10 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("profile/fetchProfile", process.env.VUE_APP_PROFILE_NAME);
+    await store.dispatch(
+      "profile/fetchProfile",
+      process.env.VUE_APP_PROFILE_NAME
+    );
     next();
   },
   methods: {

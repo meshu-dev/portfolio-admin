@@ -7,7 +7,8 @@
         pill
         variant="primary"
         @click="showDeletePopUp = !showDeletePopUp"
-        v-show="project.id">Delete
+        v-show="project.id"
+        >Delete
       </b-button>
     </div>
     <b-form @submit.prevent>
@@ -35,12 +36,12 @@
           v-model="project.description"
         ></b-form-textarea>
       </b-form-group>
-      <b-form-group
-        label="Repositories:"
-        label-cols-sm="4"
-        label-cols-lg="3"
-      >
-        <div class="repository-field" v-for="(repository, index) in project.repositories">
+      <b-form-group label="Repositories:" label-cols-sm="4" label-cols-lg="3">
+        <div
+          class="repository-field"
+          v-for="(repository, index) in project.repositories"
+          :key="index"
+        >
           <b-form-input
             v-model="project.repositories[index]"
             type="url"
@@ -51,7 +52,8 @@
             class="project-removefield"
             pill
             variant="primary"
-            @click="removeRepositoryField(index)">Remove Field
+            @click="removeRepositoryField(index)"
+            >Remove Field
           </b-button>
         </div>
         <b-button
@@ -59,7 +61,8 @@
           id="project-addfield"
           pill
           variant="primary"
-          @click="addRepositoryField">Add Field
+          @click="addRepositoryField"
+          >Add Field
         </b-button>
       </b-form-group>
       <b-form-group
@@ -85,25 +88,23 @@
         ></b-form-file>
         <template v-if="project.id && !changeImage">
           <div id="project-thumb">
-            <img :src="project.images[0] ? project.images[0]['thumbUrl'] : ''" />
-            <b-button
-              pill
-              variant="primary"
-              @click="changeImage = true">Change Image
+            <img
+              :src="project.images[0] ? project.images[0]['thumbUrl'] : ''"
+            />
+            <b-button pill variant="primary" @click="changeImage = true"
+              >Change Image
             </b-button>
           </div>
         </template>
       </b-form-group>
-      <b-form-group
-        label-cols-sm="4"
-        label-cols-lg="3"
-      >
+      <b-form-group label-cols-sm="4" label-cols-lg="3">
         <b-button
           id="save-button"
           pill
           variant="primary"
           @click="project.id ? editData() : addData()"
-          v-bind:disabled="isSaving === true">
+          v-bind:disabled="isSaving === true"
+        >
           <template v-if="isSaving === true">
             <b-spinner large></b-spinner>
             <span id="loading-text">Loading...</span>
@@ -121,10 +122,7 @@
       Are you sure you want to delete project {{ project.id }}?
       <template v-slot:modal-footer>
         <div class="container w-100 d-flex justify-content-center mb-3">
-          <b-button
-            variant="primary"
-            @click="deleteData"
-          >
+          <b-button variant="primary" @click="deleteData">
             Delete
           </b-button>
         </div>
@@ -143,7 +141,7 @@ export default {
       isSaving: false,
       changeImage: false,
       showDeletePopUp: false
-    }
+    };
   },
   props: {
     id: {
@@ -160,16 +158,18 @@ export default {
   },
   methods: {
     createImageData() {
-      return [{
-        imageKey: this.image.imageKey,
-        thumbKey: this.image.thumbKey,
-        imageUrl: this.image.imageUrl,
-        thumbUrl: this.image.thumbUrl
-      }];
+      return [
+        {
+          imageKey: this.image.imageKey,
+          thumbKey: this.image.thumbKey,
+          imageUrl: this.image.imageUrl,
+          thumbUrl: this.image.thumbUrl
+        }
+      ];
     },
     addRepositoryField() {
       if (this.project.repositories.length < 3) {
-        this.project.repositories.push('');
+        this.project.repositories.push("");
       }
     },
     removeRepositoryField(index) {
@@ -177,7 +177,7 @@ export default {
     },
     async uploadImage() {
       let formData = new FormData();
-      formData.append('image', this.image.image);
+      formData.append("image", this.image.image);
 
       await store.dispatch("image/addImage", formData);
     },
@@ -209,16 +209,13 @@ export default {
     },
     async deleteData() {
       if (this.project.images[0]) {
-        await store.dispatch(
-          "image/deleteImage",
-          {
-            imageKey: this.project.images[0]['imageKey'],
-            thumbKey: this.project.images[0]['thumbKey']
-          }
-        );
+        await store.dispatch("image/deleteImage", {
+          imageKey: this.project.images[0]["imageKey"],
+          thumbKey: this.project.images[0]["thumbKey"]
+        });
       }
       await store.dispatch("project/deleteProject", this.project.id);
-      
+
       this.$router.push({ name: "project-list" });
     }
   },
@@ -230,38 +227,38 @@ export default {
 </script>
 
 <style scoped>
-  #page-header {
-    justify-content: space-between;
-    display: flex;
-    margin: 20px 0;
-  }
-  #page-header h1 {
-    float: left;
-    margin: 0;
-  }
-  #page-header span {
-    float: right;
-  }
-  .repository-field {
-    margin-bottom: 12px;
-  }
-  #project-thumb {
-    display: flex;
-    justify-content: flex-start;
-  }
-  #project-thumb img {
-    margin-right: 1rem;
-  }
-  #project-addfield {
-    margin-top: 10px;
-  }
-  .project-removefield {
-    margin-top: 8px;
-  }
-  #save-button {
-    display: flex;
-  }
-  #loading-text {
-    margin: .3rem 0 0 .3rem;
-  }
+#page-header {
+  justify-content: space-between;
+  display: flex;
+  margin: 20px 0;
+}
+#page-header h1 {
+  float: left;
+  margin: 0;
+}
+#page-header span {
+  float: right;
+}
+.repository-field {
+  margin-bottom: 12px;
+}
+#project-thumb {
+  display: flex;
+  justify-content: flex-start;
+}
+#project-thumb img {
+  margin-right: 1rem;
+}
+#project-addfield {
+  margin-top: 10px;
+}
+.project-removefield {
+  margin-top: 8px;
+}
+#save-button {
+  display: flex;
+}
+#loading-text {
+  margin: 0.3rem 0 0 0.3rem;
+}
 </style>

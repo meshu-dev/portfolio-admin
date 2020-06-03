@@ -31,11 +31,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button
-        pill
-        variant="primary"
-        type="submit">Submit
-      </b-button>
+      <b-button pill variant="primary" type="submit">Submit </b-button>
     </b-form>
   </div>
 </template>
@@ -43,8 +39,6 @@
 <script>
 import { mapState } from "vuex";
 import store from "@/store/store";
-
-import axios from "axios";
 
 export default {
   data() {
@@ -60,7 +54,7 @@ export default {
         password: this.password
       });
 
-      console.log('process.env.', process.env);
+      console.log("process.env.", process.env);
 
       if (this.user.user.token) {
         this.$router.push({ name: "profile" });

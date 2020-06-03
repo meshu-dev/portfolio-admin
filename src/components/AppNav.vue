@@ -35,7 +35,7 @@ nav {
 }
 nav a,
 nav span {
-  color: #FFF;
+  color: #fff;
   text-align: center;
   flex-basis: 3rem;
   flex-shrink: 1;
