@@ -3,7 +3,7 @@
     <div id="page-header">
       <h1>Login</h1>
     </div>
-    <p>{{ user.error }}</p>
+    <p id="error-message">{{ user.error }}</p>
     <b-form @submit.prevent="login">
       <b-form-group
         label="Username:"
@@ -54,7 +54,7 @@ export default {
         password: this.password
       });
 
-      console.log("process.env.", process.env);
+      console.log('this.user', this.user);
 
       if (this.user.user.token) {
         this.$router.push({ name: "profile" });
@@ -78,5 +78,8 @@ export default {
 }
 #page-header span {
   float: right;
+}
+#error-message {
+  color: red;
 }
 </style>
