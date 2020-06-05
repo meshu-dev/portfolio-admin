@@ -54,7 +54,7 @@ export default {
         password: this.password
       });
 
-      console.log('this.user', this.user);
+      console.log("this.user", this.user);
 
       if (this.user.user.token) {
         this.$router.push({ name: "profile" });
