@@ -44,7 +44,7 @@ npm run nodemon
 ```
 - Build static files
 ```
-npmn run build
+npm run build
 ```
 - Run website with static files
 ```
