@@ -5,7 +5,8 @@ export const usePrototypeStore = defineStore({
   id: 'prototypes',
   state: () => ({
     prototypes: [],
-    prototype: null
+    prototype: null,
+    fetched: false
   }),
   getters: {
     getPrototypes(state) {
@@ -47,6 +48,9 @@ export const usePrototypeStore = defineStore({
     },
     getPrototype(state) {
       return state.prototype;
+    },
+    areFetched(state) {
+      return state.fetched;
     }
   },
   actions: {
@@ -57,6 +61,8 @@ export const usePrototypeStore = defineStore({
       };
 
       const result = await callApi(apiFtn);
+      this.fetched = true;
+
       return result;
     },
     async addPrototype(params) {

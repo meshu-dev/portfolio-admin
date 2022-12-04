@@ -4,6 +4,8 @@ import AuthService from '@/services/AuthService';
 import ProjectService from '@/services/ProjectService';
 import PrototypeService from '@/services/PrototypeService';
 import AboutService from '@/services/AboutService';
+import TypeService from '@/services/TypeService';
+import TechnologyService from '@/services/TechnologyService';
 
 const apiUrl = 'http://127.0.0.1:8002/api';
 
@@ -30,4 +32,14 @@ export const prototypeService = new PrototypeService(
 export const aboutService = new AboutService(
   apiService,
   'about'
+);
+
+export const typeService = new TypeService(
+  apiService,
+  'types'
+);
+
+export const technologyService = new TechnologyService(
+  apiService,
+  'technologies'
 );

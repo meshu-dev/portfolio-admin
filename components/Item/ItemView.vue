@@ -11,6 +11,7 @@
       class="mx-auto"
       max-width="344">
       <v-img
+        v-if="item.image"
         :src="item.image.url"
         height="200px"
         cover />

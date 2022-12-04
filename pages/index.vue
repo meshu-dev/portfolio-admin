@@ -1,21 +1,20 @@
 <script setup>
   import { onMounted } from 'vue';
   import { useProjectStore } from '@/stores/ProjectStore';
-  import ItemList from '@/components/Item/ItemList';
+  import ItemList from '@/components/Item/ItemList/ItemList';
 
   const projectStore = useProjectStore();
-  
-  const getProjects = () => {
-    return projectStore.getProjects;
-  };
 
   onMounted(async () => {
-    await projectStore.fetchProjects();
+    if (projectStore.areFetched === false) {
+      await projectStore.fetchProjects();
+    }
   });
 </script>
 
 <template>
-	<div>
-    <ItemList link="projects" :items="getProjects()" />
-	</div>
+  <ItemList
+    title="Projects"
+    link="projects"
+    :items="projectStore.getProjects" />
 </template>

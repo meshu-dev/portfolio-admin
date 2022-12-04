@@ -5,10 +5,11 @@ export const useTechnologyStore = defineStore({
   id: 'technologies',
   state: () => ({
     technologies: [],
-    technology: null
+    technology: null,
+    fetched: false
   }),
   getters: {
-    getTechnology(state) {
+    getTechnologies(state) {
       return state.technologies;
     },
     getTechnologyById(state) {
@@ -25,6 +26,9 @@ export const useTechnologyStore = defineStore({
     },
     getTechnology(state) {
       return state.technology;
+    },
+    areFetched(state) {
+      return state.fetched;
     }
   },
   actions: {
@@ -35,6 +39,8 @@ export const useTechnologyStore = defineStore({
       };
 
       const result = await callApi(apiFtn);
+      this.fetched = true;
+
       return result;
     },
     async addTechnology(params) {

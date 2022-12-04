@@ -5,7 +5,8 @@ export const useTypeStore = defineStore({
   id: 'types',
   state: () => ({
     types: [],
-    type: null
+    type: null,
+    fetched: false
   }),
   getters: {
     getTypes(state) {
@@ -25,6 +26,9 @@ export const useTypeStore = defineStore({
     },
     getType(state) {
       return state.type;
+    },
+    areFetched(state) {
+      return state.fetched;
     }
   },
   actions: {
@@ -35,6 +39,8 @@ export const useTypeStore = defineStore({
       };
 
       const result = await callApi(apiFtn);
+      this.fetched = true;
+
       return result;
     },
     async addType(params) {

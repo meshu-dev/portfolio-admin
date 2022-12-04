@@ -5,7 +5,8 @@ export const useProjectStore = defineStore({
   id: 'projects',
   state: () => ({
     projects: [],
-    project: null
+    project: null,
+    fetched: false
   }),
   getters: {
     getProjects(state) {
@@ -47,6 +48,9 @@ export const useProjectStore = defineStore({
     },
     getProject(state) {
       return state.project;
+    },
+    areFetched(state) {
+      return state.fetched;
     }
   },
   actions: {
@@ -57,6 +61,8 @@ export const useProjectStore = defineStore({
       };
 
       const result = await callApi(apiFtn);
+      this.fetched = true;
+      
       return result;
     },
     async addProject(params) {
