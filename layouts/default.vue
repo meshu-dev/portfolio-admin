@@ -1,6 +1,7 @@
 <script setup>
   import AppNav from '@/components/AppNav.vue';
   import StatusMsg from '@/components/Layout/StatusMsg.vue';
+  import ItemDeleteDialog from '@/components/Item/ItemForm/ItemDeleteDialog.vue';
 </script>
 
 <template>
@@ -14,6 +15,7 @@
   </header>
   <div id="content">
     <StatusMsg />
+    <ItemDeleteDialog />
     <slot />
   </div>
 </template>

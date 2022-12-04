@@ -73,7 +73,7 @@ export const useTypeStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
-    async deleteType(id, params) {
+    async deleteType(id) {
       let result = null;
 
       const apiFtn = async () => {

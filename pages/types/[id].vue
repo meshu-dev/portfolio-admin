@@ -9,8 +9,6 @@
   const typeStore = useTypeStore();
 
   const onAdd = async (name) => {
-    console.log('onAdd');
-
     await typeStore.addType(
       { name: name }
     );
@@ -18,8 +16,6 @@
   }
 
   const onEdit = async (name) => {
-    console.log('onEdit');
-
     await typeStore.editType(
       id,
       { name: name }
@@ -36,6 +32,11 @@
     await navigateTo('/types');
   }
 
+  const onDelete = async () => {
+    await typeStore.deleteType(id);
+    await onSuccess('Type has been deleted');
+  }
+
   fetchTypes(id);
 </script>
 
@@ -44,7 +45,8 @@
     :isEdit="isEdit"
     :title="isEdit ? 'Edit type' : 'Add type'"
     :item="typeStore.getType"
-    v-on:onSubmit="onSubmit" />
+    v-on:onSubmit="onSubmit"
+    v-on:onDelete="onDelete" />
 </template>
 
 <style lang="scss">
