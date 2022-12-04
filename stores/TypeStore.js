@@ -17,6 +17,8 @@ export const useTypeStore = defineStore({
         if (!id) {
           return null;
         }
+        console.log('Test', state.types, id);
+
         const rows = state.types.filter((type) => {
           return type.id == id
         });

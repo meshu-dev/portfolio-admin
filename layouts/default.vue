@@ -1,5 +1,6 @@
 <script setup>
   import AppNav from '@/components/AppNav.vue';
+  import StatusMsg from '@/components/Layout/StatusMsg.vue';
 </script>
 
 <template>
@@ -12,6 +13,7 @@
     </div>
   </header>
   <div id="content">
+    <StatusMsg />
     <slot />
   </div>
 </template>

@@ -2,27 +2,48 @@
   import { useTypeStore } from '@/stores/TypeStore';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
 
-  const typeStore = useTypeStore();
-
-  fetchTypes();
-
   const route = useRoute();
   const id = route.params.id;
+  const isEdit = id != 'new' ? true : false;
 
-  if (id !== 'new') {
-    
+  const typeStore = useTypeStore();
+
+  const onAdd = async (name) => {
+    console.log('onAdd');
+
+    await typeStore.addType(
+      { name: name }
+    );
+    await onSuccess('Type has been added');
+  }
+
+  const onEdit = async (name) => {
+    console.log('onEdit');
+
+    await typeStore.editType(
+      id,
+      { name: name }
+    );
+    await onSuccess('Type has been edited');
   }
 
   const onSubmit = (name) => {
-    console.log('sss', name, name.value);
+    return isEdit ? onEdit(name) : onAdd(name);
   }
 
-  console.log('id', id);
+  const onSuccess = async (msg) => {
+    setStatusMsg('success', msg);
+    await navigateTo('/types');
+  }
+
+  fetchTypes(id);
 </script>
 
 <template>
-  <div>Type Form</div>
   <ItemForm
+    :isEdit="isEdit"
+    :title="isEdit ? 'Edit type' : 'Add type'"
+    :item="typeStore.getType"
     v-on:onSubmit="onSubmit" />
 </template>
 

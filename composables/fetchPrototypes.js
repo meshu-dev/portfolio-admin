@@ -1,9 +1,9 @@
 import { onMounted } from 'vue';
 import { usePrototypeStore } from '@/stores/PrototypeStore';
 
-const prototypeStore = usePrototypeStore();
-
 export default () => {
+  const prototypeStore = usePrototypeStore();
+  
   onMounted(async () => {
     if (prototypeStore.areFetched === false) {
       await prototypeStore.fetchPrototypes();
