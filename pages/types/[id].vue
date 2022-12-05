@@ -48,7 +48,3 @@
     v-on:onSubmit="onSubmit"
     v-on:onDelete="onDelete" />
 </template>
-
-<style lang="scss">
-
-</style>

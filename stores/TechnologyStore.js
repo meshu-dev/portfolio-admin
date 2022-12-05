@@ -12,6 +12,9 @@ export const useTechnologyStore = defineStore({
     getTechnologies(state) {
       return state.technologies;
     },
+    getTechnologyNames(state) {
+      return state.technologies.map(technology => technology.name);
+    },
     getTechnologyById(state) {
       return (id) => {
         if (!id) {

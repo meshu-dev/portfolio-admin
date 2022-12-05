@@ -76,7 +76,9 @@
 
 <style lang="scss">
   #item-form {
-    max-width: 300px;
+    form {
+      max-width: 300px;
+    }
 
     #item-form-btns {
       display: flex;

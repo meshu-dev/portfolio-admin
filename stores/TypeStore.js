@@ -12,6 +12,9 @@ export const useTypeStore = defineStore({
     getTypes(state) {
       return state.types;
     },
+    getTypeNames(state) {
+      return state.types.map(type => type.name);
+    },
     getTypeById(state) {
       return (id) => {
         if (!id) {
