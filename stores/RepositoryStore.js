@@ -87,6 +87,12 @@ export const useRepositoryStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setBlankRepository() {
+      this.repository = {
+        name: '',
+        url: ''
+      };
+    },
     setSelectedRepository(id) {
       for (const repository of this.repositories) {
         if (repository.id == id) {

@@ -89,6 +89,9 @@ export const useTypeStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setBlankType() {
+      this.type = { name: '' };
+    },
     setSelectedType(id) {
       for (const type of this.types) {
         if (type.id == id) {

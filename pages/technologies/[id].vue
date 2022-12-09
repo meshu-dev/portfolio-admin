@@ -2,7 +2,7 @@
   import { useTechnologyStore } from '@/stores/TechnologyStore';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/technology/setupData';
-  import { onAdd, onEdit, onDelete } from '@/composables/technology/utils';
+  import { onAdd, onEdit } from '@/composables/technology/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -10,8 +10,9 @@
 
   const technologyStore = useTechnologyStore();
 
-  const onSubmit = (name) => {
-    return isEdit ? onEdit(name) : onAdd(name);
+  const onSubmit = () => {
+    const technology = repositoryStore.getRepository;
+    return isEdit ? onEdit(id, technology) : onAdd(technology);
   }
 
   setupData(id);
@@ -19,9 +20,11 @@
 
 <template>
   <ItemForm
-    :isEdit="isEdit"
     :title="isEdit ? 'Edit technology' : 'Add technology'"
-    :item="technologyStore.getTechnology"
-    v-on:onSubmit="onSubmit"
-    v-on:onDelete="onDelete" />
+    v-on:onSubmit="onSubmit">
+    <v-text-field
+      label="Name"
+      v-model="technologyStore.getTechnology.name"
+      required />
+  </ItemForm>
 </template>

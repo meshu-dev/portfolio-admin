@@ -87,6 +87,9 @@ export const useTechnologyStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setBlankTechnology() {
+      this.technology = { name: '' };
+    },
     setSelectedTechnology(id) {
       for (const technology of this.technologies) {
         if (technology.id == id) {

@@ -1,28 +1,30 @@
 import { useProjectStore } from '@/stores/ProjectStore';
 
-export const onAdd = async (name) => {
+export const onAdd = async (project) => {
   const projectStore = useProjectStore();
 
   await projectStore.addProject(
-    { name: name }
+    { name: project.name }
   );
   
   await msgAndRedirect('Project has been added');
 }
 
-export const onEdit = async (id, name) => {
+export const onEdit = async (id, project) => {
   const projectStore = useProjectStore();
   
   await projectStore.editProject(
     id,
-    { name: name }
+    { name: project.name }
   );
   await msgAndRedirect('Project has been edited');
 }
 
-export const onDelete = async () => {
-  const projectStore = useProjectStore();
-  await projectStore.deleteProject(id);
-  
-  await msgAndRedirect('Project has been deleted');
+export const onDelete = async (doDelete) => {
+  if (doDelete === true) {
+    const projectStore = useProjectStore();
+    await projectStore.deleteProject(id);
+    
+    await msgAndRedirect('Project has been deleted');
+  }
 }

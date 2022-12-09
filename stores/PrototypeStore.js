@@ -106,6 +106,9 @@ export const usePrototypeStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setBlankPrototype() {
+      this.prototype = { name: '' };
+    },
     setSelectedPrototype(id) {
       for (const prototype of this.prototypes) {
         if (prototype.id == id) {

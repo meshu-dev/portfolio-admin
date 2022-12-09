@@ -1,8 +1,8 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
-  import ItemProjectForm from '@/components/Item/ItemForm/ItemProjectForm';
+  import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/prototype/setupData';
-  import { onAdd, onEdit, onDelete } from '@/composables/prototype/utils';
+  import { onAdd, onEdit } from '@/composables/prototype/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -10,18 +10,21 @@
 
   const prototypeStore = usePrototypeStore();
 
-  const onSubmit = (name) => {
-    return isEdit ? onEdit(name) : onAdd(name);
+  const onSubmit = () => {
+    const prototype = prototypeStore.getPrototype;
+    return isEdit ? onEdit(id, prototype) : onAdd(prototype);
   }
 
   setupData(id);
 </script>
 
 <template>
-  <ItemProjectForm
-    :isEdit="isEdit"
+  <ItemForm
     :title="isEdit ? 'Edit prototype' : 'Add prototype'"
-    :item="prototypeStore.getPrototype"
-    v-on:onSubmit="onSubmit"
-    v-on:onDelete="onDelete" />
+    v-on:onSubmit="onSubmit">
+    <v-text-field
+      label="Name"
+      v-model="prototypeStore.getPrototype.name"
+      required />
+  </ItemForm>
 </template>

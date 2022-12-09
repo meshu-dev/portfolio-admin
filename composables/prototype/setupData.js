@@ -3,6 +3,15 @@ import { usePrototypeStore } from '@/stores/PrototypeStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useImageStore } from '@/stores/ImageStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
+import { onDelete } from '@/composables/prototype/utils';
+
+const setBlankPrototype = (id) => {
+  const prototypeStore = usePrototypeStore();
+
+  if (id && prototypeStore.getPrototype == null) {
+    prototypeStore.setBlankPrototype();
+  }
+};
 
 const fetchList = async () => {
   const prototypeStore = usePrototypeStore();
@@ -38,6 +47,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete prototype');
   deleteDialogStore.setMessage('Are you sure you want to delete this prototype?');
+  deleteDialogStore.setCallback(onDelete);
 };
 
 const setReturnUrl = () => {
@@ -46,6 +56,8 @@ const setReturnUrl = () => {
 };
 
 export default (id) => {
+  setBlankPrototype(id);
+  
   onMounted(async () => {
     await fetchList();
     

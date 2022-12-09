@@ -1,28 +1,36 @@
 import { useRepositoryStore } from '@/stores/RepositoryStore';
 
-export const onAdd = async (name) => {
+export const onAdd = async (repository) => {
   const repositoryStore = useRepositoryStore();
 
   await repositoryStore.addRepository(
-    { name: name }
+    {
+      name: repository.name,
+      url: repository.url
+    }
   );
   
   await msgAndRedirect('Repository has been added');
 }
 
-export const onEdit = async (id, name) => {
+export const onEdit = async (id, repository) => {
   const repositoryStore = useRepositoryStore();
   
   await repositoryStore.editRepository(
     id,
-    { name: name }
+    {
+      name: repository.name,
+      url: repository.url
+    }
   );
   await msgAndRedirect('Repository has been edited');
 }
 
-export const onDelete = async () => {
-  const repositoryStore = useRepositoryStore();
-  await repositoryStore.deleteRepository(id);
-  
-  await msgAndRedirect('Repository has been deleted');
+export const onDelete = async (doDelete) => {
+  if (doDelete === true) {
+    const repositoryStore = useRepositoryStore();
+    await repositoryStore.deleteRepository(id);
+    
+    await msgAndRedirect('Repository has been deleted');
+  }
 }

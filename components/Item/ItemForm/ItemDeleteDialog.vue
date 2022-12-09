@@ -6,6 +6,8 @@
   const selection = async (doDelete) => {
     const ftn = deleteDialogStore.getCallback;
     await ftn(doDelete);
+
+    deleteDialogStore.close();
   };
 </script>
 

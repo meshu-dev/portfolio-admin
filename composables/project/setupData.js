@@ -3,6 +3,15 @@ import { useProjectStore } from '@/stores/ProjectStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useImageStore } from '@/stores/ImageStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
+import { onDelete } from '@/composables/project/utils';
+
+const setBlankProject = (id) => {
+  const projectStore = useProjectStore();
+
+  if (id && projectStore.getProject == null) {
+    projectStore.setBlankProject();
+  }
+};
 
 const fetchList = async () => {
   const projectStore = useProjectStore();
@@ -38,6 +47,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete project');
   deleteDialogStore.setMessage('Are you sure you want to delete this project?');
+  deleteDialogStore.setCallback(onDelete);
 };
 
 const setReturnUrl = () => {
@@ -46,6 +56,8 @@ const setReturnUrl = () => {
 };
 
 export default (id) => {
+  setBlankProject(id);
+
   onMounted(async () => {
     await fetchList();
     

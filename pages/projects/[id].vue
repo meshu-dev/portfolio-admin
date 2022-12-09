@@ -1,6 +1,6 @@
 <script setup>
   import { useProjectStore } from '@/stores/ProjectStore';
-  import ItemProjectForm from '@/components/Item/ItemForm/ItemProjectForm';
+  import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/project/setupData';
   import { onAdd, onEdit, onDelete } from '@/composables/project/utils';
 
@@ -10,18 +10,21 @@
 
   const projectStore = useProjectStore();
 
-  const onSubmit = (name) => {
-    return isEdit ? onEdit(id, name) : onAdd(name);
+  const onSubmit = () => {
+    const project = projectStore.getProject;
+    return isEdit ? onEdit(id, project) : onAdd(project);
   };
 
   setupData(id);
 </script>
 
 <template>
-  <ItemProjectForm
-    :isEdit="isEdit"
+  <ItemForm
     :title="isEdit ? 'Edit project' : 'Add project'"
-    :item="projectStore.getProject"
-    v-on:onSubmit="onSubmit"
-    v-on:onDelete="onDelete" />
+    v-on:onSubmit="onSubmit">
+    <v-text-field
+      label="Name"
+      v-model="projectStore.getProject.name"
+      required />
+  </ItemForm>
 </template>
