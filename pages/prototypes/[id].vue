@@ -1,6 +1,8 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
   import ItemProjectForm from '@/components/Item/ItemForm/ItemProjectForm';
+  import setupData from '@/composables/prototype/setupData';
+  import { onAdd, onEdit, onDelete } from '@/composables/prototype/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -8,36 +10,11 @@
 
   const prototypeStore = usePrototypeStore();
 
-  const onAdd = async (name) => {
-    await prototypeStore.addPrototype(
-      { name: name }
-    );
-    await onSuccess('Prototype has been added');
-  }
-
-  const onEdit = async (name) => {
-    await prototypeStore.editPrototype(
-      id,
-      { name: name }
-    );
-    await onSuccess('Prototype has been edited');
-  }
-
   const onSubmit = (name) => {
     return isEdit ? onEdit(name) : onAdd(name);
   }
 
-  const onSuccess = async (msg) => {
-    setStatusMsg('success', msg);
-    await navigateTo('/prototypes');
-  }
-
-  const onDelete = async () => {
-    await prototypeStore.deletePrototype(id);
-    await onSuccess('Prototype has been deleted');
-  }
-
-  fetchPrototypes(id);
+  setupData(id);
 </script>
 
 <template>

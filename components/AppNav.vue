@@ -16,6 +16,8 @@
     <span>|</span>
     <NuxtLink to="/types">Types</NuxtLink>
     <span>|</span>
+    <NuxtLink to="/repositories">Repositories</NuxtLink>
+    <span>|</span>
     <NuxtLink to="/technologies">Technologies</NuxtLink>
     <span>|</span>
     <span class="link" @click="logout">

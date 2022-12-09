@@ -1,39 +1,52 @@
 <script setup>
-  const props = defineProps({
-    image: Object
-  });
-  const { image } = toRefs(props);
+  import { toRaw } from 'vue';
+  import { useImageStore } from '@/stores/ImageStore';
 
-  const upload = () => {
+  const imageStore = useImageStore();
 
+  const fileInput = ref([]);
+
+  const upload = async () => {
+    const files = toRaw(fileInput.value);
+    
+    console.log('Files', files[0], files);
+
+    if (files[0]) {
+      await imageStore.addImage(
+        { image: files[0] }
+      );
+    }
   };
 
   const remove = () => {
-
+    hasImage.value = false;
   };
 </script>
 
 <template>
   <div id="item-image-container">
     <div
-      v-if="image == null"
+      v-if="imageStore.getImageUrl == null"
       id="item-image-blank">
       No image
     </div>
     <v-img
-      v-if="image"
+      v-if="imageStore.getImageUrl"
       max-height="500"
       :aspect-ratio="16 / 9"
-      :src="image.url"
+      :src="imageStore.getImageUrl"
       class="item-fullfield"
       cover />
-    <div id="item-image-btns">
+    <div id="item-image-actions">
+      <div v-if="imageStore.getImageUrl == null" id="item-image-upload">
+        <v-file-input label="Add image" v-model="fileInput" />
+        <v-btn
+          variant="tonal"
+          :disabled="fileInput.length === 0 ? true : false"
+          @click="upload">Upload</v-btn>
+      </div>
       <v-btn
-        v-if="image == null"
-        variant="tonal"
-        @click="upload">Upload</v-btn>
-      <v-btn
-        v-if="image"
+        v-if="imageStore.getImageUrl"
         variant="tonal"
         @click="remove">Remove</v-btn>
     </div>
@@ -54,8 +67,16 @@
       font-size: 30px;
     }
 
-    #item-image-btns {
+    #item-image-actions {
       margin-left: 20px;
+
+      #item-image-upload {
+        width: 400px;
+
+        .v-btn {
+          margin-left: 40px;
+        }
+      }
     }
   }
 </style>

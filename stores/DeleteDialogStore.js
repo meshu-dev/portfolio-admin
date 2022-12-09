@@ -23,11 +23,28 @@ export const useDeleteDialogStore = defineStore({
     }
   },
   actions: {
+    setTitle(title) {
+      this.title = title;
+    },
+    setMessage(message) {
+      this.message = message;
+    },
+    setCallback(callback) {
+      this.callback = callback;
+    },
+    setContent(title, message, callback) {
+      this.title = title;
+      this.message = message;
+      this.callback = callback;
+    },
     open(title, message, callback) {
       this.visible = true;
       this.title = title;
       this.message = message;
       this.callback = callback;
+    },
+    open2() {
+      this.visible = true;
     },
     close() {
       this.visible = false;

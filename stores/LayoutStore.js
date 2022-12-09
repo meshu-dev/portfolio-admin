@@ -6,9 +6,9 @@ const statusMsgTime = 10000; // 10 Seconds
 export const useLayoutStore = defineStore({
   id: 'layout',
   state: () => ({
-    statusMsg: null,
     dropdownAllOption: allOption,
-    showDeleteDialog: false
+    statusMsg: null,
+    returnUrl: null
   }),
   getters: {
     getDropdownAllOption(state) {
@@ -17,8 +17,8 @@ export const useLayoutStore = defineStore({
     getStatusMsg(state) {
       return state.statusMsg;
     },
-    isDeleteDialogVisible(state) {
-      return state.showDeleteDialog;
+    getReturnUrl(state) {
+      return state.returnUrl;
     }
   },
   actions: {
@@ -29,8 +29,11 @@ export const useLayoutStore = defineStore({
         this.statusMsg = null;
       }, statusMsgTime);
     },
-    toggleDeleteDialog(isVisible) {
-      this.showDeleteDialog = isVisible;
+    setReturnUrl(returnUrl) {
+      this.returnUrl = returnUrl;
+    },
+    clearReturnUrl() {
+      this.returnUrl = null;
     }
   }
 });

@@ -4,19 +4,17 @@ import AuthService from '@/services/AuthService';
 import ProjectService from '@/services/ProjectService';
 import PrototypeService from '@/services/PrototypeService';
 import AboutService from '@/services/AboutService';
+import TypeService from '@/services/TypeService';
+import TechnologyService from '@/services/TechnologyService';
+import RepositoryService from '@/services/RepositoryService';
+import ImageService from '@/services/ImageService';
 
-//console.log('TTT', this.$config);
-//console.log('TTT', process.env.API_URL);
-
-const apiUrl = process.env.API_URL;
-
-const config = 'AAA';//useRuntimeConfig();
-
-console.log('T2', process.env.API_URL, getApiUrl());
+const apiUrl = 'http://127.0.0.1:8002/api';
+const tokenService = new TokenService();
 
 const apiService = new ApiService(
   apiUrl,
-  new TokenService()
+  tokenService
 );
 
 export const authService = new AuthService(
@@ -37,4 +35,24 @@ export const prototypeService = new PrototypeService(
 export const aboutService = new AboutService(
   apiService,
   'about'
+);
+
+export const typeService = new TypeService(
+  apiService,
+  'types'
+);
+
+export const technologyService = new TechnologyService(
+  apiService,
+  'technologies'
+);
+
+export const repositoryService = new RepositoryService(
+  apiService,
+  'repositories'
+);
+
+export const imageService = new ImageService(
+  apiService,
+  'images'
 );

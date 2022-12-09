@@ -22,7 +22,7 @@ class ApiService {
   }
 
   getHeaders() {
-    const headers = {'Content-Type': 'application/json'};
+    const headers = {}; // {'Content-Type': 'application/json'};
 
     console.log('this.tokenService', this.tokenService);
 
@@ -45,8 +45,14 @@ class ApiService {
     };
 
     if (params) {
-      fetchParams['body'] = JSON.stringify(params);
+      if (params instanceof FormData) {
+        fetchParams['body'] = params;
+      } else {
+        fetchParams['headers']['Content-Type'] = 'application/json';
+        fetchParams['body'] = JSON.stringify(params);
+      }
     }
+
     return fetchParams;
   }
 

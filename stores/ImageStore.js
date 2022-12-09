@@ -8,7 +8,8 @@ export const useImageStore = defineStore({
     searchResults: [],
     searchedResults: [],
     viewerImageUrl: null,
-    imageUrl: null
+    imageUrl: null,
+    image: null
   }),
   getters: {
     isFormVisible(state) {
@@ -40,6 +41,9 @@ export const useImageStore = defineStore({
     },
     getImageUrl(state) {
       return state.imageUrl;
+    },
+    getImage(state) {
+      return state.image;
     }
   },
   actions: {
@@ -70,6 +74,26 @@ export const useImageStore = defineStore({
       const result = await callApi(apiFtn);
       return result;
     },
+    async addImage(params) {
+      let result = null;
+
+      const apiFtn = async () => {
+        let formData = new FormData();
+        formData.append('image', params['image']);
+        formData.append('thumb', true);
+
+        console.log('FormData', formData);
+
+        result = await imageService.add(formData);
+        const image = result['data'] ?? null;
+
+        this.image = image;
+        this.imageUrl = image.url;
+      };
+
+      await callApi(apiFtn);
+      return result;
+    },
     clearSearchResults() {
       this.searchResults = [];
     },
@@ -78,6 +102,9 @@ export const useImageStore = defineStore({
     },
     setImageUrl(imageUrl) {
       this.imageUrl = imageUrl;
+    },
+    setImage(image) {
+      this.image = image;
     }
   }
 });

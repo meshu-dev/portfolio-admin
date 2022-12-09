@@ -29,18 +29,20 @@
 
   const showDeleteDialog = () => {
     const deleteDialogStore = useDeleteDialogStore();
+
     deleteDialogStore.open(
       'Delete type',
       'Are you sure you want to delete this type?',
       async (doDelete) => {
-        console.log('FFF', doDelete);
-
         if (doDelete) {
           await runAction('onDelete');
         }
+
         deleteDialogStore.close();
       }
     );
+
+    deleteDialogStore.open();
   };
 
   watch(item, (newValue, oldValue) => {

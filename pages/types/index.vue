@@ -1,10 +1,11 @@
 <script setup>
   import { useTypeStore } from '@/stores/TypeStore';
+  import setupData from '@/composables/type/setupData';
   import ItemList from '@/components/Item/ItemList/ItemList';
 
   const typeStore = useTypeStore();
 
-  fetchTypes();
+  setupData();
 </script>
 
 <template>

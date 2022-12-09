@@ -83,7 +83,8 @@
           class="item-fullfield"
           multiple
           chips />
-        <ItemProjectImageForm :image="item.image" />
+        <ItemProjectImageForm
+          :image="item.image" />
         <div id="item-form-btns">
           <v-btn
             variant="tonal"

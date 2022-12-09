@@ -1,6 +1,8 @@
 <script setup>
   import { useProjectStore } from '@/stores/ProjectStore';
   import ItemProjectForm from '@/components/Item/ItemForm/ItemProjectForm';
+  import setupData from '@/composables/project/setupData';
+  import { onAdd, onEdit, onDelete } from '@/composables/project/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -8,36 +10,11 @@
 
   const projectStore = useProjectStore();
 
-  const onAdd = async (name) => {
-    await projectStore.addProject(
-      { name: name }
-    );
-    await onSuccess('Project has been added');
-  }
-
-  const onEdit = async (name) => {
-    await projectStore.editProject(
-      id,
-      { name: name }
-    );
-    await onSuccess('Project has been edited');
-  }
-
   const onSubmit = (name) => {
-    return isEdit ? onEdit(name) : onAdd(name);
-  }
+    return isEdit ? onEdit(id, name) : onAdd(name);
+  };
 
-  const onSuccess = async (msg) => {
-    setStatusMsg('success', msg);
-    await navigateTo('/projects');
-  }
-
-  const onDelete = async () => {
-    await projectStore.deleteProject(id);
-    await onSuccess('Project has been deleted');
-  }
-
-  fetchProjects(id);
+  setupData(id);
 </script>
 
 <template>

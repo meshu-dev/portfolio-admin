@@ -1,10 +1,11 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
+  import setupData from '@/composables/prototype/setupData';
   import ItemList from '@/components/Item/ItemList/ItemList';
 
   const prototypeStore = usePrototypeStore();
 
-  fetchPrototypes();
+  setupData();
 </script>
 
 <template>

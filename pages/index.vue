@@ -1,10 +1,11 @@
 <script setup>
   import { useProjectStore } from '@/stores/ProjectStore';
+  import setupData from '@/composables/project/setupData';
   import ItemList from '@/components/Item/ItemList/ItemList';
 
   const projectStore = useProjectStore();
 
-  fetchProjects();
+  setupData();
 </script>
 
 <template>

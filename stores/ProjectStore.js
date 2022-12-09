@@ -106,7 +106,7 @@ export const useProjectStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
-    setSelectedItem(id) {
+    setSelectedProject(id) {
       for (const project of this.projects) {
         if (project.id == id) {
           this.project = project;
