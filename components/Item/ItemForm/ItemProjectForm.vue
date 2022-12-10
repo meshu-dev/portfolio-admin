@@ -4,7 +4,7 @@
   import { useTypeStore } from '@/stores/TypeStore';
   import { useTechnologyStore } from '@/stores/TechnologyStore';
   import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-  import ItemProjectImageForm from '@/components/Item/ItemForm/ItemProjectImageForm';
+  import ItemImageForm from '@/components/Item/ItemForm/ItemImageForm';
 
   const props = defineProps({
     isEdit: Boolean,
@@ -83,7 +83,7 @@
           class="item-fullfield"
           multiple
           chips />
-        <ItemProjectImageForm
+        <ItemImageForm
           :image="item.image" />
         <div id="item-form-btns">
           <v-btn

@@ -84,6 +84,7 @@ export const useTypeStore = defineStore({
         console.log('type', result);
   
         this.deleteTypeFromList(id);
+        this.type = null;
       };
 
       await callApi(apiFtn);
@@ -96,12 +97,10 @@ export const useTypeStore = defineStore({
       for (const type of this.types) {
         if (type.id == id) {
           this.type = type;
-          return;
+          return true;
         }
       }
-      this.type = null;
-
-      return true;
+      return false;
     },
     replaceTypeInList(type) {
       for (let typeKey in this.types) {

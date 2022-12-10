@@ -101,6 +101,7 @@ export const usePrototypeStore = defineStore({
         console.log('prototype', result);
   
         this.deletePrototypeFromList(id);
+        this.prototype = null;
       };
 
       await callApi(apiFtn);
@@ -113,12 +114,10 @@ export const usePrototypeStore = defineStore({
       for (const prototype of this.prototypes) {
         if (prototype.id == id) {
           this.prototype = prototype;
-          return;
+          return true;
         }
       }
-      this.prototype = null;
-
-      return true;
+      return false;
     },
     replacePrototypeInList(prototype) {
       for (let prototypeKey in this.prototypes) {

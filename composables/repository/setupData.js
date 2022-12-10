@@ -2,7 +2,7 @@ import { onMounted } from 'vue';
 import { useRepositoryStore } from '@/stores/RepositoryStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-import { onDelete } from '@/composables/repository/utils';
+import { deleteRepository } from '@/composables/repository/utils';
 
 const setBlankRepository = (id) => {
   const repositoryStore = useRepositoryStore();
@@ -33,7 +33,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete repository');
   deleteDialogStore.setMessage('Are you sure you want to delete this repository?');
-  deleteDialogStore.setCallback(onDelete);
+  deleteDialogStore.setCallback(deleteRepository);
 };
 
 const setReturnUrl = () => {

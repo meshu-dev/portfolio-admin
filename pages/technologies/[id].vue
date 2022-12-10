@@ -1,8 +1,8 @@
 <script setup>
   import { useTechnologyStore } from '@/stores/TechnologyStore';
+  import { addType, editType } from '@/composables/technology/utils';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/technology/setupData';
-  import { onAdd, onEdit } from '@/composables/technology/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -12,7 +12,7 @@
 
   const onSubmit = () => {
     const technology = repositoryStore.getRepository;
-    return isEdit ? onEdit(id, technology) : onAdd(technology);
+    return isEdit ? editType(id, technology) : addType(technology);
   }
 
   setupData(id);

@@ -82,6 +82,7 @@ export const useRepositoryStore = defineStore({
         console.log('type', result);
   
         this.deleteRepositoryFromList(id);
+        this.repository = null;
       };
 
       await callApi(apiFtn);
@@ -97,12 +98,10 @@ export const useRepositoryStore = defineStore({
       for (const repository of this.repositories) {
         if (repository.id == id) {
           this.repository = repository;
-          return;
+          return true;
         }
       }
-      this.repository = null;
-
-      return true;
+      return false;
     },
     replaceRepositoryInList(repository) {
       for (let key in this.repository) {

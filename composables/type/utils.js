@@ -1,6 +1,14 @@
 import { useTypeStore } from '@/stores/TypeStore';
 
-export const onAdd = async (type) => {
+export const getTypes = async () => {
+  const typeStore = useTypeStore();
+
+  if (typeStore.areFetched === false) {
+    await typeStore.fetchTypes();
+  }
+};
+
+export const addType = async (type) => {
   const typeStore = useTypeStore();
 
   await typeStore.addType(
@@ -10,7 +18,7 @@ export const onAdd = async (type) => {
   await msgAndRedirect('Type has been added');
 }
 
-export const onEdit = async (id, type) => {
+export const editType = async (id, type) => {
   const typeStore = useTypeStore();
   
   await typeStore.editType(
@@ -20,10 +28,10 @@ export const onEdit = async (id, type) => {
   await msgAndRedirect('Type has been edited');
 }
 
-export const onDelete = async (doDelete) => {
+export const deleteType = async (doDelete) => {
   if (doDelete === true) {
     const typeStore = useTypeStore();
-    await typeStore.deleteType(id);
+    await typeStore.deleteType(typeStore.getType.id);
     
     await msgAndRedirect('Type has been deleted');
   }

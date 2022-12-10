@@ -1,6 +1,6 @@
 import { usePrototypeStore } from '@/stores/PrototypeStore';
 
-export const onAdd = async (prototype) => {
+export const addPrototype = async (prototype) => {
   const prototypeStore = usePrototypeStore();
 
   await prototypeStore.addPrototype(
@@ -10,7 +10,7 @@ export const onAdd = async (prototype) => {
   await msgAndRedirect('Prototype has been added');
 }
 
-export const onEdit = async (id, prototype) => {
+export const editPrototype = async (id, prototype) => {
   const prototypeStore = usePrototypeStore();
   
   await prototypeStore.editPrototype(
@@ -20,10 +20,10 @@ export const onEdit = async (id, prototype) => {
   await msgAndRedirect('Prototype has been edited');
 }
 
-export const onDelete = async (doDelete) => {
+export const deletePrototype = async (doDelete) => {
   if (doDelete === true) {
     const prototypeStore = usePrototypeStore();
-    await prototypeStore.deletePrototype(id);
+    await prototypeStore.deletePrototype(prototypeStore.getPrototype.id);
     
     await msgAndRedirect('Prototype has been deleted');
   }

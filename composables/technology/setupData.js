@@ -2,7 +2,7 @@ import { onMounted } from 'vue';
 import { useTechnologyStore } from '@/stores/TechnologyStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-import { onDelete } from '@/composables/technology/utils';
+import { deleteTechnology } from '@/composables/technology/utils';
 
 const setBlankTechnology = (id) => {
   const technologyStore = useTechnologyStore();
@@ -33,7 +33,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete technology');
   deleteDialogStore.setMessage('Are you sure you want to delete this technology?');
-  deleteDialogStore.setCallback(onDelete);
+  deleteDialogStore.setCallback(deleteTechnology);
 };
 
 const setReturnUrl = () => {

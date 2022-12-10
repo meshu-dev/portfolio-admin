@@ -1,8 +1,8 @@
 <script setup>
   import { useRepositoryStore } from '@/stores/RepositoryStore';
+  import { addRepository, editRepository } from '@/composables/repository/utils';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/repository/setupData';
-  import { onAdd, onEdit } from '@/composables/repository/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -12,7 +12,7 @@
 
   const onSubmit = () => {
     const repository = repositoryStore.getRepository;
-    return isEdit ? onEdit(id, repository) : onAdd(repository);
+    return isEdit ? editRepository(id, repository) : addRepository(repository);
   }
 
   setupData(id);

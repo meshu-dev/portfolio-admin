@@ -1,8 +1,8 @@
 <script setup>
   import { useProjectStore } from '@/stores/ProjectStore';
+  import { addProject, editProject } from '@/composables/project/utils';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/project/setupData';
-  import { onAdd, onEdit, onDelete } from '@/composables/project/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -12,7 +12,7 @@
 
   const onSubmit = () => {
     const project = projectStore.getProject;
-    return isEdit ? onEdit(id, project) : onAdd(project);
+    return isEdit ? editProject(id, project) : addProject(project);
   };
 
   setupData(id);

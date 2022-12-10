@@ -3,7 +3,7 @@ import { usePrototypeStore } from '@/stores/PrototypeStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useImageStore } from '@/stores/ImageStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-import { onDelete } from '@/composables/prototype/utils';
+import { deletePrototype } from '@/composables/prototype/utils';
 
 const setBlankPrototype = (id) => {
   const prototypeStore = usePrototypeStore();
@@ -47,7 +47,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete prototype');
   deleteDialogStore.setMessage('Are you sure you want to delete this prototype?');
-  deleteDialogStore.setCallback(onDelete);
+  deleteDialogStore.setCallback(deletePrototype);
 };
 
 const setReturnUrl = () => {

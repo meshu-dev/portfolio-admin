@@ -2,13 +2,16 @@ import { onMounted } from 'vue';
 import { useTypeStore } from '@/stores/TypeStore';
 import { useLayoutStore } from '@/stores/LayoutStore';
 import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-import { onDelete } from '@/composables/type/utils';
+import { deleteType } from '@/composables/type/utils';
 
 const setBlankType = (id) => {
   const typeStore = useTypeStore();
 
+  console.log('BLANK', id, typeStore.getType, typeStore.getType == null);
+
   if (id && typeStore.getType == null) {
     typeStore.setBlankType();
+    console.log('BLANK 2');
   }
 };
 
@@ -33,7 +36,7 @@ const setupDeleteDialog = () => {
 
   deleteDialogStore.setTitle('Delete type');
   deleteDialogStore.setMessage('Are you sure you want to delete this type?');
-  deleteDialogStore.setCallback(onDelete);
+  deleteDialogStore.setCallback(deleteType);
 };
 
 const setReturnUrl = () => {

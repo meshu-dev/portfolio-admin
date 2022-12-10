@@ -82,6 +82,7 @@ export const useTechnologyStore = defineStore({
         console.log('type', result);
   
         this.deleteTechnologyFromList(id);
+        this.technology = null;
       };
 
       await callApi(apiFtn);
@@ -94,12 +95,10 @@ export const useTechnologyStore = defineStore({
       for (const technology of this.technologies) {
         if (technology.id == id) {
           this.technology = technology;
-          return;
+          return true;
         }
       }
-      this.technology = null;
-
-      return true;
+      return false;
     },
     replaceTechnologyInList(technology) {
       for (let key in this.technology) {

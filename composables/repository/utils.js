@@ -1,6 +1,6 @@
 import { useRepositoryStore } from '@/stores/RepositoryStore';
 
-export const onAdd = async (repository) => {
+export const addRepository = async (repository) => {
   const repositoryStore = useRepositoryStore();
 
   await repositoryStore.addRepository(
@@ -13,7 +13,7 @@ export const onAdd = async (repository) => {
   await msgAndRedirect('Repository has been added');
 }
 
-export const onEdit = async (id, repository) => {
+export const editRepository = async (id, repository) => {
   const repositoryStore = useRepositoryStore();
   
   await repositoryStore.editRepository(
@@ -26,10 +26,10 @@ export const onEdit = async (id, repository) => {
   await msgAndRedirect('Repository has been edited');
 }
 
-export const onDelete = async (doDelete) => {
+export const deleteRepository = async (doDelete) => {
   if (doDelete === true) {
     const repositoryStore = useRepositoryStore();
-    await repositoryStore.deleteRepository(id);
+    await repositoryStore.deleteRepository(repositoryStore.getRepository.id);
     
     await msgAndRedirect('Repository has been deleted');
   }

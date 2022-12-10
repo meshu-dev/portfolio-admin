@@ -101,6 +101,7 @@ export const useProjectStore = defineStore({
         console.log('project', result);
   
         this.deleteProjectFromList(id);
+        this.project = null;
       };
 
       await callApi(apiFtn);
@@ -113,12 +114,10 @@ export const useProjectStore = defineStore({
       for (const project of this.projects) {
         if (project.id == id) {
           this.project = project;
-          return;
+          return true;
         }
       }
-      this.project = null;
-
-      return true;
+      return false;
     },
     replaceProjectInList(project) {
       for (let projectKey in this.projects) {

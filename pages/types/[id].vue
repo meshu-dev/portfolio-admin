@@ -1,8 +1,8 @@
 <script setup>
   import { useTypeStore } from '@/stores/TypeStore';
+  import { addType, editType } from '@/composables/type/utils';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/type/setupData';
-  import { onAdd, onEdit } from '@/composables/type/utils';
 
   const route = useRoute();
   const id = route.params.id;
@@ -12,7 +12,7 @@
 
   const onSubmit = () => {
     const type = typeStore.getType;
-    return isEdit ? onEdit(id, type) : onAdd(type);
+    return isEdit ? editType(id, type) : addType(type);
   }
 
   setupData(id);
@@ -20,6 +20,7 @@
 
 <template>
   <ItemForm
+    v-if="typeStore.getType"
     :title="isEdit ? 'Edit type' : 'Add type'"
     v-on:onSubmit="onSubmit">
     <v-text-field
