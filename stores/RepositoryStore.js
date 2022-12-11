@@ -15,6 +15,19 @@ export const useRepositoryStore = defineStore({
     getRepositoryNames(state) {
       return state.repositories.map(repository => repository.name);
     },
+    getRepositoryOptions(state) {
+      if (state.repositories.length == 0) {
+        return [];
+      }
+
+      const options = state.repositories.map(repository => {
+        return {
+          title: repository.name,
+          value: repository.id
+        }
+      });
+      return options;
+    },
     getRepositoryById(state) {
       return (id) => {
         if (!id) {

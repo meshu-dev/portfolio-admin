@@ -3,8 +3,20 @@
   import { useImageStore } from '@/stores/ImageStore';
 
   const imageStore = useImageStore();
-
   const fileInput = ref([]);
+
+  const props = defineProps({
+    image: Object
+  });
+
+  const { image } = toRefs(props);
+  //const selectedOptions = ref(getPropValue(image));
+
+  const imageData = getPropValue(image);
+  imageStore.setImage(imageData);
+  imageStore.setImageUrl(imageData.url);
+
+  console.log('IMG', getPropValue(image));
 
   const upload = async () => {
     const files = toRaw(fileInput.value);
@@ -19,7 +31,8 @@
   };
 
   const remove = () => {
-    hasImage.value = false;
+    imageStore.setImage(null);
+    imageStore.setImageUrl(null);
   };
 </script>
 

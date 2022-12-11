@@ -108,7 +108,13 @@ export const usePrototypeStore = defineStore({
       return result;
     },
     setBlankPrototype() {
-      this.prototype = { name: '' };
+      this.prototype = {
+        name: '',
+        type: {
+          id: 0
+        },
+        image: {}
+      };
     },
     setSelectedPrototype(id) {
       for (const prototype of this.prototypes) {

@@ -8,17 +8,17 @@ export const addProject = async (project) => {
   );
   
   await msgAndRedirect('Project has been added');
-}
+};
 
-export const editProject = async (id, project) => {
+export const editProject = async (project) => {
   const projectStore = useProjectStore();
   
   await projectStore.editProject(
-    id,
+    project.id,
     { name: project.name }
   );
   await msgAndRedirect('Project has been edited');
-}
+};
 
 export const deleteProject = async (doDelete) => {
   if (doDelete === true) {
@@ -27,4 +27,15 @@ export const deleteProject = async (doDelete) => {
     
     await msgAndRedirect('Project has been deleted');
   }
-}
+};
+
+export const projectFormSubmit = async () => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+
+  if (project.id > 0) {
+    await editProject(project);
+  } else {
+    await addProject(project);
+  }
+};

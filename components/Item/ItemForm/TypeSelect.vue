@@ -1,17 +1,38 @@
 <script setup>
-  import { useTypeStore } from '@/stores/TypeStore';
   import { getTypes } from '@/composables/type/utils';
+  import { useTypeSelectStore } from '@/stores/TypeSelectStore';
 
-  const typeStore = useTypeStore();
+  const typeSelectStore = useTypeSelectStore();
+
+  const props = defineProps({
+    typeId: Number
+  });
+
+  const { typeId } = toRefs(props);
+  const selectedOption = ref(null);
+  
+  const setValues = (typeId) => {
+    typeSelectStore.setSelectedValue(typeId);
+    selectedOption.value = typeSelectStore.getSelectedOption;
+  };
+
+  setValues(typeId.value);
 
   onMounted(async () => {
     await getTypes();
-  });  
+    setValues(typeId.value);
+  });
+
+  const onChange = (value) => {
+    typeSelectStore.setSelectedValue(value);
+  };
 </script>
 
 <template>
   <v-select
+    v-model="selectedOption"
+    :items="typeSelectStore.getOptions"
+    @update:modelValue="onChange"
     label="Select type"
-    class="item-field"
-    :items="typeStore.getTypeNames" />
+    class="item-field" />
 </template>

@@ -1,38 +1,28 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
-  import { addPrototype, editPrototype } from '@/composables/prototype/utils';
   import setupData from '@/composables/prototype/setupData';
-  import ItemForm from '@/components/Item/ItemForm/ItemForm';
-  import TypeSelect from '@/components/Item/ItemForm/TypeSelect';
-  import TechnologySelect from '@/components/Item/ItemForm/TechnologySelect';
-  import ItemImageForm from '@/components/Item/ItemForm/ItemImageForm';
+
+  import PortfolioForm from '@/components/Item/ItemForm/PortfolioForm';
 
   const route = useRoute();
   const id = route.params.id;
   const isEdit = id != 'new' ? true : false;
 
   const prototypeStore = usePrototypeStore();
-
-  const onSubmit = () => {
-    const prototype = prototypeStore.getPrototype;
-    return isEdit ? editPrototype(id, prototype) : addPrototype(prototype);
-  }
+  const prototype = ref(prototypeStore.getPrototype);
 
   setupData(id);
+
+  const onSubmit = (params) => {
+    console.log('Burger!!!', params);
+  };
 </script>
 
 <template>
-  <ItemForm
-    v-if="prototypeStore.getPrototype"
+  <PortfolioForm
+    v-if="prototype"
     :title="isEdit ? 'Edit prototype' : 'Add prototype'"
-    v-on:onSubmit="onSubmit">
-    <v-text-field
-      label="Name"
-      v-model="prototypeStore.getPrototype.name"
-      required />
-    <TypeSelect />
-    <TechnologySelect />
-    <ItemImageForm
-      :image="prototypeStore.getPrototype.image" />
-  </ItemForm>
+    :item="prototype"
+    v-on:onChange="onChange"
+    v-on:onSubmit="onSubmit" />
 </template>

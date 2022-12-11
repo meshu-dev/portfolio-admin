@@ -17,3 +17,10 @@ export const msgAndRedirect = async (msg) => {
   await navigateTo(layoutStore.getReturnUrl);
   layoutStore.clearReturnUrl();
 };
+
+export const navigateToReturnUrl = async () => {
+  const layoutStore = useLayoutStore();
+  
+  await navigateTo(layoutStore.getReturnUrl);
+  layoutStore.clearReturnUrl();
+};

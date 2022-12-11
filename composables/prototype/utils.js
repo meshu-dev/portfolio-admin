@@ -8,17 +8,17 @@ export const addPrototype = async (prototype) => {
   );
   
   await msgAndRedirect('Prototype has been added');
-}
+};
 
-export const editPrototype = async (id, prototype) => {
+export const editPrototype = async (prototype) => {
   const prototypeStore = usePrototypeStore();
   
   await prototypeStore.editPrototype(
-    id,
+    prototype.id,
     { name: prototype.name }
   );
   await msgAndRedirect('Prototype has been edited');
-}
+};
 
 export const deletePrototype = async (doDelete) => {
   if (doDelete === true) {
@@ -27,4 +27,15 @@ export const deletePrototype = async (doDelete) => {
     
     await msgAndRedirect('Prototype has been deleted');
   }
-}
+};
+
+export const prototypeFormSubmit = async () => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+
+  if (prototype.id > 0) {
+    await editPrototype(prototype);
+  } else {
+    await addPrototype(prototype);
+  }
+};

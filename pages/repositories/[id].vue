@@ -1,6 +1,6 @@
 <script setup>
   import { useRepositoryStore } from '@/stores/RepositoryStore';
-  import { addRepository, editRepository } from '@/composables/repository/utils';
+  import { repositoryFormSubmit } from '@/composables/repository/utils';
   import ItemForm from '@/components/Item/ItemForm/ItemForm';
   import setupData from '@/composables/repository/setupData';
 
@@ -10,25 +10,20 @@
 
   const repositoryStore = useRepositoryStore();
 
-  const onSubmit = () => {
-    const repository = repositoryStore.getRepository;
-    return isEdit ? editRepository(id, repository) : addRepository(repository);
-  }
-
   setupData(id);
 </script>
 
 <template>
   <ItemForm
     :title="isEdit ? 'Edit repository' : 'Add repository'"
-    v-on:onSubmit="onSubmit">
+    v-on:onSubmit="repositoryFormSubmit">
     <v-text-field
-        label="Name"
-        v-model="repositoryStore.getRepository.name"
-        required />
+      label="Name"
+      v-model="repositoryStore.getRepository.name"
+      required />
     <v-text-field
-        label="Url"
-        v-model="repositoryStore.getRepository.url"
-        required />  
+      label="Url"
+      v-model="repositoryStore.getRepository.url"
+      required />  
   </ItemForm>
 </template>

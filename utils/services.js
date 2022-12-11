@@ -9,7 +9,7 @@ import TechnologyService from '@/services/TechnologyService';
 import RepositoryService from '@/services/RepositoryService';
 import ImageService from '@/services/ImageService';
 
-const apiUrl = 'http://127.0.0.1:8002/api';
+const apiUrl = 'http://127.0.0.1:8000/api';
 const tokenService = new TokenService();
 
 const apiService = new ApiService(

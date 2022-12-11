@@ -8,6 +8,28 @@ export const getTypes = async () => {
   }
 };
 
+/*
+export const getTypeOptions = () => {
+  const typeStore = useTypeStore();
+  const types = typeStore.getTypes;
+
+  const options = types.map(type => {
+    return {
+      title: type.name,
+      value: type.id
+    }
+  });
+
+  return options;
+};
+
+export const setSelectedTypeOption = (type) => {
+  return {
+    title: type.name,
+    value: type.id  
+  };
+}; */
+
 export const addType = async (type) => {
   const typeStore = useTypeStore();
 
@@ -18,11 +40,11 @@ export const addType = async (type) => {
   await msgAndRedirect('Type has been added');
 }
 
-export const editType = async (id, type) => {
+export const editType = async (type) => {
   const typeStore = useTypeStore();
   
   await typeStore.editType(
-    id,
+    type.id,
     { name: type.name }
   );
   await msgAndRedirect('Type has been edited');
@@ -36,3 +58,14 @@ export const deleteType = async (doDelete) => {
     await msgAndRedirect('Type has been deleted');
   }
 }
+
+export const typeFormSubmit = async () => {
+  const typeStore = useTypeStore();
+  const type = typeStore.getType;
+
+  if (type.id > 0) {
+    await editType(type);
+  } else {
+    await addType(type);
+  }
+};
