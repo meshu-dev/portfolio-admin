@@ -110,7 +110,7 @@ export const useProjectStore = defineStore({
     setBlankProject() {
       this.project = { name: '' };
     },
-    setPrototype(project) {
+    setProject(project) {
       this.project = project;
     },
     setSelectedProject(id) {

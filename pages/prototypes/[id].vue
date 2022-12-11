@@ -1,8 +1,7 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
   import setupData from '@/composables/prototype/setupData';
-  import { repositoryFormSubmit } from '@/composables/repository/utils';
-
+  import { setParamsToPrototype, prototypeFormSubmit } from '@/composables/prototype/utils';
   import PortfolioForm from '@/components/Item/ItemForm/PortfolioForm';
 
   const route = useRoute();
@@ -14,8 +13,11 @@
 
   setupData(id);
 
-  const onSubmit = (params) => {
-    console.log('Burger!!!', params);
+  const onSubmit = async (params) => {
+    setParamsToPrototype(params);
+    await prototypeFormSubmit();
+    
+    console.log('Burger', params);
   };
 </script>
 
@@ -24,6 +26,5 @@
     v-if="prototype"
     :title="isEdit ? 'Edit prototype' : 'Add prototype'"
     :item="prototype"
-    v-on:onChange="onChange"
     v-on:onSubmit="onSubmit" />
 </template>

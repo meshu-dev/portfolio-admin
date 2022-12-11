@@ -43,7 +43,7 @@ export const deleteProject = async (doDelete) => {
   }
 };
 
-export const setParamsToPrototype = (params) => {
+export const setParamsToProject = (params) => {
   const projectStore = useProjectStore();
   const project = projectStore.getProject;
 
