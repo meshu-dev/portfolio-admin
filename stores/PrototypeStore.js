@@ -116,6 +116,9 @@ export const usePrototypeStore = defineStore({
         image: {}
       };
     },
+    setPrototype(prototype) {
+      this.prototype = prototype;
+    },
     setSelectedPrototype(id) {
       for (const prototype of this.prototypes) {
         if (prototype.id == id) {

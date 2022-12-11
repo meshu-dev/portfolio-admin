@@ -35,7 +35,7 @@ export const useTechnologySelectStore = defineStore({
   
         for (const technology of technologies) {
           if (selectedValues.includes(technology.name) === true) {
-            selectedTechnologies.push(technology);
+            selectedTechnologies.push(toRaw(technology));
           }
         }
         return selectedTechnologies;

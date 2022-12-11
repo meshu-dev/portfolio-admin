@@ -1,6 +1,7 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
   import setupData from '@/composables/prototype/setupData';
+  import { repositoryFormSubmit } from '@/composables/repository/utils';
 
   import PortfolioForm from '@/components/Item/ItemForm/PortfolioForm';
 

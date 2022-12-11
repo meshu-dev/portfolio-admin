@@ -12,7 +12,7 @@ export const useImageStore = defineStore({
       return state.imageUrl;
     },
     getImage(state) {
-      return state.image;
+      return toRaw(state.image);
     }
   },
   actions: {
@@ -29,7 +29,7 @@ export const useImageStore = defineStore({
         result = await imageService.add(formData);
         const image = result['data'] ?? null;
 
-        this.image = image;
+        this.image = toRaw(image);
         this.imageUrl = image.url;
       };
 

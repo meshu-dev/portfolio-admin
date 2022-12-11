@@ -35,9 +35,11 @@ export const useRepositorySelectStore = defineStore({
   
         for (const repository of repositories) {
           if (selectedValues.includes(repository.name) === true) {
-            selectedRepositories.push(repository);
+            selectedRepositories.push(toRaw(repository));
           }
         }
+        console.log('AAA selectedRepositories', selectedRepositories);
+
         return selectedRepositories;
       }
       return [];

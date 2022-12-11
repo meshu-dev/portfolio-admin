@@ -16,8 +16,6 @@
   const runAction = async (ftn, param) => {
     loading.value = true;
 
-    console.log('BING!');
-
     await emit(ftn);
 
     loading.value = false;

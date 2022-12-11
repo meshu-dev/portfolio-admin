@@ -8,36 +8,19 @@ export const getRepositories = async () => {
   }
 };
 
+export const getRepositoryIds = (repositories) => {
+  if (repositories) {
+    return repositories.map(repository => repository.id);
+  }
+  return [];
+};
+
 export const getRepositoryNames = (repositories) => {
   if (repositories) {
     return repositories.map(repository => repository.name);
   }
   return [];
 };
-
-/*
-export const getRepositoryOptions = () => {
-  const repositoryStore = useRepositoryStore();
-  const repositories = repositoryStore.getRepositories;
-
-  const options = repositories.map(repository => {
-    return {
-      title: repository.name,
-      value: repository.id
-    }
-  });
-
-  return options;
-};
-
-export const setSelectedRepositoryOptions = (repositories) => {
-  const options = [];
-
-  for (const repository of repositories) {
-    options.push({ title: repository.name, value: repository.id });
-  }
-  return options;
-}; */
 
 export const addRepository = async (repository) => {
   const repositoryStore = useRepositoryStore();

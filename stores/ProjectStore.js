@@ -110,6 +110,9 @@ export const useProjectStore = defineStore({
     setBlankProject() {
       this.project = { name: '' };
     },
+    setPrototype(project) {
+      this.project = project;
+    },
     setSelectedProject(id) {
       for (const project of this.projects) {
         if (project.id == id) {

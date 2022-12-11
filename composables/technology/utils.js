@@ -8,36 +8,19 @@ export const getTechnologies = async () => {
   }
 };
 
+export const getTechnologyIds = (technologies) => {
+  if (technologies) {
+    return technologies.map(technology => technology.id);
+  }
+  return [];
+};
+
 export const getTechnologyNames = (technologies) => {
   if (technologies) {
     return technologies.map(technology => technology.name);
   }
   return [];
 };
-
-/*
-export const getTechnologyOptions = () => {
-  const technologyStore = useTechnologyStore();
-  const technologies = technologyStore.getTechnologies;
-
-  const options = technologies.map(technology => {
-    return {
-      title: technology.name,
-      value: technology.id
-    }
-  });
-
-  return options;
-};
-
-export const setSelectedTechnologyOptions = (technologies) => {
-  const options = [];
-
-  for (const technology of technologies) {
-    options.push({ title: technology.name, value: technology.id });
-  }
-  return options;
-}; */
 
 export const addTechnology = async (technology) => {
   const technologyStore = useTechnologyStore();

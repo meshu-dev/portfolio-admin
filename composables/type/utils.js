@@ -8,28 +8,6 @@ export const getTypes = async () => {
   }
 };
 
-/*
-export const getTypeOptions = () => {
-  const typeStore = useTypeStore();
-  const types = typeStore.getTypes;
-
-  const options = types.map(type => {
-    return {
-      title: type.name,
-      value: type.id
-    }
-  });
-
-  return options;
-};
-
-export const setSelectedTypeOption = (type) => {
-  return {
-    title: type.name,
-    value: type.id  
-  };
-}; */
-
 export const addType = async (type) => {
   const typeStore = useTypeStore();
 

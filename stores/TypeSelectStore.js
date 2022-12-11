@@ -31,6 +31,12 @@ export const useTypeSelectStore = defineStore({
       }
       return null;
     },
+    getSelectedType(state) {
+      const typeStore = useTypeStore();
+      const type = typeStore.getTypeById(state.selectedValue);
+
+      return type;
+    },
     getSelectedValue(state) {
       return state.selectedValue;
     }
