@@ -108,7 +108,14 @@ export const useProjectStore = defineStore({
       return result;
     },
     setBlankProject() {
-      this.project = { name: '' };
+      this.project = {
+        name: '',
+        type: {},
+        description: '',
+        repositories: [],
+        technologies: [],
+        images: []
+      };
     },
     setProject(project) {
       this.project = project;

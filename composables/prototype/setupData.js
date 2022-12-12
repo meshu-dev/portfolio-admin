@@ -8,7 +8,7 @@ import { deletePrototype } from '@/composables/prototype/utils';
 const setBlankPrototype = (id) => {
   const prototypeStore = usePrototypeStore();
 
-  if (id && prototypeStore.getPrototype == null) {
+  if (id && id === 'new') {
     prototypeStore.setBlankPrototype();
   }
 };
@@ -25,7 +25,9 @@ const setData = (id) => {
   const prototypeStore = usePrototypeStore();
   prototypeStore.setSelectedPrototype(id);
 
-  //setImage();
+  if (id !== 'new') {
+    setImage();
+  }
   setupDeleteDialog();
   setReturnUrl();
 };

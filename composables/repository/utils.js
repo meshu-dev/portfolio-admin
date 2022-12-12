@@ -67,3 +67,11 @@ export const repositoryFormSubmit = async () => {
     await addRepository(repository);
   }
 };
+
+export const getRepositoriesByNames = (repositoryNames) => {
+  const repositoryStore = useRepositoryStore();
+
+  return repositoryStore.getRepositories.filter(
+    repository => repositoryNames.includes(repository.name)
+  );
+};

@@ -1,6 +1,8 @@
 import { useProjectStore } from '@/stores/ProjectStore';
-import { getRepositoryIds } from '@/composables/repository/utils';
-import { getTechnologyIds } from '@/composables/technology/utils';
+import { getRepositoryIds, getRepositoriesByNames } from '@/composables/repository/utils';
+import { getTechnologyIds, getTechnologiesByNames } from '@/composables/technology/utils';
+import { getTypeById } from '@/composables/type/utils';
+import { getImage } from '@/composables/image/utils';
 
 const getParams = (project) => {
   return {
@@ -9,7 +11,7 @@ const getParams = (project) => {
     typeId: project.type.id,
     repositoryIds: getRepositoryIds(project.repositories),
     technologyIds: getTechnologyIds(project.technologies),
-    image: project.image.id
+    imageIds: [project.images.id]
   };
 };
 
@@ -47,11 +49,11 @@ export const setParamsToProject = (params) => {
   const projectStore = useProjectStore();
   const project = projectStore.getProject;
 
-  project.name = params.name;
-  project.type = params.type;
-  project.description = params.description;
-  project.repositories = params.repositories;
-  project.technologies = params.technologies;
+  //project.name = params.name;
+  //project.type = params.type;
+  //project.description = params.description;
+  //project.repositories = params.repositories;
+  //project.technologies = params.technologies;
   project.images = params.image;
 
   projectStore.setProject(project);
@@ -66,4 +68,51 @@ export const projectFormSubmit = async () => {
   } else {
     await addProject(project);
   }
+};
+
+export const onTypeChange = (typeId) => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+    
+  const type = getTypeById(typeId);
+  project.type = type;
+
+  projectStore.setProject(project);
+};
+
+export const onRepositoryChange = (values) => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+
+  project.repositories = getRepositoriesByNames(values);
+
+  projectStore.setProject(project);
+};
+
+export const onTechnologyChange = (values) => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+
+  project.technologies = getTechnologiesByNames(values);
+
+  projectStore.setProject(project);
+};
+
+
+export const onImageUpload = () => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+
+  project.images = [getImage()];
+
+  projectStore.setPrototype(project);
+};
+
+export const onImageRemove = () => {
+  const projectStore = useProjectStore();
+  const project = projectStore.getProject;
+
+  project.images = [];
+
+  projectStore.setProject(project);
 };

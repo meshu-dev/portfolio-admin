@@ -110,10 +110,11 @@ export const usePrototypeStore = defineStore({
     setBlankPrototype() {
       this.prototype = {
         name: '',
-        type: {
-          id: 0
-        },
-        image: {}
+        type: {},
+        description: '',
+        repositories: [],
+        technologies: [],
+        images: []
       };
     },
     setPrototype(prototype) {

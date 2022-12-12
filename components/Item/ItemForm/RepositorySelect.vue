@@ -5,13 +5,12 @@
   const repositorySelectStore = useRepositorySelectStore();
 
   const props = defineProps({
-    selected: Array
+    selected: Array,
+    onChange: Function
   });
 
-  const { selected } = toRefs(props);
+  const { selected, onChange } = toRefs(props);
   const selectedOptions = ref(selected.value);
-
-  const emit = defineEmits(['onChange']);
 
   repositorySelectStore.setSelectedValues(selected.value);
 
@@ -19,10 +18,6 @@
     await getRepositories();
     repositorySelectStore.setSelectedValues(selected.value);
   });
-
-  const onChange = (values) => {
-    repositorySelectStore.setSelectedValues(values);
-  };
 </script>
 
 <template>

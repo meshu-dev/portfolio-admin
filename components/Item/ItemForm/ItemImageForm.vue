@@ -1,38 +1,23 @@
 <script setup>
-  import { toRaw } from 'vue';
   import { useImageStore } from '@/stores/ImageStore';
+  import { uploadImage, removeImage } from '@/composables/image/utils';
 
   const imageStore = useImageStore();
   const fileInput = ref([]);
 
-  const props = defineProps({
-    image: Object
-  });
-
-  const { image } = toRefs(props);
-  //const selectedOptions = ref(getPropValue(image));
-
-  const imageData = getPropValue(image);
-  imageStore.setImage(imageData);
-  imageStore.setImageUrl(imageData.url);
-
-  console.log('IMG', getPropValue(image));
+  const emit = defineEmits(['onUpload', 'onRemove']);
 
   const upload = async () => {
-    const files = toRaw(fileInput.value);
-    
-    console.log('Files', files[0], files);
+    const isUploaded = await uploadImage(fileInput);
 
-    if (files[0]) {
-      await imageStore.addImage(
-        { image: files[0] }
-      );
+    if (isUploaded === true) {
+      emit('onUpload');
     }
   };
 
   const remove = () => {
-    imageStore.setImage(null);
-    imageStore.setImageUrl(null);
+    removeImage();
+    emit('onRemove');
   };
 </script>
 

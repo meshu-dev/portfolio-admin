@@ -1,8 +1,19 @@
 <script setup>
   import { usePrototypeStore } from '@/stores/PrototypeStore';
   import setupData from '@/composables/prototype/setupData';
-  import { setParamsToPrototype, prototypeFormSubmit } from '@/composables/prototype/utils';
-  import PortfolioForm from '@/components/Item/ItemForm/PortfolioForm';
+  import {
+    onTypeChange,
+    onRepositoryChange,
+    onTechnologyChange,
+    prototypeFormSubmit,
+    onImageUpload,
+    onImageRemove
+  } from '@/composables/prototype/utils';
+  import { getRepositoryNames } from '@/composables/repository/utils';
+  import { getTechnologyNames } from '@/composables/technology/utils';
+  import TypeSelect from '@/components/Item/ItemForm/TypeSelect';
+  import RepositorySelect from '@/components/Item/ItemForm/RepositorySelect';
+  import TechnologySelect from '@/components/Item/ItemForm/TechnologySelect';
 
   const route = useRoute();
   const id = route.params.id;
@@ -12,19 +23,34 @@
   const prototype = ref(prototypeStore.getPrototype);
 
   setupData(id);
-
-  const onSubmit = async (params) => {
-    setParamsToPrototype(params);
-    await prototypeFormSubmit();
-    
-    console.log('Burger', params);
-  };
 </script>
 
 <template>
-  <PortfolioForm
+  <ItemForm
     v-if="prototype"
     :title="isEdit ? 'Edit prototype' : 'Add prototype'"
-    :item="prototype"
-    v-on:onSubmit="onSubmit" />
+    v-on:onSubmit="prototypeFormSubmit">
+    <v-text-field
+      label="Name"
+      v-model="prototypeStore.getPrototype.name"
+      class="item-field"
+      required />
+    <TypeSelect
+      :typeId="prototypeStore.getPrototype.type.id"
+      :onChange="onTypeChange" />
+    <v-textarea
+      label="Description"
+      v-model="prototypeStore.getPrototype.description"
+      class="item-fullfield"
+      required />
+    <RepositorySelect
+      :selected="getRepositoryNames(prototypeStore.getPrototype.repositories)"
+      :onChange="onRepositoryChange" />
+    <TechnologySelect
+      :selected="getTechnologyNames(prototypeStore.getPrototype.technologies)"
+      :onChange="onTechnologyChange" />
+    <ItemImageForm
+      v-on:onUpload="onImageUpload"
+      v-on:onRemove="onImageRemove" />
+  </ItemForm>
 </template>

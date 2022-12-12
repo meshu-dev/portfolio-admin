@@ -8,6 +8,11 @@ export const getTypes = async () => {
   }
 };
 
+export const getTypeById = (id) => {
+  const typeStore = useTypeStore();
+  return typeStore.getTypeById(id);
+};
+
 export const addType = async (type) => {
   const typeStore = useTypeStore();
 

@@ -8,7 +8,7 @@ import { deleteProject } from '@/composables/project/utils';
 const setBlankProject = (id) => {
   const projectStore = useProjectStore();
 
-  if (id && projectStore.getProject == null) {
+  if (id && id === 'new') {
     projectStore.setBlankProject();
   }
 };
@@ -25,7 +25,9 @@ const setData = (id) => {
   const projectStore = useProjectStore();
   projectStore.setSelectedProject(id);
 
-  //setImage();
+  if (id !== 'new') {
+    setImage();
+  }
   setupDeleteDialog();
   setReturnUrl();
 };

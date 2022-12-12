@@ -1,6 +1,8 @@
 import { usePrototypeStore } from '@/stores/PrototypeStore';
-import { getRepositoryIds } from '@/composables/repository/utils';
-import { getTechnologyIds } from '@/composables/technology/utils';
+import { getTypeById } from '@/composables/type/utils';
+import { getRepositoryIds, getRepositoriesByNames } from '@/composables/repository/utils';
+import { getTechnologyIds, getTechnologiesByNames } from '@/composables/technology/utils';
+import { getImage } from '@/composables/image/utils';
 
 const getParams = (prototype) => {
   return {
@@ -9,7 +11,7 @@ const getParams = (prototype) => {
     typeId: prototype.type.id,
     repositoryIds: getRepositoryIds(prototype.repositories),
     technologyIds: getTechnologyIds(prototype.technologies),
-    imageId: prototype.image.id
+    imageIds: [prototype.images.id]
   };
 };
 
@@ -47,11 +49,11 @@ export const setParamsToPrototype = (params) => {
   const prototypeStore = usePrototypeStore();
   const prototype = prototypeStore.getPrototype;
 
-  prototype.name = params.name;
-  prototype.type = params.type;
-  prototype.description = params.description;
-  prototype.repositories = params.repositories;
-  prototype.technologies = params.technologies;
+  //prototype.name = params.name;
+  //prototype.type = params.type;
+  //prototype.description = params.description;
+  //prototype.repositories = params.repositories;
+  //prototype.technologies = params.technologies;
   prototype.images = params.image;
 
   prototypeStore.setPrototype(prototype);
@@ -66,4 +68,50 @@ export const prototypeFormSubmit = async () => {
   } else {
     await addPrototype(prototype);
   }
+};
+
+export const onTypeChange = (typeId) => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+    
+  const type = getTypeById(typeId);
+  prototype.type = type;
+
+  prototypeStore.setPrototype(prototype);
+};
+
+export const onRepositoryChange = (values) => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+
+  prototype.repositories = getRepositoriesByNames(values);
+
+  prototypeStore.setPrototype(prototype);
+};
+
+export const onTechnologyChange = (values) => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+
+  prototype.technologies = getTechnologiesByNames(values);
+
+  prototypeStore.setPrototype(prototype);
+};
+
+export const onImageUpload = () => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+
+  prototype.images = [getImage()];
+
+  prototypeStore.setPrototype(prototype);
+};
+
+export const onImageRemove = () => {
+  const prototypeStore = usePrototypeStore();
+  const prototype = prototypeStore.getPrototype;
+
+  prototype.images = [];
+
+  prototypeStore.setPrototype(prototype);
 };

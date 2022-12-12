@@ -5,10 +5,11 @@
   const typeSelectStore = useTypeSelectStore();
 
   const props = defineProps({
-    typeId: Number
+    typeId: Number,
+    onChange: Function
   });
 
-  const { typeId } = toRefs(props);
+  const { typeId, onChange } = toRefs(props);
   const selectedOption = ref(null);
   
   const setValues = (typeId) => {
@@ -22,10 +23,6 @@
     await getTypes();
     setValues(typeId.value);
   });
-
-  const onChange = (value) => {
-    typeSelectStore.setSelectedValue(value);
-  };
 </script>
 
 <template>

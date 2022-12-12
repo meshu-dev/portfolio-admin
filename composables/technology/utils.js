@@ -61,3 +61,11 @@ export const technologyFormSubmit = async () => {
     await addTechnology(technology);
   }
 };
+
+export const getTechnologiesByNames = (technologyNames) => {
+  const technologyStore = useTechnologyStore();
+
+  return technologyStore.getTechnologies.filter(
+    technology => technologyNames.includes(technology.name)
+  );
+};
