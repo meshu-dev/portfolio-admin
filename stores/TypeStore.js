@@ -55,7 +55,7 @@ export const useTypeStore = defineStore({
         result = await typeService.add(params);
         const type = result['data'] ?? null;
   
-        this.types.push(type);
+        this.types.unshift(type);
         this.type = null;
       };
 

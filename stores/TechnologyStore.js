@@ -53,7 +53,7 @@ export const useTechnologyStore = defineStore({
         result = await technologyService.add(params);
         const technology = result['data'] ?? null;
   
-        this.technologies.push(technology);
+        this.technologies.unshift(technology);
         this.technology = null;
       };
 

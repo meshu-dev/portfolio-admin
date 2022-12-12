@@ -66,7 +66,7 @@ export const useRepositoryStore = defineStore({
         result = await repositoryService.add(params);
         const repository = result['data'] ?? null;
   
-        this.repositories.push(repository);
+        this.repositories.unshift(repository);
         this.repository = null;
       };
 

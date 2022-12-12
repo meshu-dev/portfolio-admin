@@ -72,7 +72,7 @@ export const usePrototypeStore = defineStore({
         result = await prototypeService.add(params);
         const prototype = result['data'] ?? null;
   
-        this.prototypes.push(prototype);
+        this.prototypes.unshift(prototype);
         this.prototype = null;
       };
 

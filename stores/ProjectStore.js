@@ -72,7 +72,7 @@ export const useProjectStore = defineStore({
         result = await projectService.add(params);
         const project = result['data'] ?? null;
   
-        this.projects.push(project);
+        this.projects.unshift(project);
         this.project = null;
       };
 
