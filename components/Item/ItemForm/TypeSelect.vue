@@ -9,25 +9,14 @@
     onChange: Function
   });
 
-  const { typeId, onChange } = toRefs(props);
-  const selectedOption = ref(null);
-  
-  const setValues = (typeId) => {
-    typeSelectStore.setSelectedValue(typeId);
-    selectedOption.value = typeSelectStore.getSelectedOption;
-  };
-
-  setValues(typeId.value);
-
   onMounted(async () => {
     await getTypes();
-    setValues(typeId.value);
   });
 </script>
 
 <template>
   <v-select
-    v-model="selectedOption"
+    v-model="props.typeId"
     :items="typeSelectStore.getOptions"
     @update:modelValue="onChange"
     label="Select type"

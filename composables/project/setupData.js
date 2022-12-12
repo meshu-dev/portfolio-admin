@@ -25,23 +25,24 @@ const setData = (id) => {
   const projectStore = useProjectStore();
   projectStore.setSelectedProject(id);
 
-  if (id !== 'new') {
-    setImage();
-  }
+  setImage(id);
   setupDeleteDialog();
   setReturnUrl();
 };
 
 const setImage = () => {
   const projectStore = useProjectStore();
+  const imageStore = useImageStore();
 
-  if (projectStore.getProject) {
+  if (id === 'new') {
+    imageStore.setImage(null);
+    imageStore.setImageUrl(null);
+  } else if (projectStore.getProject) {
     const images = projectStore.getProject.images;
     
     if (images.length > 0) {
       const image = images[0];
       
-      const imageStore = useImageStore();
       imageStore.setImage(image);
       imageStore.setImageUrl(image.url);
     }

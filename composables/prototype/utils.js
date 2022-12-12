@@ -5,14 +5,19 @@ import { getTechnologyIds, getTechnologiesByNames } from '@/composables/technolo
 import { getImage } from '@/composables/image/utils';
 
 const getParams = (prototype) => {
-  return {
+  const params = {
     name: prototype.name,
     description: prototype.description,
     typeId: prototype.type.id,
     repositoryIds: getRepositoryIds(prototype.repositories),
-    technologyIds: getTechnologyIds(prototype.technologies),
-    imageIds: [prototype.images.id]
+    technologyIds: getTechnologyIds(prototype.technologies)
   };
+
+  if (prototype.images.length > 0) {
+    params['imageIds'] = [prototype.images.id];
+  }
+
+  return params;
 };
 
 export const addPrototype = async (prototype) => {
@@ -43,20 +48,6 @@ export const deletePrototype = async (doDelete) => {
     
     await msgAndRedirect('Prototype has been deleted');
   }
-};
-
-export const setParamsToPrototype = (params) => {
-  const prototypeStore = usePrototypeStore();
-  const prototype = prototypeStore.getPrototype;
-
-  //prototype.name = params.name;
-  //prototype.type = params.type;
-  //prototype.description = params.description;
-  //prototype.repositories = params.repositories;
-  //prototype.technologies = params.technologies;
-  prototype.images = params.image;
-
-  prototypeStore.setPrototype(prototype);
 };
 
 export const prototypeFormSubmit = async () => {

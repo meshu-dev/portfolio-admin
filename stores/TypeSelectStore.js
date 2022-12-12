@@ -3,9 +3,7 @@ import { useTypeStore } from '@/stores/TypeStore';
 
 export const useTypeSelectStore = defineStore({
   id: 'type-select',
-  state: () => ({
-    selectedValue: 0
-  }),
+  state: () => ({ }),
   getters: {
     getOptions() {
       const typeStore = useTypeStore();
@@ -18,32 +16,7 @@ export const useTypeSelectStore = defineStore({
       });
 
       return options;
-    },
-    getSelectedOption(state) {
-      const typeStore = useTypeStore();
-      const type = typeStore.getTypeById(state.selectedValue);
-
-      if (type) {
-        return {
-          title: type.name,
-          value: type.id
-        };
-      }
-      return null;
-    },
-    getSelectedType(state) {
-      const typeStore = useTypeStore();
-      const type = typeStore.getTypeById(state.selectedValue);
-
-      return type;
-    },
-    getSelectedValue(state) {
-      return state.selectedValue;
     }
   },
-  actions: {
-    setSelectedValue(value) {
-      this.selectedValue = value;
-    }
-  }
+  actions: { }
 });

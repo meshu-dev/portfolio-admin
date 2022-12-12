@@ -5,14 +5,19 @@ import { getTypeById } from '@/composables/type/utils';
 import { getImage } from '@/composables/image/utils';
 
 const getParams = (project) => {
-  return {
+  const params = {
     name: project.name,
     description: project.description,
     typeId: project.type.id,
     repositoryIds: getRepositoryIds(project.repositories),
-    technologyIds: getTechnologyIds(project.technologies),
-    imageIds: [project.images.id]
+    technologyIds: getTechnologyIds(project.technologies)
   };
+
+  if (project.images.length > 0) {
+    params['imageIds'] = [project.images.id];
+  }
+
+  return params;
 };
 
 export const addProject = async (project) => {
@@ -43,20 +48,6 @@ export const deleteProject = async (doDelete) => {
     
     await msgAndRedirect('Project has been deleted');
   }
-};
-
-export const setParamsToProject = (params) => {
-  const projectStore = useProjectStore();
-  const project = projectStore.getProject;
-
-  //project.name = params.name;
-  //project.type = params.type;
-  //project.description = params.description;
-  //project.repositories = params.repositories;
-  //project.technologies = params.technologies;
-  project.images = params.image;
-
-  projectStore.setProject(project);
 };
 
 export const projectFormSubmit = async () => {

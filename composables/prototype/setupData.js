@@ -25,23 +25,24 @@ const setData = (id) => {
   const prototypeStore = usePrototypeStore();
   prototypeStore.setSelectedPrototype(id);
 
-  if (id !== 'new') {
-    setImage();
-  }
+  setImage(id);
   setupDeleteDialog();
   setReturnUrl();
 };
 
-const setImage = () => {
+const setImage = (id) => {
   const prototypeStore = usePrototypeStore();
+  const imageStore = useImageStore();
 
-  if (prototypeStore.getPrototype) {
+  if (id === 'new') {
+    imageStore.setImage(null);
+    imageStore.setImageUrl(null);
+  } else if (prototypeStore.getPrototype) {
     const images = prototypeStore.getPrototype.images;
     
     if (images.length > 0) {
       const image = images[0];
-    
-      const imageStore = useImageStore();
+          
       imageStore.setImage(images);
       imageStore.setImageUrl(image.url);
     }

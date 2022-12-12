@@ -54,3 +54,21 @@
       v-on:onRemove="onImageRemove" />
   </ItemForm>
 </template>
+
+<style lang="scss">
+  #item-form {
+    form {
+      max-width: 800px;
+      .item-field {
+        max-width: 300px;
+      }
+      .item-fullfield {
+        max-width: 500px;
+      }
+      
+      #item-form-btns {
+        margin: 20px 0 40px;
+      }
+    }
+  }
+</style>

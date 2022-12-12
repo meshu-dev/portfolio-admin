@@ -9,20 +9,14 @@
     onChange: Function
   });
 
-  const { selected, onChange } = toRefs(props);
-  const selectedOptions = ref(selected.value);
-
-  repositorySelectStore.setSelectedValues(selected.value);
-
   onMounted(async () => {
     await getRepositories();
-    repositorySelectStore.setSelectedValues(selected.value);
   });
 </script>
 
 <template>
   <v-combobox
-    v-model="selectedOptions"
+    v-model="props.selected"
     :items="repositorySelectStore.getOptions"
     @update:modelValue="onChange"
     label="Select repositories"
