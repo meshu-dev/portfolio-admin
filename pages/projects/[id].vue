@@ -32,15 +32,15 @@
     v-on:onSubmit="projectFormSubmit">
     <v-text-field
       label="Name"
-      v-model="project.name"
+      v-model="projectStore.getProject.name"
       class="item-field"
       required />
     <TypeSelect
-      :typeId="project.type.id"
+      :typeId="projectStore.getProject.type.id"
       :onChange="onTypeChange" />
     <v-textarea
       label="Description"
-      v-model="project.description"
+      v-model="projectStore.getProject.description"
       class="item-fullfield"
       required />
     <RepositorySelect

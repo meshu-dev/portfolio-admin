@@ -1,7 +1,7 @@
 import { useProjectStore } from '@/stores/ProjectStore';
+import { getTypeById } from '@/composables/type/utils';
 import { getRepositoryIds, getRepositoriesByNames } from '@/composables/repository/utils';
 import { getTechnologyIds, getTechnologiesByNames } from '@/composables/technology/utils';
-import { getTypeById } from '@/composables/type/utils';
 import { getImage } from '@/composables/image/utils';
 
 const getParams = (project) => {
@@ -14,7 +14,7 @@ const getParams = (project) => {
   };
 
   if (project.images.length > 0) {
-    params['imageIds'] = [project.images.id];
+    params['imageIds'] = [project.images[0].id];
   }
 
   return params;

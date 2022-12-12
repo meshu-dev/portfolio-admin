@@ -30,7 +30,7 @@ const setData = (id) => {
   setReturnUrl();
 };
 
-const setImage = () => {
+const setImage = (id) => {
   const projectStore = useProjectStore();
   const imageStore = useImageStore();
 

@@ -14,7 +14,7 @@ const getParams = (prototype) => {
   };
 
   if (prototype.images.length > 0) {
-    params['imageIds'] = [prototype.images.id];
+    params['imageIds'] = [prototype.images[0].id];
   }
 
   return params;
