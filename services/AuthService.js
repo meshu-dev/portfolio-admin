@@ -12,7 +12,7 @@ class AuthService {
     );
 
     if (response['token']) {
-      localStorage.setItem('token', response['token']);
+      // localStorage.setItem('token', response['token']);
       return true;
     }
     return false;

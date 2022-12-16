@@ -1,13 +1,15 @@
 <script setup>
-  const isLoggedIn = true;
+  import { useAuthStore } from '@/stores/AuthStore';
 
-  const logout = () => {
-    his.$router.push({ name: "login" });
+  const authStore = useAuthStore();
+
+  const logout = async () => {
+    await authStore.logout();
   };
 </script>
 
 <template>
-  <nav v-if="isLoggedIn">
+  <nav v-if="authStore.isLoggedIn">
     <NuxtLink to="/">Profile</NuxtLink>
     <span>|</span>
     <NuxtLink to="/prototypes">Prototypes</NuxtLink>

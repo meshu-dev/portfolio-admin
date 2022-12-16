@@ -12,11 +12,11 @@ export const useAuthStore = defineStore({
     }
   },
   actions: {
-    verifyAuth() {
+    setupAuth() {
       if (this.isAppLoaded === false) {
-        const token = localStorage.getItem('token');
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-        this.loggedIn = token ? true : false;
+        this.loggedIn = isLoggedIn;
         this.isAppLoaded = true;
       }
     },
@@ -25,11 +25,16 @@ export const useAuthStore = defineStore({
       this.loggedIn = isLoggedIn;
 
       if (isLoggedIn === true) {
+        localStorage.setItem('isLoggedIn', true);
+        this.loggedIn = true;
+        
         await navigateTo('/');
       }
     },
     async logout() {
       authService.logout();
+
+      localStorage.removeItem('isLoggedIn', true);
       this.loggedIn = false;
 
       await navigateTo('/login');

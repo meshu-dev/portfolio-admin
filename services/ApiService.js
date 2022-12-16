@@ -21,33 +21,18 @@ class ApiService {
     return response;
   }
 
-  getHeaders() {
-    const headers = {}; // {'Content-Type': 'application/json'};
-
-    console.log('this.tokenService', this.tokenService);
-
-    if (this.tokenService) {
-      const token = this.tokenService.get();
-
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-    }
-    return headers;
-  }
-
   prepareParams(method, params) {
-    const headers = this.getHeaders();
-
     const fetchParams = {
       method,
-      headers
+      headers: {},
+      credentials: 'include'
     };
 
     if (params) {
       if (params instanceof FormData) {
         fetchParams['body'] = params;
       } else {
+        fetchParams['headers']['Accept'] = 'application/json';
         fetchParams['headers']['Content-Type'] = 'application/json';
         fetchParams['body'] = JSON.stringify(params);
       }
