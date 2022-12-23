@@ -1,7 +1,10 @@
 class ApiService {
-  constructor(apiUrl, tokenService) {
+  constructor(apiUrl) {
     this.apiUrl = apiUrl;
-    this.tokenService = tokenService;
+  }
+
+  set baseUrl(value) {
+    this.apiUrl = value;
   }
 
   async sendRequest(method, path, params) {

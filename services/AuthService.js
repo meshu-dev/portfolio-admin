@@ -12,20 +12,9 @@ class AuthService {
     );
 
     if (response['token']) {
-      // localStorage.setItem('token', response['token']);
       return true;
     }
     return false;
-  }
-
-  isLoggedIn() {
-    const token = localStorage.getItem('token');
-    return token ? true : false;
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    return true;
   }
 }
 

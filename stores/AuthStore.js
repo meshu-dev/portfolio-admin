@@ -12,9 +12,14 @@ export const useAuthStore = defineStore({
     }
   },
   actions: {
-    setupAuth() {
+    verifyAuth() {
       if (this.isAppLoaded === false) {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+        const runtimeConfig = useRuntimeConfig();
+        console.log('runtimeConfig - ApiUrl', runtimeConfig.apiUrl);
+
+        apiService.baseUrl = runtimeConfig.apiUrl;
 
         this.loggedIn = isLoggedIn;
         this.isAppLoaded = true;
@@ -32,8 +37,6 @@ export const useAuthStore = defineStore({
       }
     },
     async logout() {
-      authService.logout();
-
       localStorage.removeItem('isLoggedIn', true);
       this.loggedIn = false;
 

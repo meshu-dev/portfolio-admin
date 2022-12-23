@@ -3,21 +3,12 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  vite: {
-    define: {
-      'process.env.DEBUG': false,
-    },
-  },
   modules: [
     '@pinia/nuxt'
   ],
-  publicRuntimeConfig: {
-    apiUrl: process.env.API_URL,
-    PAGE_TITLE: 'BING'
-  },
   runtimeConfig: {
     public: {
-      apiUrl: process.env.API_URL
+      apiUrl: process.env.NUXT_PUBLIC_API_URL
     }
   }
 });

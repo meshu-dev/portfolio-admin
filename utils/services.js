@@ -1,4 +1,3 @@
-import TokenService from '@/services/TokenService';
 import ApiService from '@/services/ApiService';
 import AuthService from '@/services/AuthService';
 import ProjectService from '@/services/ProjectService';
@@ -9,13 +8,7 @@ import TechnologyService from '@/services/TechnologyService';
 import RepositoryService from '@/services/RepositoryService';
 import ImageService from '@/services/ImageService';
 
-const apiUrl = 'http://127.0.0.1:8000/api';
-const tokenService = new TokenService();
-
-const apiService = new ApiService(
-  apiUrl,
-  tokenService
-);
+export const apiService = new ApiService();
 
 export const authService = new AuthService(
   apiService,
