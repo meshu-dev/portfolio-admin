@@ -10,7 +10,7 @@ class AuthService {
       this.urlPath,
       { email, password }
     );
-    return response === true ? true : false;
+    return response['token'] ? true : false;
   }
 }
 
