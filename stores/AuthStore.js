@@ -17,7 +17,7 @@ export const useAuthStore = defineStore({
         const isLoggedIn = localStorage.getItem('isLoggedIn');
 
         const runtimeConfig = useRuntimeConfig();
-        console.log('runtimeConfig - ApiUrl', runtimeConfig.apiUrl, process.env, process.env.NUXT_PUBLIC_API_URL);
+        console.log('runtimeConfig - ApiUrl', runtimeConfig.apiUrl, runtimeConfig);
 
         apiService.baseUrl = runtimeConfig.apiUrl;
 
