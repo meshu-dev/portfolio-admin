@@ -12,7 +12,7 @@ export const useAuthStore = defineStore({
     }
   },
   actions: {
-    verifyAuth() {
+    fetchAuthStatus() {
       if (this.isAppLoaded === false) {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
 
