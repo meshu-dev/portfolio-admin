@@ -1,27 +1,29 @@
 <script setup>
-  import AppNav from '@/components/AppNav.vue';
+  import SideMenu from '@/components/Layout/SideMenu.vue';
   import StatusMsg from '@/components/Layout/StatusMsg.vue';
   import ItemDeleteDialog from '@/components/Item/ItemForm/ItemDeleteDialog.vue';
 </script>
 
 <template>
-  <header id="header-main">
-    <div id="header-content">
-      <router-link to="/" id="logo">
-        <span>Portfolio Admin</span>
-      </router-link>
-      <AppNav />
+  <div id="layout">
+    <SideMenu />
+    <div id="content">
+      <StatusMsg />
+      <ItemDeleteDialog />
+      <div id="content-box">
+        <slot />
+      </div>
     </div>
-  </header>
-  <div id="content">
-    <StatusMsg />
-    <ItemDeleteDialog />
-    <slot />
   </div>
 </template>
 
 <style>
+  html, body, #__nuxt {
+    height: 100%;
+  }
+
   body {
+    background-color: #F1F1F1;
     font-size: 100%;
     margin: 0;
   }
@@ -68,31 +70,41 @@
     -moz-osx-font-smoothing: grayscale;
     color: #4f5959;
   }
-  
-  #header-main {
-    background-color: #35495d;
-    font-size: 150%;
-    box-shadow: 0 2px 8px #000;
+
+  #layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
   }
   
-  #header-content {
-    flex-direction: row;
-    max-width: 1000px;
-    padding: 1rem 0;
-    margin: 0 auto;
-    display: flex;
+  #sidemenu {
+    background-color: #FFF;
+    box-shadow: #DDD 0px 2px 4px 0px;
+    min-width: 300px;
+    height: 100%;
+    padding: 50px 20px 20px;
   }
   
   #logo {
     font-style: italic;
     font-size: 1.6rem;
     font-weight: bold;
-    flex-grow: 1;
-    color: #fff;
+    padding: 0 15px;
   }
   
   #content {
-    max-width: 1000px;
-    margin: 2rem auto 0;
+    width: 100%;
+    margin-top: 30px;
+    padding: 0 60px;
+  }
+
+  #content-box {
+    box-shadow: #DDD 0px 2px 4px 0px;
+    background-color: #FFF;
+    border-radius: 15px;
+    padding: 10px 25px 20px;
+    width: 1000px;
+    min-height: 600px;
+    margin: 0 auto;
   }
 </style>

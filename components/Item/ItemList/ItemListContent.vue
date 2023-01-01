@@ -1,5 +1,6 @@
 <script setup>
   import ItemView from '@/components/Item/ItemView';
+  import ItemListTable from '@/components/Item/ItemList/ItemListTable';
 
   const props = defineProps({
     items: Array,
@@ -8,12 +9,11 @@
 </script>
 
 <template>
-  <div v-if="items">
-    <div id="item-list">
-      <ItemView
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
+  <div>
+    <div v-if="items.length > 0"
+      id="item-list">
+      <ItemListTable
+        :items="items"
         :link="link" />
     </div>
     <div v-if="items.length == 0">
@@ -32,5 +32,11 @@
     a {
       width: 312px;
     }
+  }
+
+  .actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 11px;
   }
 </style>

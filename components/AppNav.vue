@@ -10,42 +10,73 @@
 
 <template>
   <nav v-if="authStore.isLoggedIn">
-    <NuxtLink to="/">Profile</NuxtLink>
-    <span>|</span>
-    <NuxtLink to="/prototypes">Prototypes</NuxtLink>
-    <span>|</span>
-    <NuxtLink to="/about">About</NuxtLink>
-    <span>|</span>
-    <NuxtLink to="/types">Types</NuxtLink>
-    <span>|</span>
-    <NuxtLink to="/repositories">Repositories</NuxtLink>
-    <span>|</span>
-    <NuxtLink to="/technologies">Technologies</NuxtLink>
-    <span>|</span>
-    <span class="link" @click="logout">
-      Logout
+    <NuxtLink to="/">
+      <div class="nav-item">Profile</div>
+    </NuxtLink>
+    <NuxtLink to="/prototypes">
+      <div class="nav-item">Prototypes</div>
+    </NuxtLink>
+    <NuxtLink to="/about">
+      <div class="nav-item">About</div>
+    </NuxtLink>
+    <NuxtLink to="/types">
+      <div class="nav-item">Types</div>
+    </NuxtLink>
+    <NuxtLink to="/repositories">
+      <div class="nav-item">Repositories</div>
+    </NuxtLink>
+    <NuxtLink to="/technologies">
+      <div class="nav-item">Technologies</div>
+    </NuxtLink>
+    <span @click="logout">
+      <div class="nav-item">Logout</div>
     </span>
   </nav>
 </template>
 
-<style scoped>
+<style lang="scss">
   nav {
     display: flex;
-    justify-content: flex-end;
-    flex-grow: 2;
-  }
-  nav a,
-  nav span {
-    color: #fff;
-    text-align: center;
-    flex-basis: 3rem;
-    flex-shrink: 1;
-  }
-  nav a.router-link-exact-active {
-    color: #42b983;
-  }
-  nav a.router-link-exact-active:hover {
-    text-decoration: none;
-    cursor: default;
+    flex-direction: column;
+    margin-top: 20px;
+    color: 	#48494B;
+
+    a, span {
+      margin-bottom: 10px;
+
+      .nav-item {
+        display: flex;
+        padding: 12px 15px;
+        border-radius: 10px;
+      }
+    }
+
+    a:hover,
+    span:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    a:not(.router-link-exact-active):hover,
+    span:hover {
+      .nav-item {
+        background-color: #ddf1ff;
+      }
+    }
+
+    a.router-link-exact-active {
+      div {
+        background-color: #1697F6;
+        color: #FFF;
+        font-weight: bold;
+      }
+    }
+
+    a.router-link-exact-active {
+      :hover {
+        text-decoration: none;
+        cursor: default;
+      }
+    }
   }
 </style>
