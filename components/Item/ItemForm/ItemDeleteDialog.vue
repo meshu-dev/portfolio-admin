@@ -5,7 +5,10 @@
 
   const selection = async (doDelete) => {
     const ftn = deleteDialogStore.getCallback;
-    await ftn(doDelete);
+
+    if (ftn) {
+      await ftn(doDelete);
+    }
 
     deleteDialogStore.close();
   };

@@ -11,7 +11,7 @@
 <template>
   <nav v-if="authStore.isLoggedIn">
     <NuxtLink to="/">
-      <div class="nav-item">Profile</div>
+      <div class="nav-item">Projects</div>
     </NuxtLink>
     <NuxtLink to="/prototypes">
       <div class="nav-item">Prototypes</div>

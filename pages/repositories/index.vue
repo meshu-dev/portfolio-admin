@@ -1,16 +1,24 @@
 <script setup>
   import { useRepositoryStore } from '@/stores/RepositoryStore';
   import setupData from '@/composables/repository/setupData';
-  import ItemList from '@/components/Item/ItemList/ItemList';
+  import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
+  import ItemListTable from '@/components/Item/ItemList/ItemListTable';
 
   const repositoryStore = useRepositoryStore();
 
   setupData();
+
+  const setCurrentRepository = (id) => {
+    repositoryStore.setSelectedRepository(id);
+  };
 </script>
 
 <template>
-	<ItemList
+  <ItemListHeader
     title="Repositories"
-    link="repositories"
-    :items="repositoryStore.getRepositories" />
+    link="/repositories/new" />
+  <ItemListTable
+    :items="repositoryStore.getRepositories"
+    link="/repositories"
+    :preDeleteFtn="setCurrentRepository" />
 </template>

@@ -12,7 +12,11 @@
 <template>
   <div id="item-list-header">
     <h1>{{ title }}</h1>
-    <v-btn variant="tonal" @click="goToAddPage(link)">Add</v-btn>
+    <v-btn
+      variant="tonal"
+      @click="goToAddPage(link)">
+      Add
+    </v-btn>
   </div>
 </template>
 

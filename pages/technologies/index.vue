@@ -1,16 +1,24 @@
 <script setup>
   import { useTechnologyStore } from '@/stores/TechnologyStore';
   import setupData from '@/composables/technology/setupData';
-  import ItemList from '@/components/Item/ItemList/ItemList';
+  import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
+  import ItemListTable from '@/components/Item/ItemList/ItemListTable';
 
   const technologyStore = useTechnologyStore();
 
   setupData();
+
+  const setCurrentTechnology = (id) => {
+    technologyStore.setSelectedTechnology(id);
+  };
 </script>
 
 <template>
-	<ItemList
+  <ItemListHeader
     title="Technologies"
-    link="technologies"
-    :items="technologyStore.getTechnologies" />
+    link="/technologies/new" />
+  <ItemListTable
+    :items="technologyStore.getTechnologies"
+    link="/technologies"
+    :preDeleteFtn="setCurrentTechnology" />
 </template>

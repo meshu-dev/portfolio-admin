@@ -12,6 +12,25 @@ export const useProjectStore = defineStore({
     getProjects(state) {
       return state.projects;
     },
+    getProjectsByTypeId(state) {
+      return (typeId) => {
+        if (!typeId) {
+          return this.projects;
+        }
+
+        return state.projects.filter((project) => {
+          return project.type.id == typeId
+        });
+      };
+    },
+    getProjectsTableData(state) {
+      const headers = ['Id', 'Name', 'Type'];
+      const rows = state.projects.filter((project) => {
+        return project.id == id
+      });
+      const project = rows[0] ? toRaw(rows[0]) : null;
+      return project;
+    },
     getProjectById(state) {
       return (id) => {
         if (!id) {
@@ -22,17 +41,6 @@ export const useProjectStore = defineStore({
         });
         const project = rows[0] ? toRaw(rows[0]) : null;
         return project;
-      };
-    },
-    getProjectsByTypeId(state) {
-      return (typeId) => {
-        if (!typeId) {
-          return this.projects;
-        }
-
-        return state.projects.filter((project) => {
-          return project.type.id == typeId
-        });
       };
     },
     getProjectByType(state) {

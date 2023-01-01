@@ -1,7 +1,6 @@
 <script setup>
   import { ref } from 'vue';
-  import { useDeleteDialogStore } from '@/stores/DeleteDialogStore';
-
+  
   const props = defineProps({
     title: String
   });
@@ -20,11 +19,6 @@
 
     loading.value = false;
   };
-
-  const showDeleteDialog = () => {
-    const deleteDialogStore = useDeleteDialogStore();
-    deleteDialogStore.open();
-  };
 </script>
 
 <template>
@@ -37,10 +31,6 @@
           variant="tonal"
           :loading="loading"
           @click="submit">Submit</v-btn>
-        <v-btn
-          variant="tonal"
-          :loading="loading"
-          @click="showDeleteDialog">Delete</v-btn>
       </div>
     </v-form>
   </div>
