@@ -12,10 +12,10 @@ class BaseService {
     );
   }
 
-  async getAll() {
+  async getAll(page = 1) {
     return await this.apiService.sendRequest(
       'GET',
-      this.urlPath
+      `${this.urlPath}?page=${page}`
     );
   }
 

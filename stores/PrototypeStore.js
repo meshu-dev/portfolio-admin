@@ -6,18 +6,28 @@ export const usePrototypeStore = defineStore({
   state: () => ({
     prototypes: [],
     prototype: null,
+    currentPage: 1,
+    lastPage: null,
+    pageLimit: null,
+    total: null,
     fetched: false
   }),
   getters: {
+    getPageIndex(state) {
+      return state.currentPage - 1;
+    },
     getPrototypes(state) {
-      return state.prototypes;
+      if (state.prototypes[state.getPageIndex]) {
+        return state.prototypes[state.getPageIndex];
+      }
+      return [];
     },
     getPrototypeById(state) {
       return (id) => {
         if (!id) {
           return null;
         }
-        const rows = state.prototypes.filter((prototype) => {
+        const rows = this.getPrototypes.filter((prototype) => {
           return prototype.id == id
         });
         const prototype = rows[0] ? toRaw(rows[0]) : null;
@@ -30,7 +40,7 @@ export const usePrototypeStore = defineStore({
           return this.prototypes;
         }
 
-        return state.prototypes.filter((prototype) => {
+        return this.getPrototypes.filter((prototype) => {
           return prototype.type.id == typeId
         });
       };
@@ -41,7 +51,7 @@ export const usePrototypeStore = defineStore({
           return this.getPrototypes(state);
         }
 
-        return state.prototypes.filter((prototype) => {
+        return this.getPrototypes.filter((prototype) => {
           return prototype.type.name == type;
         });
       };
@@ -51,16 +61,31 @@ export const usePrototypeStore = defineStore({
     },
     areFetched(state) {
       return state.fetched;
+    },
+    getCurrentPage(state) {
+      return state.currentPage;
+    },
+    getLastPage(state) {
+      return state.lastPage;
     }
   },
   actions: {
-    async fetchPrototypes() {
-      const apiFtn = async () => {
-        const result = await prototypeService.getAll();
-        this.prototypes = result['data'] ?? [];
+    async fetchPrototypes(page = 1) {
+      const apiFtn = async (page) => {
+        const result = await prototypeService.getAll(page);
+
+        if (result['data'] && result['meta']) {
+          const index = result['meta']['current_page'] - 1;
+
+          this.prototypes[index] = result['data'] ?? [];
+  
+          this.lastPage = result['meta']['last_page'];
+          this.pageLimit = result['meta']['per_page'];
+          this.total = result['meta']['total'];
+        }
       };
 
-      const result = await callApi(apiFtn);
+      const result = await callApi(() => apiFtn(page));
       this.fetched = true;
 
       return result;
@@ -146,6 +171,14 @@ export const usePrototypeStore = defineStore({
       });
 
       this.prototypes = filteredPrototypes;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.prototypes[newIndex] == null) {
+        await this.fetchPrototypes(newPage);
+      }
+      this.currentPage = newPage;
     }
   }
 });

@@ -6,37 +6,39 @@ export const useProjectStore = defineStore({
   state: () => ({
     projects: [],
     project: null,
+    currentPage: 1,
+    lastPage: null,
+    pageLimit: null,
+    total: null,
     fetched: false
   }),
   getters: {
+    getPageIndex(state) {
+      return state.currentPage - 1;
+    },
     getProjects(state) {
-      return state.projects;
+      if (state.projects[state.getPageIndex]) {
+        return state.projects[state.getPageIndex];
+      }
+      return [];
     },
     getProjectsByTypeId(state) {
       return (typeId) => {
         if (!typeId) {
-          return this.projects;
+          return this.getProjects;
         }
 
-        return state.projects.filter((project) => {
+        return this.getProjects.filter((project) => {
           return project.type.id == typeId
         });
       };
-    },
-    getProjectsTableData(state) {
-      const headers = ['Id', 'Name', 'Type'];
-      const rows = state.projects.filter((project) => {
-        return project.id == id
-      });
-      const project = rows[0] ? toRaw(rows[0]) : null;
-      return project;
     },
     getProjectById(state) {
       return (id) => {
         if (!id) {
           return null;
         }
-        const rows = state.projects.filter((project) => {
+        const rows = this.getProjects.filter((project) => {
           return project.id == id
         });
         const project = rows[0] ? toRaw(rows[0]) : null;
@@ -59,16 +61,31 @@ export const useProjectStore = defineStore({
     },
     areFetched(state) {
       return state.fetched;
+    },
+    getCurrentPage(state) {
+      return state.currentPage;
+    },
+    getLastPage(state) {
+      return state.lastPage;
     }
   },
   actions: {
-    async fetchProjects() {
-      const apiFtn = async () => {
-        const result = await projectService.getAll();
-        this.projects = result['data'] ?? [];
+    async fetchProjects(page = 1) {
+      const apiFtn = async (page) => {
+        const result = await projectService.getAll(page);
+
+        if (result['data'] && result['meta']) {
+          const index = result['meta']['current_page'] - 1;
+
+          this.projects[index] = result['data'] ?? [];
+  
+          this.lastPage = result['meta']['last_page'];
+          this.pageLimit = result['meta']['per_page'];
+          this.total = result['meta']['total'];
+        }
       };
 
-      const result = await callApi(apiFtn);
+      const result = await callApi(() => apiFtn(page));
       this.fetched = true;
       
       return result;
@@ -154,6 +171,14 @@ export const useProjectStore = defineStore({
       });
 
       this.projects = filteredProjects;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.projects[newIndex] == null) {
+        await this.fetchProjects(newPage);
+      }
+      this.currentPage = newPage;
     }
   }
 });

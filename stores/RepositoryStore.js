@@ -6,21 +6,31 @@ export const useRepositoryStore = defineStore({
   state: () => ({
     repositories: [],
     repository: null,
+    currentPage: 1,
+    lastPage: null,
+    pageLimit: null,
+    total: null,
     fetched: false
   }),
   getters: {
+    getPageIndex(state) {
+      return state.currentPage - 1;
+    },
     getRepositories(state) {
-      return state.repositories;
+      if (state.repositories[state.getPageIndex]) {
+        return state.repositories[state.getPageIndex];
+      }
+      return [];
     },
     getRepositoryNames(state) {
-      return state.repositories.map(repository => repository.name);
+      return this.getRepositories.map(repository => repository.name);
     },
     getRepositoryOptions(state) {
-      if (state.repositories.length == 0) {
+      if (this.getRepositories.length == 0) {
         return [];
       }
 
-      const options = state.repositories.map(repository => {
+      const options = this.getRepositories.map(repository => {
         return {
           title: repository.name,
           value: repository.id
@@ -33,7 +43,7 @@ export const useRepositoryStore = defineStore({
         if (!id) {
           return null;
         }
-        const rows = state.repositories.filter((repository) => {
+        const rows = this.getRepositories.filter((repository) => {
           return repository.id == id;
         });
         const repository = rows[0] ? toRaw(rows[0]) : null;
@@ -45,16 +55,31 @@ export const useRepositoryStore = defineStore({
     },
     areFetched(state) {
       return state.fetched;
+    },
+    getCurrentPage(state) {
+      return state.currentPage;
+    },
+    getLastPage(state) {
+      return state.lastPage;
     }
   },
   actions: {
-    async fetchRepositories() {
-      const apiFtn = async () => {
-        const result = await repositoryService.getAll();
-        this.repositories = result['data'] ?? [];
+    async fetchRepositories(page = 1) {
+      const apiFtn = async (page) => {
+        const result = await repositoryService.getAll(page);
+
+        if (result['data'] && result['meta']) {
+          const index = result['meta']['current_page'] - 1;
+
+          this.repositories[index] = result['data'] ?? [];
+  
+          this.lastPage = result['meta']['last_page'];
+          this.pageLimit = result['meta']['per_page'];
+          this.total = result['meta']['total'];
+        }
       };
 
-      const result = await callApi(apiFtn);
+      const result = await callApi(() => apiFtn(page));
       this.fetched = true;
 
       return result;
@@ -133,6 +158,14 @@ export const useRepositoryStore = defineStore({
       });
 
       this.repositories = filteredRepositories;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.repositories[newIndex] == null) {
+        await this.fetchRepositories(newPage);
+      }
+      this.currentPage = newPage;
     }
   }
 });

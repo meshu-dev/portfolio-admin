@@ -3,6 +3,7 @@
   import setupData from '@/composables/technology/setupData';
   import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
   import ItemListTable from '@/components/Item/ItemList/ItemListTable';
+  import ItemListPagination from '@/components/Item/ItemList/ItemListPagination';
 
   const technologyStore = useTechnologyStore();
 
@@ -10,6 +11,10 @@
 
   const setCurrentTechnology = (id) => {
     technologyStore.setSelectedTechnology(id);
+  };
+
+  const onPageChange = async (page) => {
+    await technologyStore.changePage(page);
   };
 </script>
 
@@ -21,4 +26,8 @@
     :items="technologyStore.getTechnologies"
     link="/technologies"
     :preDeleteFtn="setCurrentTechnology" />
+  <ItemListPagination
+    :currentPage="technologyStore.getCurrentPage"
+    :totalPages="technologyStore.getLastPage"
+    :onClickFtn="onPageChange" />
 </template>

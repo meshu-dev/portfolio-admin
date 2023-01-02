@@ -3,6 +3,7 @@
   import setupData from '@/composables/type/setupData';
   import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
   import ItemListTable from '@/components/Item/ItemList/ItemListTable';
+  import ItemListPagination from '@/components/Item/ItemList/ItemListPagination';
 
   const typeStore = useTypeStore();
 
@@ -10,6 +11,10 @@
 
   const setCurrentType = (id) => {
     typeStore.setSelectedType(id);
+  };
+
+  const onPageChange = async (page) => {
+    await typeStore.changePage(page);
   };
 </script>
 
@@ -21,4 +26,8 @@
     :items="typeStore.getTypes"
     link="/types"
     :preDeleteFtn="setCurrentType" />
+  <ItemListPagination
+    :currentPage="typeStore.getCurrentPage"
+    :totalPages="typeStore.getLastPage"
+    :onClickFtn="onPageChange" />
 </template>

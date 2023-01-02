@@ -3,6 +3,7 @@
   import setupData from '@/composables/project/setupData';
   import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
   import ItemListTable from '@/components/Item/ItemList/ItemListTable';
+  import ItemListPagination from '@/components/Item/ItemList/ItemListPagination';
 
   const projectStore = useProjectStore();
 
@@ -10,6 +11,10 @@
 
   const setCurrentProject = (id) => {
     projectStore.setSelectedProject(id);
+  };
+
+  const onPageChange = async (page) => {
+    await projectStore.changePage(page);
   };
 </script>
 
@@ -28,4 +33,8 @@
       <td>{{ item.type.name }}</td>
     </template>
   </ItemListTable>
+  <ItemListPagination
+    :currentPage="projectStore.getCurrentPage"
+    :totalPages="projectStore.getLastPage"
+    :onClickFtn="onPageChange" />
 </template>

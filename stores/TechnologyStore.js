@@ -6,21 +6,31 @@ export const useTechnologyStore = defineStore({
   state: () => ({
     technologies: [],
     technology: null,
+    currentPage: 1,
+    lastPage: null,
+    pageLimit: null,
+    total: null,
     fetched: false
   }),
   getters: {
+    getPageIndex(state) {
+      return state.currentPage - 1;
+    },
     getTechnologies(state) {
-      return state.technologies;
+      if (state.technologies[state.getPageIndex]) {
+        return state.technologies[state.getPageIndex];
+      }
+      return [];
     },
     getTechnologyNames(state) {
-      return state.technologies.map(technology => technology.name);
+      return this.getTechnologies.map(technology => technology.name);
     },
     getTechnologyById(state) {
       return (id) => {
         if (!id) {
           return null;
         }
-        const rows = state.technologies.filter((technology) => {
+        const rows = this.getTechnologies.filter((technology) => {
           return technology.id == id
         });
         const technology = rows[0] ? toRaw(rows[0]) : null;
@@ -32,16 +42,31 @@ export const useTechnologyStore = defineStore({
     },
     areFetched(state) {
       return state.fetched;
+    },
+    getCurrentPage(state) {
+      return state.currentPage;
+    },
+    getLastPage(state) {
+      return state.lastPage;
     }
   },
   actions: {
-    async fetchTechnologies() {
-      const apiFtn = async () => {
-        const result = await technologyService.getAll();
-        this.technologies = result['data'] ?? [];
+    async fetchTechnologies(page = 1) {
+      const apiFtn = async (page) => {
+        const result = await technologyService.getAll(page);
+
+        if (result['data'] && result['meta']) {
+          const index = result['meta']['current_page'] - 1;
+
+          this.technologies[index] = result['data'] ?? [];
+  
+          this.lastPage = result['meta']['last_page'];
+          this.pageLimit = result['meta']['per_page'];
+          this.total = result['meta']['total'];
+        }
       };
 
-      const result = await callApi(apiFtn);
+      const result = await callApi(() => apiFtn(page));
       this.fetched = true;
 
       return result;
@@ -117,6 +142,14 @@ export const useTechnologyStore = defineStore({
       });
 
       this.technologies = filteredTechnologies;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.technologies[newIndex] == null) {
+        await this.fetchTechnologies(newPage);
+      }
+      this.currentPage = newPage;
     }
   }
 });

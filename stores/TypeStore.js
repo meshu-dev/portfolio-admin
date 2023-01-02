@@ -6,23 +6,32 @@ export const useTypeStore = defineStore({
   state: () => ({
     types: [],
     type: null,
+    currentPage: 1,
+    lastPage: null,
+    pageLimit: null,
+    total: null,
     fetched: false
   }),
   getters: {
+    getPageIndex(state) {
+      return state.currentPage - 1;
+    },
     getTypes(state) {
-      return state.types;
+      if (state.types[state.getPageIndex]) {
+        return state.types[state.getPageIndex];
+      }
+      return [];
     },
     getTypeNames(state) {
-      return state.types.map(type => type.name);
+      return this.getTypes.map(type => type.name);
     },
     getTypeById(state) {
       return (id) => {
         if (!id) {
           return null;
         }
-        console.log('Test', state.types, id);
 
-        const rows = state.types.filter((type) => {
+        const rows = this.getTypes.filter((type) => {
           return type.id == id
         });
         const type = rows[0] ? toRaw(rows[0]) : null;
@@ -34,16 +43,31 @@ export const useTypeStore = defineStore({
     },
     areFetched(state) {
       return state.fetched;
+    },
+    getCurrentPage(state) {
+      return state.currentPage;
+    },
+    getLastPage(state) {
+      return state.lastPage;
     }
   },
   actions: {
-    async fetchTypes() {
-      const apiFtn = async () => {
-        const result = await typeService.getAll();
-        this.types = result['data'] ?? [];
+    async fetchTypes(page = 1) {
+      const apiFtn = async (page) => {
+        const result = await typeService.getAll(page);
+        
+        if (result['data'] && result['meta']) {
+          const index = result['meta']['current_page'] - 1;
+
+          this.types[index] = result['data'] ?? [];
+  
+          this.lastPage = result['meta']['last_page'];
+          this.pageLimit = result['meta']['per_page'];
+          this.total = result['meta']['total'];
+        }
       };
 
-      const result = await callApi(apiFtn);
+      const result = await callApi(() => apiFtn(page));
       this.fetched = true;
 
       return result;
@@ -119,6 +143,14 @@ export const useTypeStore = defineStore({
       });
 
       this.types = filteredTypes;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.types[newIndex] == null) {
+        await this.fetchTypes(newPage);
+      }
+      this.currentPage = newPage;
     }
   }
 });

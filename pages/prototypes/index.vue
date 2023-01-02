@@ -3,6 +3,7 @@
   import setupData from '@/composables/prototype/setupData';
   import ItemListHeader from '@/components/Item/ItemList/ItemListHeader';
   import ItemListTable from '@/components/Item/ItemList/ItemListTable';
+  import ItemListPagination from '@/components/Item/ItemList/ItemListPagination';
 
   const prototypeStore = usePrototypeStore();
 
@@ -10,6 +11,10 @@
 
   const setCurrentPrototype = (id) => {
     prototypeStore.setSelectedPrototype(id);
+  };
+
+  const onPageChange = async (page) => {
+    await prototypeStore.changePage(page);
   };
 </script>
 
@@ -28,4 +33,8 @@
       <td>{{ item.type.name }}</td>
     </template>
   </ItemListTable>
+  <ItemListPagination
+    :currentPage="prototypeStore.getCurrentPage"
+    :totalPages="prototypeStore.getLastPage"
+    :onClickFtn="onPageChange" />
 </template>
