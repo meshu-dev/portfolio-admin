@@ -21,3 +21,9 @@
       :length="props.totalPages" />
   </div>
 </template>
+
+<style lang="scss">
+  .v-btn__content {
+    margin: 0;
+  }
+</style>

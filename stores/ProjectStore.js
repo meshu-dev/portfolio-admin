@@ -72,16 +72,13 @@ export const useProjectStore = defineStore({
   actions: {
     async fetchProjects(page = 1) {
       const apiFtn = async (page) => {
-        const result = await projectService.getAll(page);
+        const result = await projectService.getPaginated(page);
 
         if (result['data'] && result['meta']) {
-          const index = result['meta']['current_page'] - 1;
-
-          this.projects[index] = result['data'] ?? [];
-  
-          this.lastPage = result['meta']['last_page'];
-          this.pageLimit = result['meta']['per_page'];
-          this.total = result['meta']['total'];
+          this.setPaginatedProjects(
+            result['data'],
+            result['meta']
+          );
         }
       };
 
@@ -89,6 +86,14 @@ export const useProjectStore = defineStore({
       this.fetched = true;
       
       return result;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.projects[newIndex] == null) {
+        await this.fetchProjects(newPage);
+      }
+      this.currentPage = newPage;
     },
     async addProject(params) {
       let result = null;
@@ -132,6 +137,15 @@ export const useProjectStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setPaginatedProjects(data, meta) {
+      const index = meta['current_page'] - 1;
+
+      this.projects[index] = data ?? [];
+
+      this.lastPage = meta['last_page'];
+      this.pageLimit = meta['per_page'];
+      this.total = meta['total'];
+    },
     setBlankProject() {
       this.project = {
         name: '',
@@ -171,14 +185,6 @@ export const useProjectStore = defineStore({
       });
 
       this.projects = filteredProjects;
-    },
-    async changePage(newPage) {
-      const newIndex = newPage - 1;
-
-      if (this.projects[newIndex] == null) {
-        await this.fetchProjects(newPage);
-      }
-      this.currentPage = newPage;
     }
   }
 });

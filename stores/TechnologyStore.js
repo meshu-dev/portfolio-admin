@@ -5,6 +5,7 @@ export const useTechnologyStore = defineStore({
   id: 'technologies',
   state: () => ({
     technologies: [],
+    allTechnologies: [],
     technology: null,
     currentPage: 1,
     lastPage: null,
@@ -22,15 +23,18 @@ export const useTechnologyStore = defineStore({
       }
       return [];
     },
+    getAllTechnologies(state) {
+      return state.allTechnologies;
+    },
     getTechnologyNames(state) {
-      return this.getTechnologies.map(technology => technology.name);
+      return state.allTechnologies.map(technology => technology.name);
     },
     getTechnologyById(state) {
       return (id) => {
         if (!id) {
           return null;
         }
-        const rows = this.getTechnologies.filter((technology) => {
+        const rows = state.allTechnologies.filter((technology) => {
           return technology.id == id
         });
         const technology = rows[0] ? toRaw(rows[0]) : null;
@@ -51,25 +55,37 @@ export const useTechnologyStore = defineStore({
     }
   },
   actions: {
-    async fetchTechnologies(page = 1) {
-      const apiFtn = async (page) => {
-        const result = await technologyService.getAll(page);
+    async fetchTechnologies() {
+      const apiFtn = async () => {
+        const runtimeConfig = useRuntimeConfig();
+        const maxItemLimit = runtimeConfig.maxItemLimit;
+        const itemsPerPage = runtimeConfig.itemsPerPage;
+
+        const result = await technologyService.getAll({'limit': maxItemLimit});
 
         if (result['data'] && result['meta']) {
-          const index = result['meta']['current_page'] - 1;
+          this.setPaginatedTechnologies(
+            result['data'],
+            result['meta'],
+            itemsPerPage
+          );
 
-          this.technologies[index] = result['data'] ?? [];
-  
-          this.lastPage = result['meta']['last_page'];
-          this.pageLimit = result['meta']['per_page'];
-          this.total = result['meta']['total'];
+          this.allTechnologies = result['data'];
         }
       };
 
-      const result = await callApi(() => apiFtn(page));
+      const result = await callApi(apiFtn);
       this.fetched = true;
 
       return result;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.technologies[newIndex] == null) {
+        await this.fetchTechnologies();
+      }
+      this.currentPage = newPage;
     },
     async addTechnology(params) {
       let result = null;
@@ -113,6 +129,34 @@ export const useTechnologyStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setPaginatedTechnologies(data, meta, pageLimit) {
+      this.technologies = this.getPagedTechnologies(data, pageLimit);
+      
+      this.pageLimit = pageLimit;
+      this.total = meta['total'];
+
+      this.lastPage = Math.ceil(this.total / this.pageLimit);
+    },
+    getPagedTechnologies(technologies, pageLimit) {
+      let pageTechnologies = [];
+      let count = 0;
+      let pageIndex = 0;
+
+      for (const technology of technologies) {
+        if (pageTechnologies[pageIndex] == null) {
+          pageTechnologies[pageIndex] = [];
+        }
+
+        pageTechnologies[pageIndex].push(technology);
+        count++;
+
+        if (count == pageLimit) {
+          pageIndex++;
+          count = 0;
+        }
+      }
+      return pageTechnologies;
+    },
     setBlankTechnology() {
       this.technology = { name: '' };
     },
@@ -142,14 +186,6 @@ export const useTechnologyStore = defineStore({
       });
 
       this.technologies = filteredTechnologies;
-    },
-    async changePage(newPage) {
-      const newIndex = newPage - 1;
-
-      if (this.technologies[newIndex] == null) {
-        await this.fetchTechnologies(newPage);
-      }
-      this.currentPage = newPage;
     }
   }
 });

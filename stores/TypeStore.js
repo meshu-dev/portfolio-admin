@@ -5,6 +5,7 @@ export const useTypeStore = defineStore({
   id: 'types',
   state: () => ({
     types: [],
+    allTypes: [],
     type: null,
     currentPage: 1,
     lastPage: null,
@@ -22,8 +23,11 @@ export const useTypeStore = defineStore({
       }
       return [];
     },
+    getAllTypes(state) {
+      return state.allTypes;
+    },
     getTypeNames(state) {
-      return this.getTypes.map(type => type.name);
+      return state.allTypes.map(type => type.name);
     },
     getTypeById(state) {
       return (id) => {
@@ -31,7 +35,7 @@ export const useTypeStore = defineStore({
           return null;
         }
 
-        const rows = this.getTypes.filter((type) => {
+        const rows = state.allTypes.filter((type) => {
           return type.id == id
         });
         const type = rows[0] ? toRaw(rows[0]) : null;
@@ -52,25 +56,37 @@ export const useTypeStore = defineStore({
     }
   },
   actions: {
-    async fetchTypes(page = 1) {
-      const apiFtn = async (page) => {
-        const result = await typeService.getAll(page);
-        
-        if (result['data'] && result['meta']) {
-          const index = result['meta']['current_page'] - 1;
+    async fetchTypes() {
+      const apiFtn = async () => {
+        const runtimeConfig = useRuntimeConfig();
+        const maxItemLimit = runtimeConfig.maxItemLimit;
+        const itemsPerPage = runtimeConfig.itemsPerPage;
 
-          this.types[index] = result['data'] ?? [];
-  
-          this.lastPage = result['meta']['last_page'];
-          this.pageLimit = result['meta']['per_page'];
-          this.total = result['meta']['total'];
+        const result = await typeService.getAll({'limit': maxItemLimit});
+
+        if (result['data'] && result['meta']) {
+          this.setPaginatedTypes(
+            result['data'],
+            result['meta'],
+            itemsPerPage
+          );
+
+          this.allTypes = result['data'];
         }
       };
 
-      const result = await callApi(() => apiFtn(page));
+      const result = await callApi(apiFtn);
       this.fetched = true;
 
       return result;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.types[newIndex] == null) {
+        await this.fetchTypes();
+      }
+      this.currentPage = newPage;
     },
     async addType(params) {
       let result = null;
@@ -105,7 +121,6 @@ export const useTypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await typeService.delete(id);
-        console.log('type', result);
   
         this.deleteTypeFromList(id);
         this.type = null;
@@ -113,6 +128,34 @@ export const useTypeStore = defineStore({
 
       await callApi(apiFtn);
       return result;
+    },
+    setPaginatedTypes(data, meta, pageLimit) {
+      this.types = this.getPagedTypes(data, pageLimit);
+      
+      this.pageLimit = pageLimit;
+      this.total = meta['total'];
+
+      this.lastPage = Math.ceil(this.total / this.pageLimit);
+    },
+    getPagedTypes(types, pageLimit) {
+      let pageTypes = [];
+      let count = 0;
+      let pageIndex = 0;
+
+      for (const type of types) {
+        if (pageTypes[pageIndex] == null) {
+          pageTypes[pageIndex] = [];
+        }
+
+        pageTypes[pageIndex].push(type);
+        count++;
+
+        if (count == pageLimit) {
+          pageIndex++;
+          count = 0;
+        }
+      }
+      return pageTypes;
     },
     setBlankType() {
       this.type = { name: '' };
@@ -143,14 +186,6 @@ export const useTypeStore = defineStore({
       });
 
       this.types = filteredTypes;
-    },
-    async changePage(newPage) {
-      const newIndex = newPage - 1;
-
-      if (this.types[newIndex] == null) {
-        await this.fetchTypes(newPage);
-      }
-      this.currentPage = newPage;
     }
   }
 });

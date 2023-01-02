@@ -5,6 +5,7 @@ export const useRepositoryStore = defineStore({
   id: 'repositories',
   state: () => ({
     repositories: [],
+    allRepositories: [],
     repository: null,
     currentPage: 1,
     lastPage: null,
@@ -22,15 +23,18 @@ export const useRepositoryStore = defineStore({
       }
       return [];
     },
+    getAllRepositories(state) {
+      return state.allRepositories;
+    },
     getRepositoryNames(state) {
-      return this.getRepositories.map(repository => repository.name);
+      return state.allRepositories.map(repository => repository.name);
     },
     getRepositoryOptions(state) {
-      if (this.getRepositories.length == 0) {
+      if (state.allRepositories.length == 0) {
         return [];
       }
 
-      const options = this.getRepositories.map(repository => {
+      const options = state.allRepositories.map(repository => {
         return {
           title: repository.name,
           value: repository.id
@@ -43,7 +47,7 @@ export const useRepositoryStore = defineStore({
         if (!id) {
           return null;
         }
-        const rows = this.getRepositories.filter((repository) => {
+        const rows = state.allRepositories.filter((repository) => {
           return repository.id == id;
         });
         const repository = rows[0] ? toRaw(rows[0]) : null;
@@ -64,25 +68,37 @@ export const useRepositoryStore = defineStore({
     }
   },
   actions: {
-    async fetchRepositories(page = 1) {
-      const apiFtn = async (page) => {
-        const result = await repositoryService.getAll(page);
+    async fetchRepositories() {
+      const apiFtn = async () => {
+        const runtimeConfig = useRuntimeConfig();
+        const maxItemLimit = runtimeConfig.maxItemLimit;
+        const itemsPerPage = runtimeConfig.itemsPerPage;
+
+        const result = await repositoryService.getAll({'limit': maxItemLimit});
 
         if (result['data'] && result['meta']) {
-          const index = result['meta']['current_page'] - 1;
+          this.setPaginatedRepositories(
+            result['data'],
+            result['meta'],
+            itemsPerPage
+          );
 
-          this.repositories[index] = result['data'] ?? [];
-  
-          this.lastPage = result['meta']['last_page'];
-          this.pageLimit = result['meta']['per_page'];
-          this.total = result['meta']['total'];
+          this.allRepositories = result['data'];
         }
       };
 
-      const result = await callApi(() => apiFtn(page));
+      const result = await callApi(apiFtn);
       this.fetched = true;
 
       return result;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.repositories[newIndex] == null) {
+        await this.fetchRepositories();
+      }
+      this.currentPage = newPage;
     },
     async addRepository(params) {
       let result = null;
@@ -126,6 +142,34 @@ export const useRepositoryStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setPaginatedRepositories(data, meta, pageLimit) {
+      this.repositories = this.getPagedRepositories(data, pageLimit);
+      
+      this.pageLimit = pageLimit;
+      this.total = meta['total'];
+
+      this.lastPage = Math.ceil(this.total / this.pageLimit);
+    },
+    getPagedRepositories(repositories, pageLimit) {
+      let pageRepositories = [];
+      let count = 0;
+      let pageIndex = 0;
+
+      for (const repository of repositories) {
+        if (pageRepositories[pageIndex] == null) {
+          pageRepositories[pageIndex] = [];
+        }
+
+        pageRepositories[pageIndex].push(repository);
+        count++;
+
+        if (count == pageLimit) {
+          pageIndex++;
+          count = 0;
+        }
+      }
+      return pageRepositories;
+    },
     setBlankRepository() {
       this.repository = {
         name: '',
@@ -158,14 +202,6 @@ export const useRepositoryStore = defineStore({
       });
 
       this.repositories = filteredRepositories;
-    },
-    async changePage(newPage) {
-      const newIndex = newPage - 1;
-
-      if (this.repositories[newIndex] == null) {
-        await this.fetchRepositories(newPage);
-      }
-      this.currentPage = newPage;
     }
   }
 });

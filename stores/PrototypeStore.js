@@ -72,16 +72,13 @@ export const usePrototypeStore = defineStore({
   actions: {
     async fetchPrototypes(page = 1) {
       const apiFtn = async (page) => {
-        const result = await prototypeService.getAll(page);
+        const result = await prototypeService.getPaginated(page);
 
         if (result['data'] && result['meta']) {
-          const index = result['meta']['current_page'] - 1;
-
-          this.prototypes[index] = result['data'] ?? [];
-  
-          this.lastPage = result['meta']['last_page'];
-          this.pageLimit = result['meta']['per_page'];
-          this.total = result['meta']['total'];
+          this.setPaginatedPrototypes(
+            result['data'],
+            result['meta']
+          );
         }
       };
 
@@ -89,6 +86,14 @@ export const usePrototypeStore = defineStore({
       this.fetched = true;
 
       return result;
+    },
+    async changePage(newPage) {
+      const newIndex = newPage - 1;
+
+      if (this.prototypes[newIndex] == null) {
+        await this.fetchPrototypes(newPage);
+      }
+      this.currentPage = newPage;
     },
     async addPrototype(params) {
       let result = null;
@@ -132,6 +137,15 @@ export const usePrototypeStore = defineStore({
       await callApi(apiFtn);
       return result;
     },
+    setPaginatedPrototypes(data, meta) {
+      const index = meta['current_page'] - 1;
+
+      this.prototypes[index] = data ?? [];
+
+      this.lastPage = meta['last_page'];
+      this.pageLimit = meta['per_page'];
+      this.total = meta['total'];
+    },
     setBlankPrototype() {
       this.prototype = {
         name: '',
@@ -171,14 +185,6 @@ export const usePrototypeStore = defineStore({
       });
 
       this.prototypes = filteredPrototypes;
-    },
-    async changePage(newPage) {
-      const newIndex = newPage - 1;
-
-      if (this.prototypes[newIndex] == null) {
-        await this.fetchPrototypes(newPage);
-      }
-      this.currentPage = newPage;
     }
   }
 });

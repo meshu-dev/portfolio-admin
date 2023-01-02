@@ -12,7 +12,20 @@ class BaseService {
     );
   }
 
-  async getAll(page = 1) {
+  async getAll(params) {
+    let urlParams = '';
+
+    if (params['limit']) {
+      urlParams += `limit=${params['limit']}`;
+    }
+
+    return await this.apiService.sendRequest(
+      'GET',
+      `${this.urlPath}?${urlParams}`
+    );
+  }
+
+  async getPaginated(page = 1) {
     return await this.apiService.sendRequest(
       'GET',
       `${this.urlPath}?page=${page}`
