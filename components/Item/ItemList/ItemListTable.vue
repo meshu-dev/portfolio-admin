@@ -8,7 +8,7 @@
   });
 
   const goToEditPage = async (id) => {
-    await navigateTo(`${props.link}/${id}`);
+    await navigateTo(`${props.link}/edit/${id}`);
   };
 
   const showDeleteDialog = (id) => {

@@ -21,7 +21,7 @@
 <template>
   <ItemListHeader
     title="Repositories"
-    link="/repositories/new" />
+    link="/repositories/add" />
   <ItemListTable
     :items="repositoryStore.getRepositories"
     link="/repositories"

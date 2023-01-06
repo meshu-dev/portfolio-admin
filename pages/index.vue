@@ -21,7 +21,7 @@
 <template>
   <ItemListHeader
     title="Projects"
-    link="/projects/new" />
+    link="/projects/add" />
   <ItemListTable
     :items="projectStore.getProjects"
     link="/projects"

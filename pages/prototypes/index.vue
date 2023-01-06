@@ -21,7 +21,7 @@
 <template>
   <ItemListHeader
     title="Prototypes"
-    link="/prototypes/new" />
+    link="/prototypes/add" />
   <ItemListTable
     :items="prototypeStore.getPrototypes"
     link="/prototypes"

@@ -21,7 +21,7 @@
 <template>
   <ItemListHeader
     title="Types"
-    link="/types/new" />
+    link="/types/add" />
   <ItemListTable
     :items="typeStore.getTypes"
     link="/types"

@@ -21,7 +21,7 @@
 <template>
   <ItemListHeader
     title="Technologies"
-    link="/technologies/new" />
+    link="/technologies/add" />
   <ItemListTable
     :items="technologyStore.getTechnologies"
     link="/technologies"
