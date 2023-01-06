@@ -47,17 +47,17 @@
           clearable
           label="Password"
           placeholder="Enter your password" />
-        <br />
-        <v-btn
-          :disabled="!form"
-          :loading="loading"
-          block
-          color="success"
-          size="large"
-          type="submit"
-          variant="elevated">
-          Sign In
-        </v-btn>
+        <div id="login-btnwrapper">
+          <v-btn
+            color="primary"
+            :disabled="!form"
+            :loading="loading"
+            size="large"
+            type="submit"
+            variant="elevated">
+            Sign In
+          </v-btn>
+        </div>
       </v-form>
     </div>
   </NuxtLayout>
@@ -71,5 +71,10 @@
     font-size: 1.6rem;
     font-weight: bold;
     padding: 0 15px;
+  }
+
+  #login-btnwrapper {
+    display: flex;
+    justify-content: center;
   }
 </style>
