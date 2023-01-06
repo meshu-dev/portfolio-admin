@@ -4,6 +4,10 @@
   list-style: none;
 }
 
+html {
+  overflow: overlay;
+}
+
 html, body, #__nuxt, .v-application__wrap {
   height: 100%;
 }
@@ -44,35 +48,20 @@ a:hover {
   }
 }
 
-#layout {
+.layout {
   display: flex;
   flex-direction: row;
 
-  #content {
+  .content-box-wrapper {
     margin-top: 30px;
     padding: 0 60px;
     width: calc(100vw - 300px);
-  
-    #content-box {
+
+    .content-box {
       box-shadow: #DDD 0px 2px 4px 0px;
       background-color: #FFF;
       border-radius: 15px;
       padding: 10px 25px 20px;
-      width: 1000px;
-      min-height: 600px;
-      margin: 0 auto 30px;
-    }
-  }
-}
-
-@media (max-width: 1400px) {
-  #content {
-    margin-top: 65px;
-    padding: 30px;
-    width: 100vw;
-
-    #content-box {
-      width: 100%;
     }
   }
 }

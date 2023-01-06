@@ -7,13 +7,13 @@
 
 <template>
   <v-app full-height>
-    <div id="layout">
+    <div id="page-layout" class="layout">
       <Header />
       <SideMenu />
-      <div id="content">
+      <div id="page-content-wrapper" class="content-box-wrapper">
         <StatusMsg />
         <ItemDeleteDialog />
-        <div id="content-box">
+        <div id="page-content" class="content-box">
           <slot />
         </div>
       </div>
@@ -22,11 +22,39 @@
 </template>
 
 <style lang="scss" scoped>
-  #sidemenu {
-    background-color: #FFF;
-    box-shadow: #DDD 0px 2px 4px 0px;
-    min-width: 300px;
-    height: 100%;
-    padding: 50px 20px 20px;
+  html {
+    overflow: overlay;
+  }
+</style>
+
+<style lang="scss">
+  #page-layout {
+    height: auto;
+
+    #page-content-wrapper {
+      margin-top: 30px;
+      padding: 0 60px;
+      width: calc(100vw - 300px);
+    
+      #page-content {
+        width: 1000px;
+        min-height: 600px;
+        margin: 0 auto 30px;
+      }
+    }
+  }
+
+  @media (max-width: 1400px) {
+    #page-layout {
+      #page-content-wrapper {
+        margin-top: 65px;
+        padding: 30px;
+        width: 100vw;
+    
+        #page-content {
+          width: 100%;
+        }
+      }
+    }
   }
 </style>
