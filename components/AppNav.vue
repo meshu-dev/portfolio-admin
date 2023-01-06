@@ -60,14 +60,15 @@
     a:not(.router-link-exact-active):hover,
     span:hover {
       .nav-item {
-        background-color: #ddf1ff;
+        background: rgb(var(--v-theme-secondary));
+        color: rgb(var(--v-theme-on-secondary));
       }
     }
 
     a.router-link-exact-active {
       div {
-        background-color: #1697F6;
-        color: #FFF;
+        background: rgb(var(--v-theme-primary));
+        color: rgb(var(--v-theme-on-primary));
         font-weight: bold;
       }
     }

@@ -28,7 +28,7 @@
       <slot />
       <div id="item-form-btns">
         <v-btn
-          variant="tonal"
+          color="primary"
           :loading="loading"
           @click="submit">Submit</v-btn>
       </div>

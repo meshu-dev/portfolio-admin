@@ -20,14 +20,13 @@
   const isEdit = id != 'new' ? true : false;
 
   const projectStore = useProjectStore();
-  const project = ref(projectStore.getProject);
 
   setupData(id);
 </script>
 
 <template>
   <ItemForm
-    v-if="project"
+    v-if="projectStore.getProject"
     :title="isEdit ? 'Edit project' : 'Add project'"
     v-on:onSubmit="projectFormSubmit">
     <v-text-field

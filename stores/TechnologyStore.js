@@ -92,10 +92,7 @@ export const useTechnologyStore = defineStore({
 
       const apiFtn = async () => {
         result = await technologyService.add(params);
-        const technology = result['data'] ?? null;
-  
-        this.technologies.unshift(technology);
-        this.technology = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -106,10 +103,7 @@ export const useTechnologyStore = defineStore({
 
       const apiFtn = async () => {
         result = await technologyService.edit(id, params);
-        const technology = result['data'] ?? null;
-  
-        this.replaceTechnologyInList(technology);
-        this.technology = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -120,10 +114,7 @@ export const useTechnologyStore = defineStore({
 
       const apiFtn = async () => {
         result = await technologyService.delete(id);
-        console.log('type', result);
-  
-        this.deleteTechnologyFromList(id);
-        this.technology = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -161,7 +152,7 @@ export const useTechnologyStore = defineStore({
       this.technology = { name: '' };
     },
     setSelectedTechnology(id) {
-      for (const technology of this.technologies) {
+      for (const technology of this.getTechnologies) {
         if (technology.id == id) {
           this.technology = technology;
           return true;
@@ -186,6 +177,16 @@ export const useTechnologyStore = defineStore({
       });
 
       this.technologies = filteredTechnologies;
+    },
+    clearData() {
+      this.technologies = [];
+      this.allTechnologies = [];
+      this.technology = null;
+      this.currentPage = 1;
+      this.lastPage = null;
+      this.pageLimit = null;
+      this.total = null;
+      this.fetched = false;
     }
   }
 });

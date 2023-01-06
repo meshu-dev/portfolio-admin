@@ -1,28 +1,20 @@
 <script setup>
-  import Header from '@/components/Layout/Header.vue';
-  import SideMenu from '@/components/Layout/SideMenu.vue';
   import StatusMsg from '@/components/Layout/StatusMsg.vue';
-  import ItemDeleteDialog from '@/components/Item/ItemForm/ItemDeleteDialog.vue';
 </script>
 
 <template>
-  <v-app full-height>
-    <div id="layout">
-      <Header />
-      <SideMenu />
-      <div id="content">
-        <StatusMsg />
-        <ItemDeleteDialog />
-        <div id="content-box">
-          <slot />
-        </div>
+  <div id="layout">
+    <div id="content">
+      <StatusMsg />
+      <div id="content-box">
+        <slot />
       </div>
     </div>
-  </v-app>
+  </div>
 </template>
 
-<style lang="scss">
-  html, body, #__nuxt, .v-application__wrap {
+<style scoped>
+  html, body, #__nuxt {
     height: 100%;
   }
 
@@ -30,14 +22,6 @@
     background-color: #F1F1F1;
     font-size: 100%;
     margin: 0;
-  }
-
-  .v-application {
-    background-color: #F1F1F1 !important;
-
-    .v-application__wrap {
-      flex-flow: wrap;
-    }
   }
 
   a,
@@ -86,14 +70,7 @@
   #layout {
     display: flex;
     flex-direction: row;
-  }
-  
-  #sidemenu {
-    background-color: #FFF;
-    box-shadow: #DDD 0px 2px 4px 0px;
-    min-width: 300px;
     height: 100%;
-    padding: 50px 20px 20px;
   }
   
   #logo {
@@ -104,10 +81,11 @@
   }
   
   #content {
-    margin-top: 30px;
-    padding: 0 60px;
-    /* width: 100%; */
-    width: calc(100vw - 300px);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   #content-box {
@@ -115,22 +93,8 @@
     background-color: #FFF;
     border-radius: 15px;
     padding: 10px 25px 20px;
-    width: 1000px;
-    /*
-    width: calc(100vw - 300px - 110px);
-    max-width: 1200px; */
-    min-height: 600px;
-    margin: 0 auto 30px;
-  }
-
-  @media (max-width: 1400px) {
-    #content {
-      margin-top: 65px;
-      padding: 30px;
-
-      #content-box {
-        width: 100%;
-      }
-    }
+    width: 500px;
+    min-height: 300px;
+    margin: 0 auto;
   }
 </style>

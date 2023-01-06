@@ -27,10 +27,10 @@
     link="/prototypes"
     :preDeleteFtn="setCurrentPrototype">
     <template #table-head>
-      <th class="text-left">Type</th>
+      <th class="type-field text-left">Type</th>
     </template>
     <template #table-body="{ item }">
-      <td>{{ item.type.name }}</td>
+      <td class="type-field">{{ item.type.name }}</td>
     </template>
   </ItemListTable>
   <ItemListPagination
@@ -38,3 +38,15 @@
     :totalPages="prototypeStore.getLastPage"
     :onClickFtn="onPageChange" />
 </template>
+
+<style lang="scss">
+  .type-field {
+    display: table-cell;
+  }
+
+  @media (max-width: 800px) {
+    .type-field {
+      display: none;
+    }
+  }
+</style>

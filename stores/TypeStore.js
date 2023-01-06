@@ -93,10 +93,7 @@ export const useTypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await typeService.add(params);
-        const type = result['data'] ?? null;
-  
-        this.types.unshift(type);
-        this.type = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -107,10 +104,7 @@ export const useTypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await typeService.edit(id, params);
-        const type = result['data'] ?? null;
-  
-        this.replaceTypeInList(type);
-        this.type = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -121,9 +115,7 @@ export const useTypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await typeService.delete(id);
-  
-        this.deleteTypeFromList(id);
-        this.type = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -161,7 +153,7 @@ export const useTypeStore = defineStore({
       this.type = { name: '' };
     },
     setSelectedType(id) {
-      for (const type of this.types) {
+      for (const type of this.getTypes) {
         if (type.id == id) {
           this.type = type;
           return true;
@@ -186,6 +178,16 @@ export const useTypeStore = defineStore({
       });
 
       this.types = filteredTypes;
+    },
+    clearData() {
+      this.types = [];
+      this.allTypes = [];
+      this.type = null;
+      this.currentPage = 1;
+      this.lastPage = null;
+      this.pageLimit = null;
+      this.total = null;
+      this.fetched = false;
     }
   }
 });

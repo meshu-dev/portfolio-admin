@@ -100,10 +100,7 @@ export const usePrototypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await prototypeService.add(params);
-        const prototype = result['data'] ?? null;
-  
-        this.prototypes.unshift(prototype);
-        this.prototype = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -114,10 +111,7 @@ export const usePrototypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await prototypeService.edit(id, params);
-        const prototype = result['data'] ?? null;
-  
-        this.replaceProjectInList(prototype);
-        this.prototype = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -128,10 +122,7 @@ export const usePrototypeStore = defineStore({
 
       const apiFtn = async () => {
         result = await prototypeService.delete(id);
-        console.log('prototype', result);
-  
-        this.deletePrototypeFromList(id);
-        this.prototype = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -160,7 +151,7 @@ export const usePrototypeStore = defineStore({
       this.prototype = prototype;
     },
     setSelectedPrototype(id) {
-      for (const prototype of this.prototypes) {
+      for (const prototype of this.getPrototypes) {
         if (prototype.id == id) {
           this.prototype = prototype;
           return true;
@@ -185,6 +176,15 @@ export const usePrototypeStore = defineStore({
       });
 
       this.prototypes = filteredPrototypes;
+    },
+    clearData() {
+      this.prototypes = [];
+      this.prototype = null;
+      this.currentPage = 1;
+      this.lastPage = null;
+      this.pageLimit = null;
+      this.total = null;
+      this.fetched = false;
     }
   }
 });

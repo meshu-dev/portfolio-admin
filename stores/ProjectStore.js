@@ -100,10 +100,7 @@ export const useProjectStore = defineStore({
 
       const apiFtn = async () => {
         result = await projectService.add(params);
-        const project = result['data'] ?? null;
-  
-        this.projects.unshift(project);
-        this.project = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -114,10 +111,7 @@ export const useProjectStore = defineStore({
 
       const apiFtn = async () => {
         result = await projectService.edit(id, params);
-        const project = result['data'] ?? null;
-  
-        this.replaceProjectInList(project);
-        this.project = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -128,10 +122,7 @@ export const useProjectStore = defineStore({
 
       const apiFtn = async () => {
         result = await projectService.delete(id);
-        console.log('project', result);
-  
-        this.deleteProjectFromList(id);
-        this.project = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -160,7 +151,7 @@ export const useProjectStore = defineStore({
       this.project = project;
     },
     setSelectedProject(id) {
-      for (const project of this.projects) {
+      for (const project of this.getProjects) {
         if (project.id == id) {
           this.project = project;
           return true;
@@ -185,6 +176,15 @@ export const useProjectStore = defineStore({
       });
 
       this.projects = filteredProjects;
+    },
+    clearData() {
+      this.projects = [];
+      this.project = null;
+      this.currentPage = 1;
+      this.lastPage = null;
+      this.pageLimit = null;
+      this.total = null;
+      this.fetched = false;
     }
   }
 });

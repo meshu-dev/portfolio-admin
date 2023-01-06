@@ -2,6 +2,8 @@
   import { ref } from 'vue';
   import { useAuthStore } from '../stores/AuthStore';
 
+  definePageMeta({ layout: false });
+
   const form = ref(false);
   const email = ref(null);
   const password = ref(null);
@@ -24,8 +26,9 @@
 </script>
 
 <template>
-  <div id="login-wrapper">
-    <v-card class="mx-auto px-6 py-8" width="400">
+  <NuxtLayout name="auth">
+    <div id="logo">Portfolio Admin</div>
+    <div id="login-wrapper">
       <v-form
         v-model="form"
         @submit.prevent="onSubmit">
@@ -56,6 +59,17 @@
           Sign In
         </v-btn>
       </v-form>
-    </v-card>
-  </div>
+    </div>
+  </NuxtLayout>
 </template>
+
+<style lang="scss">
+  #logo {
+    text-align: center;
+    margin: 20px 0;
+    font-style: italic;
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 0 15px;
+  }
+</style>

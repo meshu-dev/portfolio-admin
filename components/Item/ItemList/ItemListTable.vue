@@ -38,14 +38,16 @@
         <slot name="table-body" :item="item"></slot>
         <td class="actions">
           <v-btn
-            variant="tonal"
+            color="primary"
             @click="goToEditPage(item.id)">
-            Edit
+            <span>Edit</span>
+            <v-icon icon="mdi:mdi-pencil" />
           </v-btn>
           <v-btn
-            variant="tonal"
+            color="primary"
             @click="showDeleteDialog(item.id)">
-            Delete
+            <span>Delete</span>
+            <v-icon icon="mdi:mdi-delete" />
           </v-btn>
         </td>
       </tr>
@@ -64,6 +66,39 @@
       display: flex;
       gap: 20px;
       margin-top: 11px;
+
+      button {
+        .v-btn__content {
+          i {
+            display: none;
+          }
+
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 800px) {
+    .v-table {
+      .actions {
+        button {
+          padding: 0 5px;
+          min-width: 32px;
+
+          .v-btn__content {
+            i {
+              display: block;
+            }
+
+            span {
+              display: none;
+            }
+          }
+        }
+      }
     }
   }
 </style>

@@ -8,7 +8,8 @@ export const useLayoutStore = defineStore({
   state: () => ({
     dropdownAllOption: allOption,
     statusMsg: null,
-    returnUrl: null
+    returnUrl: null,
+    sideMenu: false
   }),
   getters: {
     getDropdownAllOption(state) {
@@ -19,6 +20,9 @@ export const useLayoutStore = defineStore({
     },
     getReturnUrl(state) {
       return state.returnUrl;
+    },
+    isMenuOpen(state) {
+      return state.sideMenu;
     }
   },
   actions: {
@@ -34,6 +38,16 @@ export const useLayoutStore = defineStore({
     },
     clearReturnUrl() {
       this.returnUrl = null;
+    },
+    toggleSideMenu() {
+      this.sideMenu = !this.sideMenu;
+      //setTimeout(4000, this.openSideMenu());
+    },
+    openSideMenu() {
+      this.sideMenu = true;
+    },
+    closeSideMenu() {
+      this.sideMenu = false;
     }
   }
 });

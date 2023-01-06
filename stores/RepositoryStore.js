@@ -105,10 +105,7 @@ export const useRepositoryStore = defineStore({
 
       const apiFtn = async () => {
         result = await repositoryService.add(params);
-        const repository = result['data'] ?? null;
-  
-        this.repositories.unshift(repository);
-        this.repository = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -119,10 +116,7 @@ export const useRepositoryStore = defineStore({
 
       const apiFtn = async () => {
         result = await repositoryService.edit(id, params);
-        const repository = result['data'] ?? null;
-  
-        this.replaceRepositoryInList(repository);
-        this.repository = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -133,10 +127,7 @@ export const useRepositoryStore = defineStore({
 
       const apiFtn = async () => {
         result = await repositoryService.delete(id);
-        console.log('type', result);
-  
-        this.deleteRepositoryFromList(id);
-        this.repository = null;
+        this.clearData();
       };
 
       await callApi(apiFtn);
@@ -177,7 +168,7 @@ export const useRepositoryStore = defineStore({
       };
     },
     setSelectedRepository(id) {
-      for (const repository of this.repositories) {
+      for (const repository of this.getRepositories) {
         if (repository.id == id) {
           this.repository = repository;
           return true;
@@ -202,6 +193,16 @@ export const useRepositoryStore = defineStore({
       });
 
       this.repositories = filteredRepositories;
+    },
+    clearData() {
+      this.repositories = [];
+      this.allRepositories = [];
+      this.repository = null;
+      this.currentPage = 1;
+      this.lastPage = null;
+      this.pageLimit = null;
+      this.total = null;
+      this.fetched = false;
     }
   }
 });

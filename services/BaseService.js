@@ -35,7 +35,7 @@ class BaseService {
   async get(id) {
     return await this.apiService.sendRequest(
       'GET',
-      this.urlPath
+      `${this.urlPath}/${id}`
     );
   }
 

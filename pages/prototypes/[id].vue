@@ -20,14 +20,13 @@
   const isEdit = id != 'new' ? true : false;
 
   const prototypeStore = usePrototypeStore();
-  const prototype = ref(prototypeStore.getPrototype);
 
   setupData(id);
 </script>
 
 <template>
   <ItemForm
-    v-if="prototype"
+    v-if="prototypeStore.getPrototype"
     :title="isEdit ? 'Edit prototype' : 'Add prototype'"
     v-on:onSubmit="prototypeFormSubmit">
     <v-text-field

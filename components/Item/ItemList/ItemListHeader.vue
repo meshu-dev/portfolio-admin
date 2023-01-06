@@ -13,7 +13,7 @@
   <div id="item-list-header">
     <h1>{{ title }}</h1>
     <v-btn
-      variant="tonal"
+      color="primary"
       @click="goToAddPage(link)">
       Add
     </v-btn>
