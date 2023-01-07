@@ -5,7 +5,14 @@
   import ItemListTable from '@/components/Item/ItemList/ItemListTable';
   import ItemListPagination from '@/components/Item/ItemList/ItemListPagination';
 
+  const props = defineProps({
+    page: Number
+  });
+
+  const page = parseInt(props.page) || 1;
+
   const projectStore = useProjectStore();
+  projectStore.changePage(page);
 
   setupData();
 
@@ -14,7 +21,12 @@
   };
 
   const onPageChange = async (page) => {
-    await projectStore.changePage(page);
+    let link = '/';
+
+    if (page > 1) {
+      link = `projects/${page}`;
+    }
+    await navigateTo(link);
   };
 </script>
 
@@ -34,7 +46,7 @@
     </template>
   </ItemListTable>
   <ItemListPagination
-    :currentPage="projectStore.getCurrentPage"
+    :currentPage="page"
     :totalPages="projectStore.getLastPage"
     :onClickFtn="onPageChange" />
 </template>

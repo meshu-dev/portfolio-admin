@@ -7,6 +7,8 @@
 
   const page = ref(props.currentPage);
 
+  console.log('pagination', page);
+
   watch(page, (newValue, oldValue) => {
     console.log('page', page);
     

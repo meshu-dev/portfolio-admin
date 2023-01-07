@@ -1,42 +1,35 @@
-# Nuxt 3 Minimal Starter
+# Portfolio Admin app
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+An app used to manage portfolio data.
+
+This is a Nuxt.js project which retrieves and updates data from the Portfolio API.
 
 ## Setup
 
-Make sure to install the dependencies:
+This project requires the portfolio-api app to work.
 
-```bash
-# yarn
-yarn install
+### Dev Setup
 
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
+- Install packages
 ```
-
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
+npm install
+```
+-  Copy env file
+```
+cp .env.example .env.local
+```
+-  Add API url to the following env variable
+```
+NUXT_PUBLIC_API_URL
+```
+-  Run on local
+```
 npm run dev
 ```
 
-## Production
+### Static Site Hosting
 
-Build the application for production:
-
-```bash
-npm run build
+- Run the following command to generate static site
 ```
-
-Locally preview production build:
-
-```bash
-npm run preview
+npm run generate
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
