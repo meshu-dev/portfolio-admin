@@ -10,9 +10,9 @@ class ApiService {
   async sendRequest(method, path, params) {
     const url = `${this.apiUrl}/${path}`;
 
-    console.log('sendRequest', url, this.apiUrl);
-
     params = this.prepareParams(method, params);
+
+    console.log('sendRequest', url, this.apiUrl, params);
 
     let response = null;
 
@@ -27,16 +27,18 @@ class ApiService {
   prepareParams(method, params) {
     const fetchParams = {
       method,
-      headers: {},
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": 'application/json'
+      },
       credentials: 'include'
     };
 
     if (params) {
       if (params instanceof FormData) {
         fetchParams['body'] = params;
+        fetchParams['headers'] = [];
       } else {
-        fetchParams['headers']['Accept'] = 'application/json';
-        fetchParams['headers']['Content-Type'] = 'application/json';
         fetchParams['body'] = JSON.stringify(params);
       }
     }
@@ -55,7 +57,7 @@ class ApiService {
 
   async checkResponse(response) {
     if (response.status === 401) {
-      throw new Error('EEEE', { cause: 401 });
+      throw new Error('You are logged out of the API. Please re-login.', { cause: 401 });
     }
 
     if (response.status === 204) {

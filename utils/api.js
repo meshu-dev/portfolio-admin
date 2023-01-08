@@ -8,7 +8,7 @@ export const callApi = async (ftn) => {
     result = await ftn();
   } catch (error) {
     if (error.cause == 401) {
-      //router.push(`/login`);
+      await navigateTo(`/login`);
     }
 
     layoutStore.setStatusMsg({

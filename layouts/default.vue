@@ -11,10 +11,12 @@
       <Header />
       <SideMenu />
       <div id="page-content-wrapper" class="content-box-wrapper">
-        <StatusMsg />
         <ItemDeleteDialog />
-        <div id="page-content" class="content-box">
-          <slot />
+        <div id="page-content">
+          <StatusMsg />
+          <div class="content-box">
+            <slot />
+          </div>
         </div>
       </div>
     </div>

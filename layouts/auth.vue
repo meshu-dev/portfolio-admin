@@ -5,9 +5,11 @@
 <template>
   <div id="login-layout" class="layout">
     <div id="login-content-wrapper" class="content-box-wrapper">
-      <StatusMsg />
-      <div id="login-content" class="content-box">
-        <slot />
+      <div id="login-content">
+        <StatusMsg />
+        <div class="content-box">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
@@ -31,6 +33,8 @@
       padding: 0;
 
       #login-content {
+        display: flex;
+        flex-direction: column;
         width: 500px;
         min-height: 300px;
         margin: 0 auto;
