@@ -8,11 +8,13 @@ export const uploadImage = async (fileInput) => {
   if (files[0]) {
     const imageStore = useImageStore();
 
-    await imageStore.addImage(
+    const result = await imageStore.addImage(
       { image: files[0] }
     );
 
-    return true;
+    if (result) {
+      return true;
+    }
   }
   return false;
 };

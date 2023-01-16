@@ -7,11 +7,8 @@ import { deleteType } from '@/composables/type/utils';
 const setBlankType = (id) => {
   const typeStore = useTypeStore();
 
-  console.log('BLANK', id, typeStore.getType, typeStore.getType == null);
-
   if (id && typeStore.getType == null) {
     typeStore.setBlankType();
-    console.log('BLANK 2');
   }
 };
 

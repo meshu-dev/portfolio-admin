@@ -5,7 +5,7 @@ export const setStatusMsg = (type, text) => {
 
   layoutStore.setStatusMsg({
     type: type,
-    text: text
+    text: [text]
   });
 };
 

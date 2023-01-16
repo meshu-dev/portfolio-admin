@@ -24,29 +24,36 @@ export const addPrototype = async (prototype) => {
   const prototypeStore = usePrototypeStore();
   const params = getParams(prototype);
 
-  await prototypeStore.addPrototype(params);
+  const result = await prototypeStore.addPrototype(params);
   
-  await msgAndRedirect('Prototype has been added');
+  if (result) {
+    await msgAndRedirect('Prototype has been added');
+  }
 };
 
 export const editPrototype = async (prototype) => {
   const prototypeStore = usePrototypeStore();
   const params = getParams(prototype);
   
-  await prototypeStore.editPrototype(
+  const result = await prototypeStore.editPrototype(
     prototype.id,
     params
   );
 
-  await msgAndRedirect('Prototype has been edited');
+  if (result) {
+    await msgAndRedirect('Prototype has been edited');
+  }
 };
 
 export const deletePrototype = async (doDelete) => {
   if (doDelete === true) {
     const prototypeStore = usePrototypeStore();
-    await prototypeStore.deletePrototype(prototypeStore.getPrototype.id);
     
-    await msgAndRedirect('Prototype has been deleted');
+    const result = await prototypeStore.deletePrototype(prototypeStore.getPrototype.id);
+    
+    if (result) {
+      await msgAndRedirect('Prototype has been deleted');
+    }
   }
 };
 

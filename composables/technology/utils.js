@@ -25,29 +25,37 @@ export const getTechnologyNames = (technologies) => {
 export const addTechnology = async (technology) => {
   const technologyStore = useTechnologyStore();
 
-  await technologyStore.addTechnology(
+  const result = await technologyStore.addTechnology(
     { name: technology.name }
   );
   
-  await msgAndRedirect('Technology has been added');
+  if (result) {
+    await msgAndRedirect('Technology has been added');
+  }
 };
 
 export const editTechnology = async (technology) => {
   const technologyStore = useTechnologyStore();
   
-  await technologyStore.editTechnology(
+  const result = await technologyStore.editTechnology(
     technology.id,
     { name: technology.name }
   );
-  await msgAndRedirect('Technology has been edited');
+
+  if (result) {
+    await msgAndRedirect('Technology has been edited');
+  }
 };
 
 export const deleteTechnology = async (doDelete) => {
   if (doDelete === true) {
     const technologyStore = useTechnologyStore();
-    await technologyStore.deleteTechnology(technologyStore.getTechnology.id);
     
-    await msgAndRedirect('Technology has been deleted');
+    const result = await technologyStore.deleteTechnology(technologyStore.getTechnology.id);
+    
+    if (result) {
+      await msgAndRedirect('Technology has been deleted');
+    }
   }
 };
 

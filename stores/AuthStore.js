@@ -14,7 +14,8 @@ export const useAuthStore = defineStore({
   actions: {
     fetchAuthStatus() {
       if (this.isAppLoaded === false) {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        let isLoggedIn = localStorage.getItem('isLoggedIn');
+        isLoggedIn = isLoggedIn === 'true' ? true : false;
 
         const runtimeConfig = useRuntimeConfig();
         console.log('runtimeConfig - ApiUrl', runtimeConfig.apiUrl, runtimeConfig);

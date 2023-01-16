@@ -25,35 +25,43 @@ export const getRepositoryNames = (repositories) => {
 export const addRepository = async (repository) => {
   const repositoryStore = useRepositoryStore();
 
-  await repositoryStore.addRepository(
+  const result = await repositoryStore.addRepository(
     {
       name: repository.name,
       url: repository.url
     }
   );
   
-  await msgAndRedirect('Repository has been added');
+  if (result) {
+    await msgAndRedirect('Repository has been added');
+  }
 };
 
 export const editRepository = async (repository) => {
   const repositoryStore = useRepositoryStore();
   
-  await repositoryStore.editRepository(
+  const result = await repositoryStore.editRepository(
     repository.id,
     {
       name: repository.name,
       url: repository.url
     }
   );
-  await msgAndRedirect('Repository has been edited');
+
+  if (result) {
+    await msgAndRedirect('Repository has been edited');
+  }
 };
 
 export const deleteRepository = async (doDelete) => {
   if (doDelete === true) {
     const repositoryStore = useRepositoryStore();
-    await repositoryStore.deleteRepository(repositoryStore.getRepository.id);
     
-    await msgAndRedirect('Repository has been deleted');
+    const result = await repositoryStore.deleteRepository(repositoryStore.getRepository.id);
+    
+    if (result) {
+      await msgAndRedirect('Repository has been deleted');
+    }
   }
 };
 

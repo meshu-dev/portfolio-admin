@@ -24,29 +24,36 @@ export const addProject = async (project) => {
   const projectStore = useProjectStore();
   const params = getParams(project);
 
-  await projectStore.addProject(params);
+  const result = await projectStore.addProject(params);
   
-  await msgAndRedirect('Project has been added');
+  if (result) {
+    await msgAndRedirect('Project has been added');
+  }
 };
 
 export const editProject = async (project) => {
   const projectStore = useProjectStore();
   const params = getParams(project);
   
-  await projectStore.editProject(
+  const result = await projectStore.editProject(
     project.id,
     params
   );
 
-  await msgAndRedirect('Project has been edited');
+  if (result) {
+    await msgAndRedirect('Project has been edited');
+  }
 };
 
 export const deleteProject = async (doDelete) => {
   if (doDelete === true) {
     const projectStore = useProjectStore();
-    await projectStore.deleteProject(projectStore.getProject.id);
     
-    await msgAndRedirect('Project has been deleted');
+    const result = await projectStore.deleteProject(projectStore.getProject.id);
+    
+    if (result) {
+      await msgAndRedirect('Project has been deleted');
+    }
   }
 };
 

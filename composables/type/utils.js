@@ -16,29 +16,37 @@ export const getTypeById = (id) => {
 export const addType = async (type) => {
   const typeStore = useTypeStore();
 
-  await typeStore.addType(
+  const result = await typeStore.addType(
     { name: type.name }
   );
   
-  await msgAndRedirect('Type has been added');
+  if (result) {
+    await msgAndRedirect('Type has been added');
+  }
 }
 
 export const editType = async (type) => {
   const typeStore = useTypeStore();
   
-  await typeStore.editType(
+  const result = await typeStore.editType(
     type.id,
     { name: type.name }
   );
-  await msgAndRedirect('Type has been edited');
+
+  if (result) {
+    await msgAndRedirect('Type has been edited');
+  }
 }
 
 export const deleteType = async (doDelete) => {
   if (doDelete === true) {
     const typeStore = useTypeStore();
-    await typeStore.deleteType(typeStore.getType.id);
     
-    await msgAndRedirect('Type has been deleted');
+    const result = await typeStore.deleteType(typeStore.getType.id);
+    
+    if (result) {
+      await msgAndRedirect('Type has been deleted');
+    }
   }
 }
 

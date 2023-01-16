@@ -8,7 +8,10 @@
     v-if="layoutStore.getStatusMsg"
     id="status-msg"
     :type="layoutStore.getStatusMsg.type">
-    {{ layoutStore.getStatusMsg.text }}
+    <template v-for="(msg, index) in layoutStore.getStatusMsg.text">
+      <span>{{ msg }}</span>
+      <br v-if="layoutStore.getStatusMsg.text.length > 1" />
+    </template>
   </v-alert>
 </template>
 

@@ -1,3 +1,6 @@
+import ApiException from './../exceptions/ApiException';
+import ValidationException from './../exceptions/ValidationException';
+
 class ApiService {
   constructor(apiUrl) {
     this.apiUrl = apiUrl;
@@ -19,7 +22,12 @@ class ApiService {
     const handleError = this.getErrorHandler();
 
     response = await (fetch(url, params).catch(handleError));
+
+    console.log('API Response - 1', response);
+
     response = await this.checkResponse(response);
+
+    console.log('API Response - 2', response);
 
     return response;
   }
@@ -56,8 +64,26 @@ class ApiService {
   }
 
   async checkResponse(response) {
-    if (response.status === 401) {
-      throw new Error('You are logged out of the API. Please re-login.', { cause: 401 });
+    let responseData = null;
+
+    try {
+      responseData = await response.json();
+    } catch (error) {
+      responseData = null;
+    }
+
+    if (response.status == 401) {
+      throw new ApiException(
+        getUnauthenticatedMessage(responseData),
+        401
+      );
+    }
+
+    if (response.status == 422) {
+      throw new ValidationException(
+        getValidationMessages(responseData),
+        422
+      );
     }
 
     if (response.status === 204) {
@@ -66,13 +92,35 @@ class ApiService {
 
     console.log(`API`, response, response.body);
 
-    try {
-      response = await response.json();
-    } catch (error) {
-      response = null;
-    }
-    return response;
+    return responseData;
   }
+}
+
+const getUnauthenticatedMessage = (response) => {
+  let errorMessage = 'You are logged out of the API. Please re-login.';
+
+  if (response['error']) {
+    errorMessage = response['error'];
+  }
+
+  return errorMessage;
+}
+
+const getValidationMessages = async (response) => {
+  const msgs = response.errors;
+  let invalidMsgs = [];
+
+  for (const typeKey in msgs) {
+    const typeMsgs = msgs[typeKey];
+
+    for (const msgKey in typeMsgs) {
+      const msg = typeMsgs[msgKey];
+      invalidMsgs.push(msg);
+    }
+  }
+  console.log('invalidMsgs', invalidMsgs);
+
+  return invalidMsgs;
 }
 
 export default ApiService;

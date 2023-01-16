@@ -1,4 +1,5 @@
 <script setup>
+  import { useLayoutStore } from '@/stores/LayoutStore';
   import { useAuthStore } from '../stores/AuthStore';
 
   definePageMeta({ layout: false });
@@ -18,8 +19,21 @@
     loading.value = true;
 
     const authStore = useAuthStore();
-    const response = await authStore.login(email.value, password.value);
+    let response = null;
 
+    try {
+      response = await authStore.login(email.value, password.value);
+    } catch (error) {
+      const layoutStore = useLayoutStore();
+
+      console.log('error.message', error, error.message);
+        
+      layoutStore.setStatusMsg({
+        type: 'error',
+        text: [error.message]
+      });
+    }
+    
     loading.value = false;
   };
 </script>

@@ -1,20 +1,61 @@
 import { useLayoutStore } from '@/stores/LayoutStore';
+import { useAuthStore } from '@/stores/AuthStore';
+
+const authCheck = async (apiException) => {
+  const layoutStore = useLayoutStore();
+  const authStore = useAuthStore();
+
+  if (authStore.isLoggedIn === true &&
+    apiException && apiException.code === 401
+  ) {
+    await authStore.logout();
+
+    layoutStore.setStatusMsg({
+      type: 'info',
+      text: ['Your login has expired. Please login again']
+    });
+
+    return false;
+  }
+  return true;
+}
+
+const setErrorStatusMsg = async (error) => {
+  const exceptionType = error.constructor.name;
+  let errorMsgs = [];
+
+  if (exceptionType === 'ValidationException') {
+    const messages = await error.messages;
+    errorMsgs = messages;
+  } else {
+    errorMsgs = [error.message];
+  }
+
+  const layoutStore = useLayoutStore();
+  layoutStore.setStatusMsg({
+    type: 'error',
+    text: errorMsgs
+  });
+}
 
 export const callApi = async (ftn) => {
-  const layoutStore = useLayoutStore();
   let result = null;
   
   try {
     result = await ftn();
   } catch (error) {
-    if (error.cause == 401) {
-      await navigateTo(`/login`);
+    const exceptionType = error.constructor.name;
+    let isAuthValid = true;
+
+    if (exceptionType === 'ApiException') {
+      isAuthValid = authCheck(error);
     }
 
-    layoutStore.setStatusMsg({
-      type: 'error',
-      text: error.message
-    });
+    if (isAuthValid === true) {
+      setErrorStatusMsg(error);
+      //throw error;
+      return false;
+    }
   }
   console.log('callApi - RES', result);
 
