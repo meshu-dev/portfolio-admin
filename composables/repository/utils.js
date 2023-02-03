@@ -79,7 +79,9 @@ export const repositoryFormSubmit = async () => {
 export const getRepositoriesByNames = (repositoryNames) => {
   const repositoryStore = useRepositoryStore();
 
-  return repositoryStore.getRepositories.filter(
+  console.log('repositoryNames', repositoryNames);
+
+  return repositoryStore.getOrderedRepositories.filter(
     repository => repositoryNames.includes(repository.name)
   );
 };
