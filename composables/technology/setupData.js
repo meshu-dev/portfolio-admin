@@ -38,7 +38,7 @@ const setupDeleteDialog = () => {
 
 const setReturnUrl = () => {
   const layoutStore = useLayoutStore();
-  layoutStore.setReturnUrl('/repositories');
+  layoutStore.setReturnUrl('/technologies');
 };
 
 export default (id) => {

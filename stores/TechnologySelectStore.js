@@ -8,10 +8,7 @@ export const useTechnologySelectStore = defineStore({
     getOptions() {
       const technologyStore = useTechnologyStore();
 
-      const options = technologyStore.getTechnologies.map((technology) => {
-        return technology.name;
-      });
-
+      const options = technologyStore.getTechnologyNames;
       return options;
     }
   },

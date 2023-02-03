@@ -8,7 +8,7 @@ export const useRepositorySelectStore = defineStore({
     getOptions() {
       const repositoryStore = useRepositoryStore();
 
-      const options = repositoryStore.getRepositories.map((repository) => {
+      const options = repositoryStore.getAllRepositories.map((repository) => {
         return repository.name;
       });
 

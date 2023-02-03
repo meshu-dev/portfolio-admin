@@ -26,8 +26,19 @@ export const useTechnologyStore = defineStore({
     getAllTechnologies(state) {
       return state.allTechnologies;
     },
+    getOrderedTechnologies(state) {
+      return state.allTechnologies.sort((tech1, tech2) => {
+        if (tech1.name < tech2.name) {
+          return -1;
+        }
+        if (tech1.name > tech2.name) {
+          return 1;
+        }
+        return 0;
+      });
+    },
     getTechnologyNames(state) {
-      return state.allTechnologies.map(technology => technology.name);
+      return state.getOrderedTechnologies.map(technology => technology.name);
     },
     getTechnologyById(state) {
       return (id) => {

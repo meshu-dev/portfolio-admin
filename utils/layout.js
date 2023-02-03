@@ -1,5 +1,9 @@
 import { useLayoutStore } from '@/stores/LayoutStore';
 
+export const StatusType = {
+  success: 'success'
+};
+
 export const setStatusMsg = (type, text) => {
   const layoutStore = useLayoutStore();
 

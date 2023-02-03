@@ -26,8 +26,19 @@ export const useRepositoryStore = defineStore({
     getAllRepositories(state) {
       return state.allRepositories;
     },
+    getOrderedRepositories(state) {
+      return state.allTechnologies.sort((tech1, tech2) => {
+        if (tech1.name < tech2.name) {
+          return -1;
+        }
+        if (tech1.name > tech2.name) {
+          return 1;
+        }
+        return 0;
+      });
+    },
     getRepositoryNames(state) {
-      return state.allRepositories.map(repository => repository.name);
+      return state.getOrderedRepositories.map(repository => repository.name);
     },
     getRepositoryOptions(state) {
       if (state.allRepositories.length == 0) {
