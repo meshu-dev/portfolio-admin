@@ -8,6 +8,7 @@ const getParams = (project) => {
   const params = {
     name: project.name,
     description: project.description,
+    url: project.url,
     typeId: project.type.id,
     repositoryIds: getRepositoryIds(project.repositories),
     technologyIds: getTechnologyIds(project.technologies)

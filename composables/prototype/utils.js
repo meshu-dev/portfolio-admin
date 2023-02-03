@@ -8,6 +8,7 @@ const getParams = (prototype) => {
   const params = {
     name: prototype.name,
     description: prototype.description,
+    url: prototype.url,
     typeId: prototype.type.id,
     repositoryIds: getRepositoryIds(prototype.repositories),
     technologyIds: getTechnologyIds(prototype.technologies)

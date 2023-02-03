@@ -43,6 +43,11 @@
       v-model="prototypeStore.getPrototype.description"
       class="item-fullfield"
       required />
+    <v-text-field
+      label="Url"
+      v-model="prototypeStore.getPrototype.url"
+      class="item-field"
+      required />
     <RepositorySelect
       :selected="getRepositoryNames(prototypeStore.getPrototype.repositories)"
       :onChange="onRepositoryChange" />
