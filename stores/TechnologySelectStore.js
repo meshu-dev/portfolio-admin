@@ -7,9 +7,7 @@ export const useTechnologySelectStore = defineStore({
   getters: {
     getOptions() {
       const technologyStore = useTechnologyStore();
-
-      const options = technologyStore.getTechnologyNames;
-      return options;
+      return technologyStore.getTechnologyNames;
     }
   },
   actions: { }

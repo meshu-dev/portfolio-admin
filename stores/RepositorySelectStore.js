@@ -7,12 +7,7 @@ export const useRepositorySelectStore = defineStore({
   getters: {
     getOptions() {
       const repositoryStore = useRepositoryStore();
-
-      const options = repositoryStore.getAllRepositories.map((repository) => {
-        return repository.name;
-      });
-
-      return options;
+      return repositoryStore.getRepositoryNames;
     }
   },
   actions: { }
