@@ -27,11 +27,11 @@ export const useRepositoryStore = defineStore({
       return state.allRepositories;
     },
     getOrderedRepositories(state) {
-      return state.allTechnologies.sort((tech1, tech2) => {
-        if (tech1.name < tech2.name) {
+      return state.allRepositories.sort((repo1, repo2) => {
+        if (repo1.name < repo2.name) {
           return -1;
         }
-        if (tech1.name > tech2.name) {
+        if (repo1.name > repo2.name) {
           return 1;
         }
         return 0;
