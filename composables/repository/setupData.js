@@ -23,9 +23,6 @@ const fetchList = async () => {
 const setData = (id) => {
   const repositoryStore = useRepositoryStore();
   repositoryStore.setSelectedRepository(id);
-
-  setupDeleteDialog();
-  setReturnUrl();
 };
 
 const setupDeleteDialog = () => {
@@ -47,6 +44,9 @@ export default (id) => {
   onMounted(async () => {
     await fetchList();
     
+    setupDeleteDialog();
+    setReturnUrl();
+
     if (id) {
       setData(id);
     }

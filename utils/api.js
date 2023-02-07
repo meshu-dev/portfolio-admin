@@ -24,8 +24,13 @@ const setErrorStatusMsg = async (error) => {
   const exceptionType = error.constructor.name;
   let errorMsgs = [];
 
+  console.log('error!!!', error);
+
   if (exceptionType === 'ValidationException') {
     const messages = await error.messages;
+
+    console.log('error!!! 2', messages);
+
     errorMsgs = messages;
   } else {
     errorMsgs = [error.message];

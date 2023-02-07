@@ -19,7 +19,14 @@ class ApiService {
 
     const handleError = this.getErrorHandler();
 
-    response = await (fetch(url, params).catch(handleError));
+    response = await (fetch(url, params).catch((err) => {
+      console.log('FETCH ERROR!!!', err);
+
+      return new Response(JSON.stringify({
+        code: 400,
+        message: 'Stupid network Error'
+      }));
+    }));
     response = await this.checkResponse(response);
 
     return response;
@@ -73,6 +80,8 @@ class ApiService {
     }
 
     if (response.status == 422) {
+
+
       throw new ValidationException(
         getValidationMessages(responseData),
         422
@@ -104,9 +113,13 @@ const getValidationMessages = async (response) => {
   for (const typeKey in msgs) {
     const typeMsgs = msgs[typeKey];
 
-    for (const msgKey in typeMsgs) {
-      const msg = typeMsgs[msgKey];
-      invalidMsgs.push(msg);
+    if (typeof typeMsgs === 'string') {
+      invalidMsgs.push(typeMsgs);
+    } else {
+      for (const msgKey in typeMsgs) {
+        const msg = typeMsgs[msgKey];
+        invalidMsgs.push(msg);
+      }
     }
   }
 

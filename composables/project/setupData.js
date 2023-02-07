@@ -26,8 +26,6 @@ const setData = (id) => {
   projectStore.setSelectedProject(id);
 
   setImage(id);
-  setupDeleteDialog();
-  setReturnUrl();
 };
 
 const setImage = (id) => {
@@ -67,6 +65,9 @@ export default (id) => {
 
   onMounted(async () => {
     await fetchList();
+
+    setupDeleteDialog();
+    setReturnUrl();
     
     if (id) {
       setData(id);

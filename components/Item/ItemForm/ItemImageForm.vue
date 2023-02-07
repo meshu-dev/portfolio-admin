@@ -54,18 +54,21 @@
 <style lang="scss">
   #item-image-container {
     display: flex;
+    flex-direction: row;
 
     #item-image-blank {
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #EAEAEA;
+      max-width: 500px;
       width: 500px;
       height: 300px;
       font-size: 30px;
     }
 
     #item-image-actions {
+      margin-top: 0;
       margin-left: 20px;
 
       #item-image-upload {
@@ -74,6 +77,21 @@
         .v-btn {
           margin-left: 40px;
         }
+      }
+    }
+  }
+
+  @media (max-width: 920px) {
+    #item-image-container {
+      flex-direction: column;
+
+      #item-image-blank {
+        width: auto;
+      }
+
+      #item-image-actions {
+        margin-top: 20px;
+        margin-left: 0;
       }
     }
   }

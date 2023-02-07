@@ -23,9 +23,6 @@ const fetchList = async () => {
 const setData = (id) => {
   const technologyStore = useTechnologyStore();
   technologyStore.setSelectedTechnology(id);
-
-  setupDeleteDialog();
-  setReturnUrl();
 };
 
 const setupDeleteDialog = () => {
@@ -46,6 +43,9 @@ export default (id) => {
 
   onMounted(async () => {
     await fetchList();
+
+    setupDeleteDialog();
+    setReturnUrl();
     
     if (id) {
       setData(id);
