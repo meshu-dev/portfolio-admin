@@ -7,7 +7,7 @@ import { deleteTechnology } from '@/composables/technology/utils';
 const setBlankTechnology = (id) => {
   const technologyStore = useTechnologyStore();
 
-  if (id && technologyStore.getTechnology == null) {
+  if (id && id === 'new') {
     technologyStore.setBlankTechnology();
   }
 };

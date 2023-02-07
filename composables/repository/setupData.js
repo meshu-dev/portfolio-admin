@@ -7,7 +7,7 @@ import { deleteRepository } from '@/composables/repository/utils';
 const setBlankRepository = (id) => {
   const repositoryStore = useRepositoryStore();
 
-  if (id && repositoryStore.getRepository == null) {
+  if (id && id === 'new') {
     repositoryStore.setBlankRepository();
   }
 };
