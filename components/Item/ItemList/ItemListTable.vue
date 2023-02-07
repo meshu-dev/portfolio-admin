@@ -22,7 +22,7 @@
 </script>
 
 <template>
-  <v-table v-if="items.length > 0">
+  <v-table v-if="items && items.length > 0">
     <thead>
       <tr>
         <th class="text-left">Id</th>
@@ -53,7 +53,7 @@
       </tr>
     </tbody>
   </v-table>
-  <div v-if="items.length == 0">
+  <div v-if="items == null || items.length == 0">
     None available
   </div>
 </template>
