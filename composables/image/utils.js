@@ -2,8 +2,6 @@ import { useImageStore } from '@/stores/ImageStore';
 
 export const uploadImage = async (fileInput) => {
   const files = toRaw(fileInput.value);
-    
-  console.log('Files', files[0], files);
 
   if (files[0]) {
     const imageStore = useImageStore();

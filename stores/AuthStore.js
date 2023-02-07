@@ -18,7 +18,6 @@ export const useAuthStore = defineStore({
         isLoggedIn = isLoggedIn === 'true' ? true : false;
 
         const runtimeConfig = useRuntimeConfig();
-        console.log('runtimeConfig - ApiUrl', runtimeConfig.apiUrl, runtimeConfig);
 
         apiService.baseUrl = runtimeConfig.apiUrl;
 

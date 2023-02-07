@@ -15,19 +15,12 @@ class ApiService {
 
     params = this.prepareParams(method, params);
 
-    console.log('sendRequest', url, this.apiUrl, params);
-
     let response = null;
 
     const handleError = this.getErrorHandler();
 
     response = await (fetch(url, params).catch(handleError));
-
-    console.log('API Response - 1', response);
-
     response = await this.checkResponse(response);
-
-    console.log('API Response - 2', response);
 
     return response;
   }
@@ -90,8 +83,6 @@ class ApiService {
       return true;
     }
 
-    console.log(`API`, response, response.body);
-
     return responseData;
   }
 }
@@ -118,7 +109,6 @@ const getValidationMessages = async (response) => {
       invalidMsgs.push(msg);
     }
   }
-  console.log('invalidMsgs', invalidMsgs);
 
   return invalidMsgs;
 }

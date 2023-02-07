@@ -8,8 +8,6 @@
   const page = ref(props.currentPage);
 
   watch(page, (newValue, oldValue) => {
-    console.log('page', page);
-    
     if (props.onClickFtn && newValue != oldValue) {
       props.onClickFtn(newValue);
     }

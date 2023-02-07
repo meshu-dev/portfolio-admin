@@ -24,8 +24,6 @@ export const useImageStore = defineStore({
         formData.append('image', params['image']);
         formData.append('thumb', true);
 
-        console.log('FormData', formData);
-
         result = await imageService.add(formData);
         const image = result['data'] ?? null;
 

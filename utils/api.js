@@ -57,7 +57,6 @@ export const callApi = async (ftn) => {
       return false;
     }
   }
-  console.log('callApi - RES', result);
 
   return result;
 }

@@ -25,8 +25,6 @@
       response = await authStore.login(email.value, password.value);
     } catch (error) {
       const layoutStore = useLayoutStore();
-
-      console.log('error.message', error, error.message);
         
       layoutStore.setStatusMsg({
         type: 'error',

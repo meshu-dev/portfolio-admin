@@ -73,8 +73,6 @@ export const technologyFormSubmit = async () => {
 export const getTechnologiesByNames = (technologyNames) => {
   const technologyStore = useTechnologyStore();
 
-  console.log('technologyNames', technologyNames);
-
   return technologyStore.getOrderedTechnologies.filter(
     technology => technologyNames.includes(technology.name)
   );
