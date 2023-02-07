@@ -45,6 +45,7 @@ export const deleteType = async (doDelete) => {
     const result = await typeStore.deleteType(typeStore.getType.id);
     
     if (result) {
+      await typeStore.fetchTypes();
       await msgAndRedirect('Type has been deleted');
     }
   }

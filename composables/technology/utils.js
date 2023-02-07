@@ -54,6 +54,7 @@ export const deleteTechnology = async (doDelete) => {
     const result = await technologyStore.deleteTechnology(technologyStore.getTechnology.id);
     
     if (result) {
+      await technologyStore.fetchTechnologies();
       await msgAndRedirect('Technology has been deleted');
     }
   }

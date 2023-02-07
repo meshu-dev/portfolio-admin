@@ -53,6 +53,7 @@ export const deleteProject = async (doDelete) => {
     const result = await projectStore.deleteProject(projectStore.getProject.id);
     
     if (result) {
+      await projectStore.fetchProjects();
       await msgAndRedirect('Project has been deleted');
     }
   }

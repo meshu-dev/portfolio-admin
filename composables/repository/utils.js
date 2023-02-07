@@ -60,6 +60,7 @@ export const deleteRepository = async (doDelete) => {
     const result = await repositoryStore.deleteRepository(repositoryStore.getRepository.id);
     
     if (result) {
+      await repositoryStore.fetchRepositories();
       await msgAndRedirect('Repository has been deleted');
     }
   }

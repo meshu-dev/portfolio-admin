@@ -53,6 +53,7 @@ export const deletePrototype = async (doDelete) => {
     const result = await prototypeStore.deletePrototype(prototypeStore.getPrototype.id);
     
     if (result) {
+      await prototypeStore.fetchPrototypes();
       await msgAndRedirect('Prototype has been deleted');
     }
   }
