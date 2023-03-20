@@ -26,7 +26,7 @@ const setErrorStatusMsg = async (error) => {
 
   console.log('error!!!', error);
 
-  if (exceptionType === 'ValidationException') {
+  if (exceptionType === 'ValidationException' || exceptionType === 'jS') {
     const messages = await error.messages;
 
     console.log('error!!! 2', messages);
@@ -58,7 +58,7 @@ export const callApi = async (ftn) => {
 
     console.log('exceptionType', error, exceptionType);
 
-    if (isAuthValid === true) {
+    if (isAuthValid === true || exceptionType === 'jS') {
       setErrorStatusMsg(error);
       //throw error;
       return false;
