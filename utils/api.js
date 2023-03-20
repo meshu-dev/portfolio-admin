@@ -56,6 +56,8 @@ export const callApi = async (ftn) => {
       isAuthValid = authCheck(error);
     }
 
+    console.log('exceptionType', exceptionType);
+
     if (isAuthValid === true) {
       setErrorStatusMsg(error);
       //throw error;
