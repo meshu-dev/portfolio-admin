@@ -16,6 +16,7 @@
 
 <template>
   <ItemForm
+    v-if="technologyStore.getTechnology"
     :title="title"
     v-on:onSubmit="technologyFormSubmit">
     <v-text-field
