@@ -3,22 +3,30 @@
   import SideMenu from '@/components/Layout/SideMenu.vue';
   import StatusMsg from '@/components/Layout/StatusMsg.vue';
   import ItemDeleteDialog from '@/components/Item/ItemForm/ItemDeleteDialog.vue';
+
+  let isLoggedIn = false;
+
+  if (process.client) {
+    isLoggedIn = localStorage && localStorage.getItem('isLoggedIn') === 'true';
+  }
 </script>
 
 <template>
   <v-app full-height>
     <div id="page-layout" class="layout">
-      <Header />
-      <SideMenu />
-      <div id="page-content-wrapper" class="content-box-wrapper">
-        <ItemDeleteDialog />
-        <div id="page-content">
-          <StatusMsg />
-          <div class="content-box">
-            <slot />
+      <template v-if="isLoggedIn">
+        <Header />
+        <SideMenu />
+        <div id="page-content-wrapper" class="content-box-wrapper">
+          <ItemDeleteDialog />
+          <div id="page-content">
+            <StatusMsg />
+            <div class="content-box">
+              <slot />
+            </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
   </v-app>
 </template>
