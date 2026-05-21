@@ -36,6 +36,12 @@ Running unit tests.
 php artisan test
 ```
 
+Check code coverage.
+
+```bash
+php artisan test --coverage
+```
+
 Running PHPStan checks.
 
 ```bash
