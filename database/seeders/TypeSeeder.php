@@ -13,11 +13,13 @@ class TypeSeeder extends Seeder
         Type::insert([
             [
                 'id'   => TypeEnum::CV->value,
+                'key'  => TypeEnum::CV->key(),
                 'name' => 'CV',
                 'url'  => 'https://cv.meshpro.io',
             ],
             [
                 'id'   => TypeEnum::PORTFOLIO->value,
+                'key'  => TypeEnum::PORTFOLIO->key(),
                 'name' => 'Portfolio',
                 'url'  => 'https://meshpro.io',
             ]

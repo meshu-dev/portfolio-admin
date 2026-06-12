@@ -26,7 +26,7 @@ class SiteSeeder extends Seeder
             'user_id' => $user->id,
             'name'    => $site['name'],
             'url'     => $site['url'],
-            'icon'    => $site['icon'],
+            'icons'    => $site['icons'],
         ];
 
         $siteModel = Site::create($params);
