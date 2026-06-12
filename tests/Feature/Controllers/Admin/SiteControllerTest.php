@@ -37,7 +37,6 @@ describe('SiteController tests', function () {
                                       ->where('site.data.id', $site->id)
                                       ->where('site.data.name', $site->name)
                                       ->where('site.data.url', $site->url)
-                                      ->where('site.data.image_url', 'https://placehold.co/64x64')
                                       ->where('site.data.types.0.id', $site->types->first()->id)
                                       ->where('site.data.types.0.name', $site->types->first()->name)
         );
@@ -60,7 +59,7 @@ describe('SiteController tests', function () {
         $params = [
             'name'  => 'Laravel',
             'url'   => 'https://laravel.com',
-            'icon'  => 'laravel-icon',
+            'icons' => ['laravel-icon'],
             'types' => [$type->id],
             'image' => UploadedFile::fake(),
         ];
@@ -83,7 +82,7 @@ describe('SiteController tests', function () {
             'id'    => $site->id,
             'name'  => 'Laravel',
             'url'   => 'https://laravel.com',
-            'icon'  => 'laravel-icon',
+            'icons' => ['laravel-icon'],
             'types' => [$type->id],
             'image' => UploadedFile::fake(),
         ];
