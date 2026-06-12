@@ -1,3 +1,5 @@
+[![Test Build Status](https://github.com/meshu-dev/portfolio-admin/actions/workflows/ci.yml/badge.svg)](https://github.com/meshu-dev/portfolio-admin/actions)
+
 A Laravel app to manage data for my CV and Portfolio websites via an admin panel built with Vue.js.
 
 ## Setup
