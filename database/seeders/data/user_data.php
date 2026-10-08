@@ -5,7 +5,7 @@ use App\Enums\{DynamicValueEnum, FileTypeEnum, TypeEnum};
 return [
     'cv' => [
         'profile' => [
-            'fullname'  => 'Alex Carter',
+            'fullname'  => 'John Smith',
             'intro'     => "Full-stack developer with over " .
                             DynamicValueEnum::YEARS_WORKED->value .
                             " years of experience building web applications",
@@ -102,6 +102,7 @@ return [
                 'active' => false,
             ],
         ],
+        'generate_pdf' => true,
     ],
     'portfolio' => [
         'intro' => [

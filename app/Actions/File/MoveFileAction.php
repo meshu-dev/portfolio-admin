@@ -5,6 +5,7 @@ namespace App\Actions\File;
 use App\Exceptions\FileNotUploadedException;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MoveFileAction
 {
@@ -21,10 +22,13 @@ class MoveFileAction
 
         $file = new File(storage_path('app/private') . '/' . $filename);
 
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $s3Filename = Str::uuid() . ($extension ? '.' . $extension : '');
+
         $fileUrl = Storage::disk('s3')->putFileAs(
             'site',
             $file,
-            $filename,
+            $s3Filename,
             'public'
         );
 

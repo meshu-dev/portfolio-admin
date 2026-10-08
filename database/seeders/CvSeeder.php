@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\Cv\Pdf\CreatePdfAction;
 use App\Models\{
     Profile,
     Skill,
@@ -24,6 +25,10 @@ class CvSeeder extends Seeder
             $this->addProfile($user->id);
             $this->addSkills($user->id);
             $this->addWorkExperiences($user->id);
+
+            if ($this->data['generate_pdf']) {
+                $this->addPdf($user->id);
+            }
         }
     }
 
@@ -62,5 +67,10 @@ class CvSeeder extends Seeder
             $workExperience['user_id'] = $userId;
             WorkExperience::create($workExperience);
         }
+    }
+
+    protected function addPdf(int $userId)
+    {
+        resolve(CreatePdfAction::class)->execute($userId);
     }
 }
