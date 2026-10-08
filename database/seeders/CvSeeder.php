@@ -71,6 +71,10 @@ class CvSeeder extends Seeder
 
     protected function addPdf(int $userId)
     {
+        if (! app()->isLocal()) {
+            return;
+        }
+
         resolve(CreatePdfAction::class)->execute($userId);
     }
 }
