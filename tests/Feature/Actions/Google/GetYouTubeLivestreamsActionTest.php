@@ -1,7 +1,7 @@
 <?php
 
 use App\Actions\Google\GetYouTubeLivestreamsAction;
-use App\Clients\Google\Response\YouTubeLivestreamData;
+use App\Clients\Google\Response\LivestreamResponseData;
 use App\Enums\LivestreamStatusEnum;
 use App\Exceptions\YouTubeApiException;
 
@@ -57,7 +57,7 @@ describe('GetYouTubeLivestreamsAction tests', function () {
 
         // Assert
         expect($livestreams)->toHaveCount(2)
-            ->each->toBeInstanceOf(YouTubeLivestreamData::class)
+            ->each->toBeInstanceOf(LivestreamResponseData::class)
             ->and($livestreams[0])->toMatchObject([
                 'id'        => 'live1',
                 'title'     => 'Live now',

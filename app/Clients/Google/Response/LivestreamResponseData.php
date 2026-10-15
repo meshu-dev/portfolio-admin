@@ -6,7 +6,7 @@ use App\Enums\LivestreamStatusEnum;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Data;
 
-class YouTubeLivestreamData extends Data
+class LivestreamResponseData extends Data
 {
     public function __construct(
         public string $id,

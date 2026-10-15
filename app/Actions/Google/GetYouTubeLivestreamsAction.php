@@ -8,7 +8,7 @@ use App\Clients\Google\Request\{
     PlaylistItemsRequestData,
     VideosRequestData,
 };
-use App\Clients\Google\Response\YouTubeLivestreamData;
+use App\Clients\Google\Response\LivestreamResponseData;
 use App\Enums\YouTubeEndpointEnum;
 use App\Exceptions\YouTubeApiException;
 
@@ -21,7 +21,7 @@ class GetYouTubeLivestreamsAction
     /**
      * Get the livestreams (live, upcoming and past) for a YouTube channel, newest first.
      *
-     * @return list<YouTubeLivestreamData>
+     * @return list<LivestreamResponseData>
      *
      * @throws YouTubeApiException
      */
@@ -42,7 +42,7 @@ class GetYouTubeLivestreamsAction
 
         $livestreams = array_filter($videos, fn (array $video) => isset($video['liveStreamingDetails']));
 
-        return array_values(array_map(YouTubeLivestreamData::fromVideo(...), $livestreams));
+        return array_values(array_map(LivestreamResponseData::fromVideo(...), $livestreams));
     }
 
     /**
