@@ -7,6 +7,8 @@ use App\Enums\UserEnum;
 use App\Exceptions\YouTubeApiException;
 use App\Models\Livestream;
 use Carbon\CarbonImmutable;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
 use Mockery\MockInterface;
 
 describe('Commands\ImportYouTubeLivestreams tests', function () {
@@ -102,5 +104,18 @@ describe('Commands\ImportYouTubeLivestreams tests', function () {
         $this->artisan('app:import-youtube-livestreams')
             ->expectsOutput('GOOGLE_YOUTUBE_API_KEY is not set')
             ->assertExitCode(1);
+    });
+});
+
+describe('Commands\ImportYouTubeLivestreams schedule', function () {
+    it('is scheduled to run daily at 03:00 without overlapping', function () {
+        // Arrange
+        $events = collect(app(Schedule::class)->events())
+            ->filter(fn (Event $event) => str_contains($event->command, 'app:import-youtube-livestreams'));
+
+        // Assert
+        expect($events)->toHaveCount(1)
+            ->and($events->first()->expression)->toBe('0 3 * * *')
+            ->and($events->first()->withoutOverlapping)->toBeTrue();
     });
 });
