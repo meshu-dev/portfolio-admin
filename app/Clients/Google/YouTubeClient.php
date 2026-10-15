@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Clients;
+namespace App\Clients\Google;
 
+use App\Enums\YouTubeEndpointEnum;
 use App\Exceptions\YouTubeApiException;
 use Illuminate\Support\Facades\Http;
+use Spatie\LaravelData\Data;
 
 class YouTubeClient
 {
     /**
      * Send a GET request to a YouTube Data API endpoint.
      *
-     * @param array<string, mixed> $query
      * @return array<string, mixed>
      *
      * @throws YouTubeApiException
      */
-    public function get(string $endpoint, array $query = []): array
+    public function get(YouTubeEndpointEnum $endpoint, Data $request): array
     {
         $apiKey = config('services.google.youtube.api_key');
 
@@ -23,7 +24,7 @@ class YouTubeClient
 
         $response = Http::baseUrl(config('services.google.youtube.api_url'))
             ->acceptJson()
-            ->get($endpoint, [...$query, 'key' => $apiKey]);
+            ->get($endpoint->value, [...$request->toArray(), 'key' => $apiKey]);
 
         throw_if(
             $response->failed(),

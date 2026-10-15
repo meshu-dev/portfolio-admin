@@ -1,7 +1,7 @@
 <?php
 
 use App\Actions\Google\GetYouTubeLivestreamsAction;
-use App\Clients\YouTubeLivestreamData;
+use App\Clients\Google\Response\YouTubeLivestreamData;
 use App\Enums\LivestreamStatusEnum;
 use App\Exceptions\YouTubeApiException;
 

@@ -2,14 +2,18 @@
 
 namespace App\Actions\Google;
 
-use App\Clients\YouTubeClient;
-use App\Clients\YouTubeLivestreamData;
+use App\Clients\Google\YouTubeClient;
+use App\Clients\Google\Request\{
+    ChannelsRequestData,
+    PlaylistItemsRequestData,
+    VideosRequestData,
+};
+use App\Clients\Google\Response\YouTubeLivestreamData;
+use App\Enums\YouTubeEndpointEnum;
 use App\Exceptions\YouTubeApiException;
 
 class GetYouTubeLivestreamsAction
 {
-    private const int MAX_VIDEOS = 50;
-
     public function __construct(private readonly YouTubeClient $client)
     {
     }
@@ -31,10 +35,10 @@ class GetYouTubeLivestreamsAction
             return [];
         }
 
-        $videos = $this->client->get('videos', [
-            'part' => 'snippet,liveStreamingDetails',
-            'id'   => implode(',', $videoIds),
-        ])['items'] ?? [];
+        $videos = $this->client->get(
+            YouTubeEndpointEnum::VIDEOS,
+            VideosRequestData::fromVideoIds($videoIds)
+        )['items'] ?? [];
 
         $livestreams = array_filter($videos, fn (array $video) => isset($video['liveStreamingDetails']));
 
@@ -46,20 +50,19 @@ class GetYouTubeLivestreamsAction
      */
     private function getRecentVideoIds(string $channelHandle): array
     {
-        $channel = $this->client->get('channels', [
-            'part'      => 'contentDetails',
-            'forHandle' => $channelHandle,
-        ])['items'][0] ?? null;
+        $channel = $this->client->get(
+            YouTubeEndpointEnum::CHANNELS,
+            new ChannelsRequestData(forHandle: $channelHandle)
+        )['items'][0] ?? null;
 
         $uploadsPlaylistId = $channel['contentDetails']['relatedPlaylists']['uploads'] ?? null;
 
         throw_unless($uploadsPlaylistId, YouTubeApiException::channelNotFound($channelHandle));
 
-        $items = $this->client->get('playlistItems', [
-            'part'       => 'contentDetails',
-            'playlistId' => $uploadsPlaylistId,
-            'maxResults' => self::MAX_VIDEOS,
-        ])['items'] ?? [];
+        $items = $this->client->get(
+            YouTubeEndpointEnum::PLAYLIST_ITEMS,
+            new PlaylistItemsRequestData(playlistId: $uploadsPlaylistId)
+        )['items'] ?? [];
 
         return array_column(array_column($items, 'contentDetails'), 'videoId');
     }

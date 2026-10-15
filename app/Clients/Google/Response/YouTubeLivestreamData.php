@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Clients;
+namespace App\Clients\Google\Response;
 
 use App\Enums\LivestreamStatusEnum;
 use Carbon\CarbonImmutable;

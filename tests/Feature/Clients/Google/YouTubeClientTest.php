@@ -1,6 +1,8 @@
 <?php
 
-use App\Clients\YouTubeClient;
+use App\Clients\Google\Request\VideosRequestData;
+use App\Clients\Google\YouTubeClient;
+use App\Enums\YouTubeEndpointEnum;
 use App\Exceptions\YouTubeApiException;
 use Illuminate\Http\Client\Request;
 
@@ -14,7 +16,7 @@ describe('YouTubeClient tests', function () {
         Http::fake(['*/videos*' => Http::response(['items' => [['id' => 'abc']]])]);
 
         // Act
-        $result = app(YouTubeClient::class)->get('videos', ['part' => 'snippet', 'id' => 'abc']);
+        $result = app(YouTubeClient::class)->get(YouTubeEndpointEnum::VIDEOS, new VideosRequestData(id: 'abc', part: 'snippet'));
 
         // Assert
         expect($result)->toBe(['items' => [['id' => 'abc']]]);
@@ -32,7 +34,7 @@ describe('YouTubeClient tests', function () {
         Http::fake();
 
         // Act & Assert
-        expect(fn () => app(YouTubeClient::class)->get('videos'))
+        expect(fn () => app(YouTubeClient::class)->get(YouTubeEndpointEnum::VIDEOS, new VideosRequestData(id: 'abc')))
             ->toThrow(YouTubeApiException::class, 'GOOGLE_YOUTUBE_API_KEY is not set');
 
         Http::assertNothingSent();
@@ -43,7 +45,7 @@ describe('YouTubeClient tests', function () {
         Http::fake(['*' => Http::response(['error' => ['message' => 'quotaExceeded']], 403)]);
 
         // Act & Assert
-        expect(fn () => app(YouTubeClient::class)->get('videos'))
+        expect(fn () => app(YouTubeClient::class)->get(YouTubeEndpointEnum::VIDEOS, new VideosRequestData(id: 'abc')))
             ->toThrow(YouTubeApiException::class, 'YouTube API request failed (403): quotaExceeded');
     });
 });
