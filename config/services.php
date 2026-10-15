@@ -44,7 +44,12 @@ return [
                 'browser-error' => 'Could not connect to the verify site',
                 'default' => 'Verification for token has failed'
             ]
-        ]
+        ],
+        'youtube' => [
+            'api_key' => env('GOOGLE_YOUTUBE_API_KEY'),
+            'channel_handle' => env('GOOGLE_YOUTUBE_CHANNEL_HANDLE', '@Mesh-Pro'),
+            'api_url' => 'https://www.googleapis.com/youtube/v3',
+        ],
     ],
 
     'cloudflare' => [
