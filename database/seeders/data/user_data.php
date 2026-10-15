@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\{DynamicValueEnum, FileTypeEnum, TypeEnum};
+use App\Enums\{DynamicValueEnum, FileTypeEnum, LivestreamStatusEnum, TypeEnum};
 
 return [
     'cv' => [
@@ -189,6 +189,41 @@ return [
                     'name' => 'learning-lab.png',
                     'url'  => fake()->placeholderImageUrl(512, 512),
                 ],
+            ],
+        ],
+        'livestreams' => [
+            [
+                'youtube_id'         => 'dQw4w9WgXcQ',
+                'title'              => 'Building a portfolio site - Coding session',
+                'description'        => 'Live coding session working on a personal portfolio.',
+                'url'                => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                'thumbnail'          => fake()->placeholderImageUrl(480, 360),
+                'status'             => LivestreamStatusEnum::COMPLETED,
+                'scheduled_start_at' => now()->subDays(7)->setTime(17, 30),
+                'actual_start_at'    => now()->subDays(7)->setTime(17, 33),
+                'actual_end_at'      => now()->subDays(7)->setTime(19, 45),
+            ],
+            [
+                'youtube_id'         => 'aqz-KE-bpKQ',
+                'title'              => 'Setting up a Laravel API - Live now',
+                'description'        => 'Working through a Laravel API setup on stream.',
+                'url'                => 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
+                'thumbnail'          => fake()->placeholderImageUrl(480, 360),
+                'status'             => LivestreamStatusEnum::LIVE,
+                'scheduled_start_at' => now()->subHour(),
+                'actual_start_at'    => now()->subMinutes(55),
+                'actual_end_at'      => null,
+            ],
+            [
+                'youtube_id'         => 'jNQXAC9IVRw',
+                'title'              => 'Testing and code quality - Upcoming',
+                'description'        => 'Next week: unit testing and static analysis.',
+                'url'                => 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
+                'thumbnail'          => fake()->placeholderImageUrl(480, 360),
+                'status'             => LivestreamStatusEnum::UPCOMING,
+                'scheduled_start_at' => now()->addDays(7)->setTime(17, 30),
+                'actual_start_at'    => null,
+                'actual_end_at'      => null,
             ],
         ],
     ],

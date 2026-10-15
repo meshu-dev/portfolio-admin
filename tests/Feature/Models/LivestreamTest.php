@@ -40,12 +40,13 @@ describe('Models\Livestream tests', function () {
             ->and($livestream->user_id)->toBe($user->id);
     });
 
-    it('does not allow two livestreams with the same YouTube id', function () {
+    it('does not allow a user to have the same YouTube livestream twice', function () {
         // Arrange
-        Livestream::factory()->create(['youtube_id' => 'abc123']);
+        $user = User::factory()->create();
+        Livestream::factory()->for($user)->create(['youtube_id' => 'abc123']);
 
         // Act & Assert
-        expect(fn () => Livestream::factory()->create(['youtube_id' => 'abc123']))
+        expect(fn () => Livestream::factory()->for($user)->create(['youtube_id' => 'abc123']))
             ->toThrow(Illuminate\Database\UniqueConstraintViolationException::class);
     });
 });

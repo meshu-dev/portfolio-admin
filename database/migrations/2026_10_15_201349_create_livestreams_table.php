@@ -11,7 +11,7 @@ return new class () extends Migration {
         Schema::create('livestreams', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('user_id');
-            $table->string('youtube_id')->unique();
+            $table->string('youtube_id');
             $table->string('title');
             $table->text('description');
             $table->string('url');
@@ -22,6 +22,7 @@ return new class () extends Migration {
             $table->timestamp('actual_end_at')->nullable();
             $table->timestamps();
 
+            $table->unique(['user_id', 'youtube_id']);
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

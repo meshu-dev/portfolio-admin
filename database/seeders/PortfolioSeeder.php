@@ -6,6 +6,7 @@ use App\Models\{
     About,
     File,
     Intro,
+    Livestream,
     Project,
     Repository,
     Skill,
@@ -28,6 +29,7 @@ class PortfolioSeeder extends Seeder
             $this->addAbout($user->id);
             $this->addRepositories($user->id);
             $this->addProjects($user->id);
+            $this->addLivestreams($user->id);
         }
     }
 
@@ -105,6 +107,17 @@ class PortfolioSeeder extends Seeder
             ]);
 
             $projectModel->files()->save($file);
+        }
+    }
+
+    protected function addLivestreams(int $userId): void
+    {
+        $livestreams = $this->data['livestreams'];
+
+        foreach ($livestreams as $livestream) {
+            $livestream['user_id'] = $userId;
+
+            Livestream::create($livestream);
         }
     }
 }
