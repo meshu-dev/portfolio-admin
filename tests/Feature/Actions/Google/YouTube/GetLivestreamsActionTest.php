@@ -1,11 +1,11 @@
 <?php
 
-use App\Actions\Google\GetYouTubeLivestreamsAction;
+use App\Actions\Google\YouTube\GetLivestreamsAction;
 use App\Clients\Google\Response\LivestreamResponseData;
 use App\Enums\LivestreamStatusEnum;
 use App\Exceptions\YouTubeApiException;
 
-describe('GetYouTubeLivestreamsAction tests', function () {
+describe('GetLivestreamsAction tests', function () {
     beforeEach(function () {
         config()->set('services.google.youtube.api_key', 'test-key');
         config()->set('services.google.youtube.channel_handle', '@Mesh-Pro');
@@ -53,7 +53,7 @@ describe('GetYouTubeLivestreamsAction tests', function () {
         ]);
 
         // Act
-        $livestreams = app(GetYouTubeLivestreamsAction::class)->execute();
+        $livestreams = app(GetLivestreamsAction::class)->execute();
 
         // Assert
         expect($livestreams)->toHaveCount(2)
@@ -83,7 +83,7 @@ describe('GetYouTubeLivestreamsAction tests', function () {
         ]);
 
         // Act & Assert
-        expect(app(GetYouTubeLivestreamsAction::class)->execute())->toBe([]);
+        expect(app(GetLivestreamsAction::class)->execute())->toBe([]);
     });
 
     it('throws when the channel cannot be found', function () {
@@ -91,7 +91,7 @@ describe('GetYouTubeLivestreamsAction tests', function () {
         Http::fake(['*/channels*' => Http::response(['items' => []])]);
 
         // Act & Assert
-        expect(fn () => app(GetYouTubeLivestreamsAction::class)->execute('@Missing'))
+        expect(fn () => app(GetLivestreamsAction::class)->execute('@Missing'))
             ->toThrow(YouTubeApiException::class, 'YouTube channel @Missing could not be found');
     });
 });

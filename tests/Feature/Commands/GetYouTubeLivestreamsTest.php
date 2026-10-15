@@ -1,6 +1,6 @@
 <?php
 
-use App\Actions\Google\GetYouTubeLivestreamsAction;
+use App\Actions\Google\YouTube\GetLivestreamsAction;
 use App\Clients\Google\Response\LivestreamResponseData;
 use App\Enums\LivestreamStatusEnum;
 use App\Exceptions\YouTubeApiException;
@@ -22,7 +22,7 @@ describe('Commands\GetYouTubeLivestreams tests', function () {
             actualEndAt: null,
         );
 
-        $this->mock(GetYouTubeLivestreamsAction::class, function (MockInterface $mock) use ($livestream) {
+        $this->mock(GetLivestreamsAction::class, function (MockInterface $mock) use ($livestream) {
             $mock->shouldReceive('execute')->once()->with('@Mesh-Pro')->andReturn([$livestream]);
         });
 
@@ -37,7 +37,7 @@ describe('Commands\GetYouTubeLivestreams tests', function () {
 
     it('uses the configured channel when no handle is given', function () {
         // Arrange
-        $this->mock(GetYouTubeLivestreamsAction::class, function (MockInterface $mock) {
+        $this->mock(GetLivestreamsAction::class, function (MockInterface $mock) {
             $mock->shouldReceive('execute')->once()->with(null)->andReturn([]);
         });
 
@@ -49,7 +49,7 @@ describe('Commands\GetYouTubeLivestreams tests', function () {
 
     it('outputs the error and fails when the YouTube request fails', function () {
         // Arrange
-        $this->mock(GetYouTubeLivestreamsAction::class, function (MockInterface $mock) {
+        $this->mock(GetLivestreamsAction::class, function (MockInterface $mock) {
             $mock->shouldReceive('execute')->once()->andThrow(YouTubeApiException::missingApiKey());
         });
 

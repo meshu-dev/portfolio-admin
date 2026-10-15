@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Google;
+namespace App\Actions\Google\YouTube;
 
 use App\Clients\Google\YouTubeClient;
 use App\Clients\Google\Request\{
@@ -12,7 +12,7 @@ use App\Clients\Google\Response\LivestreamResponseData;
 use App\Enums\YouTubeEndpointEnum;
 use App\Exceptions\YouTubeApiException;
 
-class GetYouTubeLivestreamsAction
+class GetLivestreamsAction
 {
     public function __construct(private readonly YouTubeClient $client)
     {

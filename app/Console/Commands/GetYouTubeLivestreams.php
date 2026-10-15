@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Google\GetYouTubeLivestreamsAction;
+use App\Actions\Google\YouTube\GetLivestreamsAction;
 use App\Clients\Google\Response\LivestreamResponseData;
 use App\Exceptions\YouTubeApiException;
 use Illuminate\Console\Command;
@@ -26,7 +26,7 @@ class GetYouTubeLivestreams extends Command
     /**
      * Execute the console command.
      */
-    public function handle(GetYouTubeLivestreamsAction $getLivestreams): int
+    public function handle(GetLivestreamsAction $getLivestreams): int
     {
         $handle = $this->argument('handle');
 
