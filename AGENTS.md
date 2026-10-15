@@ -1,4 +1,12 @@
 <laravel-boost-guidelines>
+=== .ai/conventions rules ===
+
+## Our conventions
+
+- Use Form Request classes for all validation.
+- Put business logic in `app/Actions`, not controllers.
+- Use Pest for tests, not PHPUnit syntax.
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
