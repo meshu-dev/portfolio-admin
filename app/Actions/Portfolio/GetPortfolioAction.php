@@ -20,7 +20,7 @@ class GetPortfolioAction
         $intro    = resolve(GetIntroAction::class)->execute($userId);
         $about    = resolve(GetAboutAction::class)->execute($userId);
         $projects = resolve(GetProjectsAction::class)->execute($userId);
-        $livestreams = resolve(LivestreamRepository::class)->get($userId);
+        $livestreams = resolve(LivestreamRepository::class)->getLatest($userId);
 
         return [
             'intro'    => $intro,

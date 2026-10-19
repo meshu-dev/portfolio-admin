@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Clients\Google\Response\LivestreamResponseData;
+use App\Enums\LivestreamStatusEnum;
 use App\Models\Livestream;
 use Illuminate\Support\Collection;
 
@@ -11,14 +12,15 @@ class LivestreamRepository
     private const int LATEST_LIMIT = 10;
 
     /**
-     * Get the user's latest livestreams, ordered by when they started (or are scheduled to start).
+     * Get the user's latest completed livestreams, newest first.
      *
      * @return Collection<int, Livestream>
      */
-    public function get(int $userId): Collection
+    public function getLatest(int $userId): Collection
     {
         return Livestream::where('user_id', $userId)
-                         ->orderByRaw('COALESCE(actual_start_at, scheduled_start_at) DESC')
+                         ->where('status', LivestreamStatusEnum::COMPLETED)
+                         ->orderByDesc('actual_start_at')
                          ->limit(self::LATEST_LIMIT)
                          ->get();
     }
