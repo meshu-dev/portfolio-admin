@@ -288,6 +288,20 @@ return [
             ],
         ],
         [
+            'name' => 'YouTube',
+            'url'  => 'https://www.youtube.com/@Mesh-Pro',
+            'icons' => ['cv' => 'simple-icons:youtube', 'portfolio' => 'i-simple-icons-youtube'],
+            'types' => [
+                TypeEnum::CV->value,
+                TypeEnum::PORTFOLIO->value,
+            ],
+            'file' => [
+                'type' => FileTypeEnum::WEB->value,
+                'name' => 'youtube.png',
+                'url'  => fake()->placeholderImageUrl(64, 64),
+            ],
+        ],
+        [
             'name' => 'Website',
             'url'  => 'https://www.example.com',
             'icons' => ['cv' => 'codicon:globe', 'portfolio' => null],
