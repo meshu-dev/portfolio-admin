@@ -21,7 +21,7 @@ describe('Api\PortfolioController tests', function () {
             ->toHaveKey('data');
     });
 
-    it('includes the latest livestreams in the portfolio data', function () {
+    it('includes the 9 latest livestreams in the portfolio data', function () {
         // Arrange
         Livestream::query()->delete();
 
@@ -37,7 +37,7 @@ describe('Api\PortfolioController tests', function () {
 
         // Assert
         $response->assertOk()
-                 ->assertJsonCount(10, 'data.livestreams')
+                 ->assertJsonCount(9, 'data.livestreams')
                  ->assertJsonPath('data.livestreams.0.title', $livestreams->first()->title)
                  ->assertJsonPath('data.livestreams.0.status', 'completed')
                  ->assertJsonPath('data.livestreams.0.url', $livestreams->first()->url)

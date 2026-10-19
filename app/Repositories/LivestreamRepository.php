@@ -14,14 +14,16 @@ class LivestreamRepository
     /**
      * Get the user's latest completed livestreams, newest first.
      *
+     * @param int $limit Maximum number of livestreams to return
+     *
      * @return Collection<int, Livestream>
      */
-    public function getLatest(int $userId): Collection
+    public function getLatest(int $userId, int $limit = self::LATEST_LIMIT): Collection
     {
         return Livestream::where('user_id', $userId)
                          ->where('status', LivestreamStatusEnum::COMPLETED)
                          ->orderByDesc('actual_start_at')
-                         ->limit(self::LATEST_LIMIT)
+                         ->limit($limit)
                          ->get();
     }
 

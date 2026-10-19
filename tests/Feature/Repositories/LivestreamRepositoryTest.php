@@ -96,6 +96,21 @@ describe('LivestreamRepository tests', function () {
             ->and($result->pluck('user_id')->unique()->all())->toBe([$this->user->id]);
     });
 
+    it('limits the livestreams to the given limit', function () {
+        // Arrange
+        Livestream::query()->delete();
+
+        $livestreams = collect(range(1, 5))->map(fn (int $daysAgo) => Livestream::factory()->for($this->user)->create([
+            'actual_start_at' => now()->subDays($daysAgo),
+        ]));
+
+        // Act
+        $result = app(LivestreamRepository::class)->getLatest($this->user->id, 3);
+
+        // Assert
+        expect($result->pluck('id')->all())->toBe($livestreams->take(3)->pluck('id')->all());
+    });
+
     it('only gets completed livestreams', function () {
         // Arrange
         Livestream::query()->delete();

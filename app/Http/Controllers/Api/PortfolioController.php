@@ -16,9 +16,9 @@ class PortfolioController extends Controller
 
         return response()->json([
             'data' => [
-                'intro'    => resolve(IntroResource::class, ['resource' => $data['intro']]),
-                'about'    => resolve(AboutResource::class, ['resource' => $data['about']]),
-                'projects' => ProjectResource::collection($data['projects']),
+                'intro'       => resolve(IntroResource::class, ['resource' => $data['intro']]),
+                'about'       => resolve(AboutResource::class, ['resource' => $data['about']]),
+                'projects'    => ProjectResource::collection($data['projects']),
                 'livestreams' => LivestreamResource::collection($data['livestreams']),
             ],
         ]);
