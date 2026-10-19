@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Portfolio\GetPortfolioAction;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\{AboutResource, IntroResource, ProjectResource};
+use App\Http\Resources\{AboutResource, IntroResource, LivestreamResource, ProjectResource};
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +19,7 @@ class PortfolioController extends Controller
                 'intro'    => resolve(IntroResource::class, ['resource' => $data['intro']]),
                 'about'    => resolve(AboutResource::class, ['resource' => $data['about']]),
                 'projects' => ProjectResource::collection($data['projects']),
+                'livestreams' => LivestreamResource::collection($data['livestreams']),
             ],
         ]);
     }

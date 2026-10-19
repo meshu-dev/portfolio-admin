@@ -7,6 +7,7 @@ use App\Actions\Portfolio\{
     About\GetAboutAction,
     Project\GetProjectsAction,
 };
+use App\Repositories\LivestreamRepository;
 
 class GetPortfolioAction
 {
@@ -19,11 +20,13 @@ class GetPortfolioAction
         $intro    = resolve(GetIntroAction::class)->execute($userId);
         $about    = resolve(GetAboutAction::class)->execute($userId);
         $projects = resolve(GetProjectsAction::class)->execute($userId);
+        $livestreams = resolve(LivestreamRepository::class)->get($userId);
 
         return [
             'intro'    => $intro,
             'about'    => $about,
             'projects' => $projects,
+            'livestreams' => $livestreams,
         ];
     }
 }
