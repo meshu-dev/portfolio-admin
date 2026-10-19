@@ -75,4 +75,38 @@ describe('LivestreamRepository tests', function () {
         expect(Livestream::where('youtube_id', 'abc123')->count())->toBe(2)
             ->and(Livestream::where('user_id', $this->user->id)->where('youtube_id', 'abc123')->value('title'))->toBe('Coding live');
     });
+
+    it('gets the 10 latest livestreams for the user', function () {
+        // Arrange
+        Livestream::query()->delete();
+
+        $otherUser = User::factory()->create();
+        Livestream::factory()->for($otherUser)->create();
+
+        $livestreams = collect(range(1, 12))->map(fn (int $daysAgo) => Livestream::factory()->for($this->user)->create([
+            'actual_start_at' => now()->subDays($daysAgo),
+        ]));
+
+        // Act
+        $result = app(LivestreamRepository::class)->get($this->user->id);
+
+        // Assert
+        expect($result)->toHaveCount(10)
+            ->and($result->pluck('id')->all())->toBe($livestreams->take(10)->pluck('id')->all())
+            ->and($result->pluck('user_id')->unique()->all())->toBe([$this->user->id]);
+    });
+
+    it('orders upcoming livestreams by their scheduled start', function () {
+        // Arrange
+        Livestream::query()->delete();
+
+        $past = Livestream::factory()->for($this->user)->create(['actual_start_at' => now()->subDay()]);
+        $upcoming = Livestream::factory()->for($this->user)->upcoming()->create();
+
+        // Act
+        $result = app(LivestreamRepository::class)->get($this->user->id);
+
+        // Assert
+        expect($result->pluck('id')->all())->toBe([$upcoming->id, $past->id]);
+    });
 });
