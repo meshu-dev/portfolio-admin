@@ -44,7 +44,14 @@ class PortfolioSeeder extends Seeder
     protected function addAbout(int $userId): void
     {
         $data = $this->data['about'];
-        $params = ['user_id' => $userId, 'text' => $data['text']];
+        $file = File::create([
+            'user_id' => $userId,
+            'type'    => $data['image']['type'],
+            'name'    => $data['image']['name'],
+            'url'     => $data['image']['url'],
+        ]);
+
+        $params = ['user_id' => $userId, 'file_id' => $file->id, 'text' => $data['text']];
 
         About::create($params);
 

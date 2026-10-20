@@ -112,6 +112,11 @@ return [
         'about' => [
             'text' => "<p>I am a full-stack developer focused on building maintainable products with modern web technologies.</p>" .
                       "<p>I enjoy solving practical business problems, improving developer workflows, and continuously learning new tools.</p>",
+            'image' => [
+                'type' => FileTypeEnum::WEB->value,
+                'name' => 'about.png',
+                'url'  => fake()->placeholderImageUrl(512, 512),
+            ],
             'skills' => [
                 'name' => 'Portfolio',
                 'technologies' => [
