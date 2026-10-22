@@ -34,4 +34,15 @@ class PortfolioController extends Controller
             'data' => LivestreamResource::collection($livestreams),
         ]);
     }
+
+    public function lastStreamed(LivestreamRepository $livestreamRepository): JsonResponse
+    {
+        $latestLivestream = $livestreamRepository->getLatest((int) Auth::id(), 1)->first();
+
+        return response()->json([
+            'data' => [
+                'actual_end_at' => $latestLivestream?->actual_end_at,
+            ],
+        ]);
+    }
 }

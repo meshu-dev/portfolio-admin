@@ -97,4 +97,76 @@ describe('Api\PortfolioController tests', function () {
             $response->assertUnauthorized();
         });
     });
+
+    describe('last streamed', function () {
+        it('gets the end time of the latest livestream', function () {
+            // Arrange
+            Livestream::query()->delete();
+
+            Livestream::factory()->create([
+                'user_id'         => UserEnum::ADMIN,
+                'actual_start_at' => '2026-10-01 17:00:00',
+                'actual_end_at'   => '2026-10-01 19:00:00',
+            ]);
+            Livestream::factory()->create([
+                'user_id'         => UserEnum::ADMIN,
+                'actual_start_at' => '2026-10-12 17:33:00',
+                'actual_end_at'   => '2026-10-12 19:45:00',
+            ]);
+
+            // Act
+            $response = $this->get(route('portfolio.livestream.last-streamed'));
+
+            // Assert
+            $response->assertOk()
+                     ->assertExactJson(['data' => ['actual_end_at' => '2026-10-12T19:45:00.000000Z']]);
+        });
+
+        it('ignores live and upcoming livestreams and other users', function () {
+            // Arrange
+            Livestream::query()->delete();
+
+            Livestream::factory()->create([
+                'user_id'         => UserEnum::ADMIN,
+                'actual_start_at' => '2026-10-01 17:00:00',
+                'actual_end_at'   => '2026-10-01 19:00:00',
+            ]);
+            Livestream::factory()->live()->create(['user_id' => UserEnum::ADMIN]);
+            Livestream::factory()->upcoming()->create(['user_id' => UserEnum::ADMIN]);
+            Livestream::factory()->create([
+                'user_id'         => UserEnum::DEMO,
+                'actual_start_at' => '2026-10-20 17:00:00',
+                'actual_end_at'   => '2026-10-20 19:00:00',
+            ]);
+
+            // Act
+            $response = $this->get(route('portfolio.livestream.last-streamed'));
+
+            // Assert
+            $response->assertOk()
+                     ->assertExactJson(['data' => ['actual_end_at' => '2026-10-01T19:00:00.000000Z']]);
+        });
+
+        it('returns null when nothing has been streamed yet', function () {
+            // Arrange
+            Livestream::query()->delete();
+
+            // Act
+            $response = $this->get(route('portfolio.livestream.last-streamed'));
+
+            // Assert
+            $response->assertOk()->assertExactJson(['data' => ['actual_end_at' => null]]);
+        });
+
+        it('requires authentication', function () {
+            // Arrange
+            $this->app['auth']->forgetGuards();
+
+            // Act
+            $response = $this->getJson(route('portfolio.livestream.last-streamed'), ['Authorization' => '']);
+
+            // Assert
+            $response->assertUnauthorized();
+        });
+    });
 });
