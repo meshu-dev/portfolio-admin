@@ -12,7 +12,11 @@ Route::post('auth/login', [AuthController::class, 'login'])->name('api.login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cv', [CvController::class, 'get'])->name('cv');
-    Route::get('/portfolio', [PortfolioController::class, 'get'])->name('portfolio');
+
+    Route::prefix('portfolio')->controller(PortfolioController::class)->group(function () {
+        Route::get('/', 'get')->name('portfolio');
+        Route::get('livestreams', 'livestreams')->name('portfolio.livestreams');
+    });
 });
 
 Route::post('/contact', [ContactController::class, 'sendMessage'])->name('contact');

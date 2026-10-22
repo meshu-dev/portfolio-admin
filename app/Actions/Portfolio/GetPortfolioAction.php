@@ -7,12 +7,9 @@ use App\Actions\Portfolio\{
     About\GetAboutAction,
     Project\GetProjectsAction,
 };
-use App\Repositories\LivestreamRepository;
 
 class GetPortfolioAction
 {
-    private const int LIVESTREAM_LIMIT = 9;
-
     /**
      * @param int $userId
      * @return array<string, mixed>
@@ -22,13 +19,11 @@ class GetPortfolioAction
         $intro    = resolve(GetIntroAction::class)->execute($userId);
         $about    = resolve(GetAboutAction::class)->execute($userId);
         $projects = resolve(GetProjectsAction::class)->execute($userId);
-        $livestreams = resolve(LivestreamRepository::class)->getLatest($userId, self::LIVESTREAM_LIMIT);
 
         return [
             'intro'    => $intro,
             'about'    => $about,
             'projects' => $projects,
-            'livestreams' => $livestreams,
         ];
     }
 }
