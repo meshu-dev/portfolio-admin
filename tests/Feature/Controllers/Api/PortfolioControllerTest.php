@@ -115,11 +115,12 @@ describe('Api\PortfolioController tests', function () {
             ]);
 
             // Act
-            $response = $this->get(route('portfolio.livestream.last-streamed'));
+            $response = $this->get(route('portfolio.livestreams.latest'));
 
             // Assert
             $response->assertOk()
-                     ->assertExactJson(['data' => ['actual_end_at' => '2026-10-12T19:45:00.000000Z']]);
+                     ->assertJsonPath('data.actual_end_at', '2026-10-12T19:45:00.000000Z')
+                     ->assertJsonStructure(['data' => ['title', 'description', 'url', 'thumbnail', 'status', 'scheduled_start_at', 'actual_start_at', 'actual_end_at']]);
         });
 
         it('ignores live and upcoming livestreams and other users', function () {
@@ -140,11 +141,11 @@ describe('Api\PortfolioController tests', function () {
             ]);
 
             // Act
-            $response = $this->get(route('portfolio.livestream.last-streamed'));
+            $response = $this->get(route('portfolio.livestreams.latest'));
 
             // Assert
             $response->assertOk()
-                     ->assertExactJson(['data' => ['actual_end_at' => '2026-10-01T19:00:00.000000Z']]);
+                     ->assertJsonPath('data.actual_end_at', '2026-10-01T19:00:00.000000Z');
         });
 
         it('returns null when nothing has been streamed yet', function () {
@@ -152,10 +153,10 @@ describe('Api\PortfolioController tests', function () {
             Livestream::query()->delete();
 
             // Act
-            $response = $this->get(route('portfolio.livestream.last-streamed'));
+            $response = $this->get(route('portfolio.livestreams.latest'));
 
             // Assert
-            $response->assertOk()->assertExactJson(['data' => ['actual_end_at' => null]]);
+            $response->assertOk()->assertExactJson(['data' => null]);
         });
 
         it('requires authentication', function () {
@@ -163,7 +164,7 @@ describe('Api\PortfolioController tests', function () {
             $this->app['auth']->forgetGuards();
 
             // Act
-            $response = $this->getJson(route('portfolio.livestream.last-streamed'), ['Authorization' => '']);
+            $response = $this->getJson(route('portfolio.livestreams.latest'), ['Authorization' => '']);
 
             // Assert
             $response->assertUnauthorized();

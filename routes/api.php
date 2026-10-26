@@ -16,7 +16,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('portfolio')->controller(PortfolioController::class)->group(function () {
         Route::get('/', 'get')->name('portfolio');
         Route::get('livestreams', 'livestreams')->name('portfolio.livestreams');
-        Route::get('livestream/last-streamed', 'lastStreamed')->name('portfolio.livestream.last-streamed');
+        Route::get('livestreams/latest', 'latestLivestream')->name('portfolio.livestreams.latest');
     });
 });
 
