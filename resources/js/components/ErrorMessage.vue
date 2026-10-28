@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { AlertCircleIcon } from 'lucide-vue-next'
+import { AlertCircle } from 'lucide-vue-next';
 
-defineProps({ value: String })
+defineProps({ value: String });
 </script>
 
 <template>
-  <div class="error-message">
-    <AlertCircleIcon class="w-[1rem]" />
-    <span>{{ value }}</span>
-  </div>
+    <p role="alert" class="flex items-start gap-1.5 text-[0.8125rem] text-destructive">
+        <AlertCircle class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+        <span>{{ value }}</span>
+    </p>
 </template>

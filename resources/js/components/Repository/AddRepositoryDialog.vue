@@ -35,25 +35,23 @@ onUnmounted(
 
 <template>
   <Dialog v-model:open="addDialogOpen">
-    <DialogContent>
+    <DialogContent class="sm:max-w-md">
       <DialogHeader>
-        <DialogTitle>Add Repository</DialogTitle>
+        <DialogTitle>Add a repository</DialogTitle>
       </DialogHeader>
       <Form method="post" class="grid gap-4" @success="addDialogOpen = false">
-        <div class="grid gap-3">
-          <Label for="name">Name</Label>
+        <div class="grid gap-1.5">
+          <Label for="name" class="text-[0.8125rem] font-semibold">Name</Label>
           <Input id="name" name="name" :class="errors?.name ? `error-field` : ``" />
           <ErrorMessage v-if="errors?.name" :value="errors?.name" />
         </div>
-        <div class="grid gap-3">
-          <Label for="url">Url</Label>
-          <Input id="url" name="url" :class="errors?.url ? `error-field` : ``" />
+        <div class="grid gap-1.5">
+          <Label for="url" class="text-[0.8125rem] font-semibold">URL</Label>
+          <Input id="url" name="url" type="url" placeholder="https://github.com/…" :class="errors?.url ? `error-field` : ``" />
           <ErrorMessage v-if="errors?.url" :value="errors?.url" />
         </div>
         <div>
-          <Button class="btn-primary cursor-pointer" @click="create">
-            Add
-          </Button>
+          <Button class="cursor-pointer" @click="create">Add repository</Button>
         </div>
       </Form>
     </DialogContent>

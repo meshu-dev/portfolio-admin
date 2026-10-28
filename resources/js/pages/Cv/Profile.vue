@@ -1,50 +1,53 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
-import { Form } from '@inertiajs/vue3'
-import { Field } from '@/components/ui/field'
-import Label from '@/components/ui/label/Label.vue'
-import Input from '@/components/ui/input/Input.vue'
-import Button from '@/components/ui/button/Button.vue'
-import PageHeader from '@/components/PageHeader.vue'
-import ErrorMessage from '@/components/ErrorMessage.vue'
+import { Form, useForm } from '@inertiajs/vue3';
+import FormField from '@/components/FormField.vue';
+import FormPanel from '@/components/FormPanel.vue';
+import PageHeader from '@/components/PageHeader.vue';
+import Button from '@/components/ui/button/Button.vue';
+import Input from '@/components/ui/input/Input.vue';
 
-const props = defineProps({ intro: String, location: String, errors: Object })
+const props = defineProps({ intro: String, location: String, yearsWorked: Number, errors: Object });
 
 const form = useForm({
-  intro: props.intro,
-  location: props.location,
-})
+    intro: props.intro,
+    location: props.location,
+});
 </script>
 
 <template>
-  <PageHeader value="Profile" />
-  <Form action="/cv/profile" method="put">
-    <Field class="mb-4">
-      <Label for="intro">Intro</Label>
-      <Input
-        type="text"
-        name="intro"
-        :class="errors?.intro ? `error-field` : ``"
-        v-model="form.intro"
-        autoComplete="off"
-        placeholder="Intro" />
-      <ErrorMessage v-if="errors?.intro" :value="errors?.intro" />
-    </Field>
-    <Field class="mb-4">
-      <Label for="location">Location</Label>
-      <Input
-        type="text"
-        name="location"
-        :class="errors?.location ? `error-field` : ``"
-        v-model="form.location"
-        autoComplete="off"
-        placeholder="Password" />
-      <ErrorMessage v-if="errors?.location" :value="errors?.location" />
-    </Field>
-    <Button
-      class="cursor-pointer"
-      type="submit">
-      Save
-    </Button>
-  </Form>
+    <PageHeader value="Profile" site="cv" description="The introduction at the top of your CV." />
+    <FormPanel>
+        <Form action="/cv/profile" method="put" class="grid gap-5">
+            <FormField
+                label="Intro"
+                for="intro"
+                :error="errors?.intro"
+                :hint="`Write ##years_worked## and it is replaced with your years of experience (${yearsWorked ?? 0} today).`"
+            >
+                <Input
+                    id="intro"
+                    type="text"
+                    name="intro"
+                    class="font-serif text-base"
+                    :class="errors?.intro && 'error-field'"
+                    v-model="form.intro"
+                    autoComplete="off"
+                />
+            </FormField>
+            <FormField label="Location" for="location" :error="errors?.location" hint="For example, London, UK.">
+                <Input
+                    id="location"
+                    type="text"
+                    name="location"
+                    class="max-w-sm"
+                    :class="errors?.location && 'error-field'"
+                    v-model="form.location"
+                    autoComplete="off"
+                />
+            </FormField>
+            <div>
+                <Button class="cursor-pointer" type="submit">Save changes</Button>
+            </div>
+        </Form>
+    </FormPanel>
 </template>

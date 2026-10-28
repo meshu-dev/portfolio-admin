@@ -1,40 +1,25 @@
 <script setup lang="ts">
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import Button from '@/components/ui/button/Button.vue'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import Button from '@/components/ui/button/Button.vue';
 
-const props = defineProps({ title: String, message: String })
+defineProps({ title: String, message: String });
 
-const deleteDialogOpen = defineModel()
+const deleteDialogOpen = defineModel<boolean>();
 
-const emit = defineEmits(['confirmDelete'])
+const emit = defineEmits(['confirmDelete']);
 </script>
 
 <template>
-  <Dialog v-model:open="deleteDialogOpen">
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>{{ title }}</DialogTitle>
-      </DialogHeader>
-      <div class="gap-3">
-        {{ message }}
-      </div>
-      <div class="flex justify-center gap-2">
-        <Button
-          class="btn-primary cursor-pointer"
-          @click="emit('confirmDelete')">
-          Yes
-        </Button>
-        <Button
-          class="btn-primary cursor-pointer"
-          @click="deleteDialogOpen = false">
-          No
-        </Button>
-      </div>
-    </DialogContent>
-  </Dialog>
+    <Dialog v-model:open="deleteDialogOpen">
+        <DialogContent class="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>{{ title }}</DialogTitle>
+                <DialogDescription>{{ message }}</DialogDescription>
+            </DialogHeader>
+            <DialogFooter class="gap-2">
+                <Button variant="ghost" class="cursor-pointer" @click="deleteDialogOpen = false">Cancel</Button>
+                <Button variant="destructive" class="cursor-pointer" @click="emit('confirmDelete')">Delete</Button>
+            </DialogFooter>
+        </DialogContent>
+    </Dialog>
 </template>

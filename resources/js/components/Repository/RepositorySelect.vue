@@ -13,8 +13,8 @@ const selectedRepositories = defineModel()
 
 <template>
     <Select name="technologies" multiple v-model:modelValue="selectedRepositories">
-        <SelectTrigger class="w-xl">
-            <SelectValue placeholder="Select repository" />
+        <SelectTrigger class="w-full">
+            <SelectValue placeholder="Choose repositories" />
         </SelectTrigger>
         <SelectContent>
             <SelectItem  v-for="repository in repositories" :value="repository.id" selected>

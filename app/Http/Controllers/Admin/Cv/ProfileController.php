@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Cv;
 
 use App\Actions\Cv\Profile\{GetProfileAction, UpdateProfileAction};
+use App\Actions\Portfolio\GetYearsWorkedAction;
 use App\Enums\FlashTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cv\ProfileRequest;
@@ -15,7 +16,11 @@ class ProfileController extends Controller
     public function view(): Response
     {
         $profile = resolve(GetProfileAction::class)->execute((int) Auth::id());
-        $params  = ['intro' => $profile->intro, 'location' => $profile->location];
+        $params  = [
+            'intro'       => $profile->intro,
+            'location'    => $profile->location,
+            'yearsWorked' => resolve(GetYearsWorkedAction::class)->execute(),
+        ];
 
         return Inertia::render('Cv/Profile', $params);
     }

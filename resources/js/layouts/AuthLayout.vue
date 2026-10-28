@@ -1,27 +1,22 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3'
-import 'vue-sonner/style.css'
-import { Toaster } from '@/components/ui/sonner'
-import { toast } from 'vue-sonner'
-import { router } from '@inertiajs/vue3'
-import { onUnmounted } from 'vue'
+import { router } from '@inertiajs/vue3';
+import { onUnmounted } from 'vue';
+import { toast } from 'vue-sonner';
+import 'vue-sonner/style.css';
+import { Toaster } from '@/components/ui/sonner';
 
 onUnmounted(
-  router.on('flash', (event) => {
-      if (event.detail.flash['message']) {
-        toast(event.detail.flash['message'])
-      }
-  })
-)
+    router.on('flash', (event) => {
+        if (event.detail.flash['message']) {
+            toast(event.detail.flash['message']);
+        }
+    }),
+);
 </script>
 
 <template>
-  <Head title="Portfolio Admin">
-    <meta name="description" content="Your page description">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </Head>
-  <main class="bg-(--auth-background) w-full h-full m-0 pt-10 flex h-screen flex-col">
-    <slot />
-  </main>
-  <Toaster position="top-center" />
+    <main class="flex min-h-screen items-center justify-center px-4 py-12">
+        <slot />
+    </main>
+    <Toaster position="top-center" />
 </template>

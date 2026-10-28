@@ -9,7 +9,7 @@ class Type extends Model
 {
     protected $table = 'types';
 
-    protected $fillable = ['id', 'key', 'name'];
+    protected $fillable = ['id', 'key', 'name', 'url'];
 
     public $timestamps = false;
 

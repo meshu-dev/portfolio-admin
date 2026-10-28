@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import Button from '@/components/ui/button/Button.vue'
+import Button from '@/components/ui/button/Button.vue';
 
-const imageUrl = defineModel()
+const imageUrl = defineModel();
 
 const removeImage = (): void => {
-  imageUrl.value = ''
-}
+    imageUrl.value = '';
+};
 </script>
 
 <template>
-    <div class="flex flex-col xs:flex-row mt-4 gap-4">
-        <img :src="imageUrl" class="w-full m-auto shadow-md xs:max-w-xs xs:m-0" />
-        <Button size="sm" class="cursor-pointer" @click="removeImage">Remove</Button>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+        <img :src="imageUrl as string" alt="" class="w-full max-w-60 rounded-lg border object-cover" />
+        <Button type="button" variant="outline" size="sm" class="cursor-pointer self-start" @click="removeImage"> Remove image </Button>
     </div>
 </template>

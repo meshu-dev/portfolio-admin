@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Actions\Portfolio\Repository\GetRepositoriesAction;
 use App\Actions\Technology\GetAllTechnologiesAction;
 use App\Actions\Type\GetAllTypesAction;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -44,6 +45,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            // The public sites each type of content appears on, keyed by type ('cv', 'portfolio'), for the "Open site" links
+            'siteUrls' => fn () => Type::pluck('url', 'key'),
         ];
     }
 

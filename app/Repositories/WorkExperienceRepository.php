@@ -25,7 +25,7 @@ class WorkExperienceRepository
      */
     public function getAll(int $userId): Collection
     {
-        return WorkExperience::select('id', 'title', 'company', 'location')
+        return WorkExperience::select('id', 'title', 'company', 'location', 'start_date', 'end_date', 'active')
                              ->where('user_id', $userId)
                              ->orderByDesc('start_date')
                              ->get();

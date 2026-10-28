@@ -1,72 +1,47 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { router } from '@inertiajs/vue3'
-import Button from '@/components/ui/button/Button.vue'
-import DeleteDialog from '@/components/DeleteDialog.vue'
-import { Site } from '@/types/portfolio'
-import PageHeader from '@/components/PageHeader.vue'
-import { Link } from '@inertiajs/vue3'
+import { ref, type Ref } from 'vue';
+import { router } from '@inertiajs/vue3';
+import DeleteButton from '@/components/DeleteButton.vue';
+import DeleteDialog from '@/components/DeleteDialog.vue';
+import { LinkButton } from '@/components/LinkButton';
+import ListPanel from '@/components/ListPanel.vue';
+import ListRow from '@/components/ListRow.vue';
+import PageHeader from '@/components/PageHeader.vue';
+import type { Site } from '@/types/portfolio';
 
-const props = defineProps({ sites: Array<Site> })
+const props = defineProps<{ sites: Site[] }>();
 
-const deleteDialogOpen: Ref<boolean> = ref(false)
-const deleteName: Ref<string> = ref('')
-const deleteId: Ref<string> = ref('')
+const deleteDialogOpen: Ref<boolean> = ref(false);
+const deleting: Ref<Site | null> = ref(null);
 
-const deleteSiteDialog = (id: string, name: string) => {
-  deleteDialogOpen.value = true
-  deleteId.value = id
-  deleteName.value = name
-}
+const askToDelete = (site: Site) => {
+    deleting.value = site;
+    deleteDialogOpen.value = true;
+};
 
 const deleteSite = () => {
-  deleteDialogOpen.value = false
-  router.delete(`/sites/${deleteId.value}`)
-}
+    deleteDialogOpen.value = false;
+    if (deleting.value) router.delete(`/sites/${deleting.value.id}`);
+};
 </script>
 
 <template>
-  <PageHeader value="Sites" />
-  <Link href="/sites/new">
-    <Button class="btn-primary cursor-pointer">Add</Button>
-  </Link>
-  <div v-if="sites && sites.length > 0" class="mt-4 min-h-[650px]">
-    <Table>
-      <TableHeader>
-        <TableRow class="text-xl font-extrabold">
-          <TableHead>Name</TableHead>
-          <TableHead class="hidden sm:table-cell">Url</TableHead>
-          <TableHead>Action</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="site in sites">
-          <TableCell>
-            <Link :href="`/sites/${site.id}`">{{ site.name }}</Link>
-          </TableCell>
-          <TableCell class="hidden sm:table-cell">{{ site.url }}</TableCell>
-          <TableCell>
-            <Button
-              class="btn-primary cursor-pointer"
-              @click="deleteSiteDialog(site.id, site.name)">
-              Delete
-            </Button>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  </div>
-  <DeleteDialog
-    :title="`Delete ${deleteName}`"
-    :message="`Are you sure you want to delete ${deleteName}?`"
-    v-model="deleteDialogOpen"
-    @confirm-delete="deleteSite" />
+    <PageHeader value="Sites" description="Your profiles elsewhere, such as GitHub and LinkedIn.">
+        <LinkButton href="/sites/new">Add a site</LinkButton>
+    </PageHeader>
+    <ListPanel :empty="!props.sites?.length" empty-text="No sites yet. Add your GitHub or LinkedIn profile.">
+        <ListRow v-for="site in props.sites" :key="site.id" :href="`/sites/${site.id}`">
+            <template #title>{{ site.name }}</template>
+            <template #subtitle>{{ site.url }}</template>
+            <template #actions>
+                <DeleteButton :name="site.name" @click="askToDelete(site)" />
+            </template>
+        </ListRow>
+    </ListPanel>
+    <DeleteDialog
+        :title="`Delete ${deleting?.name}?`"
+        message="This site will be deleted. This can't be undone."
+        v-model="deleteDialogOpen"
+        @confirm-delete="deleteSite"
+    />
 </template>

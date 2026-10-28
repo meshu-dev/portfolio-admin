@@ -1,69 +1,52 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { router } from '@inertiajs/vue3'
-import Button from '@/components/ui/button/Button.vue'
-import DeleteDialog from '@/components/DeleteDialog.vue'
-import { Technology } from '@/types/portfolio'
-import PageHeader from '@/components/PageHeader.vue'
-import AddTechnologyDialog from '@/components/Technology/AddTechnologyDialog.vue'
+import { ref, type Ref } from 'vue';
+import { router } from '@inertiajs/vue3';
+import DeleteButton from '@/components/DeleteButton.vue';
+import DeleteDialog from '@/components/DeleteDialog.vue';
+import PageHeader from '@/components/PageHeader.vue';
+import AddTechnologyDialog from '@/components/Technology/AddTechnologyDialog.vue';
+import Button from '@/components/ui/button/Button.vue';
+import type { Technology } from '@/types/portfolio';
 
-const props = defineProps({ technologies: Array<Technology> })
+const props = defineProps<{ technologies: Technology[] }>();
 
-const addDialogOpen: Ref<boolean> = ref(false)
+const addDialogOpen: Ref<boolean> = ref(false);
+const deleteDialogOpen: Ref<boolean> = ref(false);
+const deleting: Ref<Technology | null> = ref(null);
 
-const deleteDialogOpen: Ref<boolean> = ref(false)
-const deleteName: Ref<string> = ref('')
-const deleteId: Ref<string> = ref('')
-
-const deleteTechnologyDialog = (id: string, name: string) => {
-  deleteDialogOpen.value = true
-  deleteId.value = id
-  deleteName.value = name
-}
+const askToDelete = (technology: Technology) => {
+    deleting.value = technology;
+    deleteDialogOpen.value = true;
+};
 
 const deleteTechnology = () => {
-  deleteDialogOpen.value = false
-  router.delete(`/technologies/${deleteId.value}`)
-}
+    deleteDialogOpen.value = false;
+    if (deleting.value) router.delete(`/technologies/${deleting.value.id}`);
+};
 </script>
 
 <template>
-  <PageHeader value="Technologies" />
-  <Button class="btn-primary cursor-pointer" @click="addDialogOpen = true">Add</Button>
-  <div v-if="technologies && technologies.length > 0" class="mt-4 min-h-[650px]">
-    <Table>
-      <TableHeader>
-        <TableRow class="text-xl font-extrabold">
-          <TableHead class="w-lg">Name</TableHead>
-          <TableHead>Action</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="technology in technologies">
-          <TableCell>{{ technology.name }}</TableCell>
-          <TableCell>
-            <Button
-              class="btn-primary cursor-pointer"
-              @click="deleteTechnologyDialog(technology.id, technology.name)">
-              Delete
-            </Button>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-  </div>
-  <AddTechnologyDialog v-model="addDialogOpen" />
-  <DeleteDialog
-    :title="`Delete ${deleteName}`"
-    :message="`Are you sure you want to delete ${deleteName}?`"
-    v-model="deleteDialogOpen"
-    @confirm-delete="deleteTechnology" />
+    <PageHeader value="Technologies" description="The list you pick from for CV skills, the About page and projects.">
+        <Button class="cursor-pointer" @click="addDialogOpen = true">Add a technology</Button>
+    </PageHeader>
+    <p v-if="!props.technologies?.length" class="max-w-2xl rounded-xl border border-dashed bg-panel px-5 py-8 text-center text-muted-foreground">
+        No technologies yet. Add the languages and tools you use.
+    </p>
+    <ul v-else class="grid max-w-3xl gap-x-6 rounded-xl border bg-panel p-2 sm:grid-cols-2 md:grid-cols-3">
+        <li
+            v-for="technology in props.technologies"
+            :key="technology.id"
+            class="flex items-center justify-between gap-2 rounded-md py-1 pr-1 pl-3 hover:bg-accent/60"
+        >
+            <span class="truncate">{{ technology.name }}</span>
+            <DeleteButton :name="technology.name" @click="askToDelete(technology)" />
+        </li>
+    </ul>
+    <AddTechnologyDialog v-model="addDialogOpen" />
+    <DeleteDialog
+        :title="`Delete ${deleting?.name}?`"
+        message="This technology will be deleted. This can't be undone."
+        v-model="deleteDialogOpen"
+        @confirm-delete="deleteTechnology"
+    />
 </template>

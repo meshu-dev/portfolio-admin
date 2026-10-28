@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Portfolio;
 
+use App\Actions\Portfolio\GetYearsWorkedAction;
 use App\Actions\Portfolio\Intro\{GetIntroAction, UpdateIntroAction};
 use App\Enums\FlashTypeEnum;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,11 @@ class IntroController extends Controller
     public function view(): Response
     {
         $intro  = resolve(GetIntroAction::class)->execute((int) Auth::id());
-        $params = ['line1' => $intro['line1'], 'line2' => $intro['line2']];
+        $params = [
+            'line1'       => $intro['line1'],
+            'line2'       => $intro['line2'],
+            'yearsWorked' => resolve(GetYearsWorkedAction::class)->execute(),
+        ];
 
         return Inertia::render('Portfolio/Intro', $params);
     }

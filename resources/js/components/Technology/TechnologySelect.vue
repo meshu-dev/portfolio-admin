@@ -13,8 +13,8 @@ const selectedTechnologies = defineModel()
 
 <template>
     <Select name="technologies" multiple v-model:modelValue="selectedTechnologies">
-        <SelectTrigger class="w-xl">
-            <SelectValue placeholder="Select technology" />
+        <SelectTrigger class="w-full">
+            <SelectValue placeholder="Choose technologies" />
         </SelectTrigger>
         <SelectContent>
             <SelectItem  v-for="technology in technologies" :value="technology.id" selected>

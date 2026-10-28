@@ -31,20 +31,18 @@ onUnmounted(
 
 <template>
   <Dialog v-model:open="addDialogOpen">
-    <DialogContent>
+    <DialogContent class="sm:max-w-md">
       <DialogHeader>
-        <DialogTitle>Add Technology</DialogTitle>
+        <DialogTitle>Add a technology</DialogTitle>
       </DialogHeader>
       <Form method="post" class="grid gap-4" @success="addDialogOpen = false">
-        <div class="grid gap-3">
-          <Label for="newTechnology">Name</Label>
+        <div class="grid gap-1.5">
+          <Label for="newTechnology" class="text-[0.8125rem] font-semibold">Name</Label>
           <Input id="newTechnology" name="name" :class="errors?.name ? `error-field` : ``" />
           <ErrorMessage v-if="errors?.name" :value="errors?.name" />
         </div>
         <div>
-          <Button class="btn-primary cursor-pointer" @click="create">
-            Add
-          </Button>
+          <Button class="cursor-pointer" @click="create">Add technology</Button>
         </div>
       </Form>
     </DialogContent>
