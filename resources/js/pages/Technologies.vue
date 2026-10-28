@@ -29,10 +29,10 @@ const deleteTechnology = () => {
     <PageHeader value="Technologies" description="The list you pick from for CV skills, the About page and projects.">
         <Button class="cursor-pointer" @click="addDialogOpen = true">Add a technology</Button>
     </PageHeader>
-    <p v-if="!props.technologies?.length" class="max-w-2xl rounded-xl border border-dashed bg-panel px-5 py-8 text-center text-muted-foreground">
+    <p v-if="!props.technologies?.length" class="rounded-xl border border-dashed bg-panel px-5 py-8 text-center text-muted-foreground">
         No technologies yet. Add the languages and tools you use.
     </p>
-    <ul v-else class="grid max-w-3xl gap-x-6 rounded-xl border bg-panel p-2 sm:grid-cols-2 md:grid-cols-3">
+    <ul v-else class="grid gap-x-6 rounded-xl border bg-panel p-2 sm:grid-cols-2 md:grid-cols-3">
         <li
             v-for="technology in props.technologies"
             :key="technology.id"

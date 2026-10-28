@@ -50,7 +50,7 @@ onUnmounted(
             </SheetContent>
         </Sheet>
 
-        <main id="content" class="w-full max-w-4xl px-4 py-8 sm:px-8 lg:px-11 lg:py-9">
+        <main id="content" class="mx-auto w-full max-w-4xl px-4 py-8 sm:px-8 lg:px-11 lg:py-9">
             <slot />
         </main>
     </div>

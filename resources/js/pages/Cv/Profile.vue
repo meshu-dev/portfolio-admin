@@ -5,6 +5,7 @@ import FormPanel from '@/components/FormPanel.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import Button from '@/components/ui/button/Button.vue';
 import Input from '@/components/ui/input/Input.vue';
+import { Textarea } from '@/components/ui/textarea';
 
 const props = defineProps({ intro: String, location: String, yearsWorked: Number, errors: Object });
 
@@ -24,11 +25,11 @@ const form = useForm({
                 :error="errors?.intro"
                 :hint="`Write ##years_worked## and it is replaced with your years of experience (${yearsWorked ?? 0} today).`"
             >
-                <Input
+                <Textarea
                     id="intro"
-                    type="text"
                     name="intro"
-                    class="font-serif text-base"
+                    rows="2"
+                    class="min-h-0 font-serif text-base leading-relaxed"
                     :class="errors?.intro && 'error-field'"
                     v-model="form.intro"
                     autoComplete="off"
