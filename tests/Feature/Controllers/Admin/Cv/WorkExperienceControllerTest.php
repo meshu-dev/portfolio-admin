@@ -12,8 +12,9 @@ describe('WorkExperienceController tests', function () {
 
     it('loads work experience list page', function () {
         // Arrange
-        $workExperiences = WorkExperience::select('id', 'title', 'company', 'location')
+        $workExperiences = WorkExperience::select('id', 'title', 'company', 'location', 'start_date', 'end_date', 'active')
                                          ->where('user_id', UserEnum::ADMIN)
+                                         ->orderByDesc('start_date')
                                          ->get();
 
         // Act
