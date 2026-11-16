@@ -55,15 +55,22 @@
                 color: #4b586f;
             }
             .profile-meta {
-                margin: 18px 0 0;
+                width: auto; /* same 150px label column as Skills and the roles, so the values line up */
+                margin-top: 20px;
                 font-size: 10pt;
-                color: #4b586f;
+                line-height: 1.35;
             }
-            .profile-meta span {
-                margin-right: 22px;
+            .profile-meta td {
+                padding: 2px 0;
             }
             .profile-meta-label {
+                width: 150px;
+                padding-right: 0;
+                font-weight: bold;
                 color: #0c1424;
+            }
+            .profile-meta-value {
+                color: #4b586f;
             }
 
             .section {
@@ -98,7 +105,8 @@
                 padding-top: 18px;
                 padding-bottom: 18px;
             }
-            .workexp-dates {
+            .workexp td.workexp-dates {
+                padding-top: 22px;
                 font-family: 'Helvetica', sans-serif;
                 font-size: 10pt;
                 line-height: 1.4;
@@ -139,14 +147,20 @@
             <div class="profile">
                 <h1>{{ $profile['fullname'] }}</h1>
                 <p class="profile-intro">{{ $profile['intro'] }}</p>
-                <p class="profile-meta sans">
+                <table class="profile-meta sans">
                     @if (!empty($profile['location']))
-                        <span><b class="profile-meta-label">Location:</b> {{ $profile['location'] }}</span>
+                        <tr>
+                            <td class="profile-meta-label">Location</td>
+                            <td class="profile-meta-value">{{ $profile['location'] }}</td>
+                        </tr>
                     @endif
                     @foreach ($profile['sites'] ?? [] as $profileSite)
-                        <span><b class="profile-meta-label">{{ $profileSite['name'] }}:</b> {{ preg_replace(['#^https?://(www\.)?#', '#/$#'], '', $profileSite['url']) }}</span>
+                        <tr>
+                            <td class="profile-meta-label">{{ $profileSite['name'] }}</td>
+                            <td class="profile-meta-value">{{ preg_replace(['#^https?://(www\.)?#', '#/$#'], '', $profileSite['url']) }}</td>
+                        </tr>
                     @endforeach
-                </p>
+                </table>
             </div>
         @endisset
 

@@ -2,6 +2,9 @@
 
 use App\Actions\File\MoveFileAction;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Canvas;
+use Dompdf\Dompdf;
+use Dompdf\FontMetrics;
 use Mockery\MockInterface;
 
 describe('Commands\CreateCvPdf tests', function () {
@@ -20,6 +23,19 @@ describe('Commands\CreateCvPdf tests', function () {
         $pdfMock->shouldReceive('setPaper')
             ->once()
             ->withArgs(['A4', 'portrait']);
+
+        $canvas = mock(Canvas::class);
+        $canvas->shouldReceive('page_script')->once()->with(Closure::class);
+
+        $fontMetrics = mock(FontMetrics::class);
+        $fontMetrics->shouldReceive('getFont')->once()->with('Helvetica')->andReturn('Helvetica');
+
+        $dompdf = mock(Dompdf::class);
+        $dompdf->shouldReceive('getFontMetrics')->andReturn($fontMetrics);
+        $dompdf->shouldReceive('getCanvas')->andReturn($canvas);
+
+        $pdfMock->shouldReceive('render')->once();
+        $pdfMock->shouldReceive('getDomPDF')->andReturn($dompdf);
 
         $pdfMock->shouldReceive('save')
             ->once()
