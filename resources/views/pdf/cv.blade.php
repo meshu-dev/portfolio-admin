@@ -1,113 +1,205 @@
 <!doctype html>
-    <html>
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ isset($profile) ? $profile['fullname'] . ' | CV' : 'CV' }}</title>
+        {{--
+            Matches the CV site: same colours, name-first header, a ruled section per block and a
+            dates-then-details layout for each role. DOMPDF only understands CSS 2.1, so columns are
+            tables and the fonts are the built-in Helvetica and Times.
+        --}}
         <style>
+            @page {
+                margin: 48px 56px;
+            }
             body {
-                margin: 0 50px;
+                margin: 0;
+                font-family: 'Times', serif;
+                font-size: 11pt;
+                line-height: 1.5;
+                color: #0c1424;
             }
+            h1, h2, h3, .sans {
+                font-family: 'Helvetica', sans-serif;
+            }
+            .soft {
+                color: #4b586f;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td {
+                padding: 0;
+                vertical-align: top;
+            }
+            .label-col {
+                width: 150px;
+                padding-right: 24px;
+            }
+
+            .profile {
+                padding-bottom: 36px;
+            }
+            .profile h1 {
+                margin: 0;
+                font-size: 38pt;
+                line-height: 1;
+                font-weight: bold;
+                letter-spacing: -1px;
+            }
+            .profile-intro {
+                margin: 18px 0 0;
+                font-size: 13pt;
+                line-height: 1.55;
+                color: #4b586f;
+            }
+            .profile-meta {
+                margin: 18px 0 0;
+                font-size: 10pt;
+                color: #4b586f;
+            }
+            .profile-meta span {
+                margin-right: 22px;
+            }
+            .profile-meta-label {
+                color: #0c1424;
+            }
+
             .section {
-                margin-bottom: 5px;
+                border-top: 1px solid #0c1424;
+                padding-top: 16px;
+                padding-bottom: 28px;
             }
-            .profile-row {
-                margin-bottom: 3px;
+            .section h2 {
+                margin: 0 0 10px;
+                font-size: 17pt;
+                font-weight: bold;
+                letter-spacing: -0.3px;
             }
-            .profile-row-label {
+
+            .skill-row td {
+                padding: 3px 0;
+            }
+            .skill-name {
+                font-family: 'Helvetica', sans-serif;
+                font-weight: bold;
+                font-size: 10.5pt;
+            }
+
+            .workexp {
+                page-break-inside: avoid;
+                border-bottom: 1px solid #d5dde7;
+            }
+            .workexp-last {
+                border-bottom: 0;
+            }
+            .workexp td {
+                padding-top: 18px;
+                padding-bottom: 18px;
+            }
+            .workexp-dates {
+                font-family: 'Helvetica', sans-serif;
+                font-size: 10pt;
+                line-height: 1.4;
+            }
+            .workexp-dates .range {
                 font-weight: bold;
             }
-            .workexp-row {
-                display: flex;
-                flex-direction: row;
+            .workexp-current {
+                color: #0b7a83;
             }
-            .skill-groups {
-                padding-top: 20px;
-                margin-bottom: -40px;
-            }
-            .skill-group {
-                display: inline-block;
-                width: 250px;
-            }
-            .skill-group-label {
+            .workexp-title {
+                margin: 0;
+                font-size: 14pt;
+                line-height: 1.25;
                 font-weight: bold;
             }
-            .skill-list li {
-                margin-bottom: 3px;
-            }
-            .workexp-row {
-                margin-bottom: 40px;
-            }
-            .workexp-header {
-                overflow: hidden;
+            .workexp-company {
+                margin: 2px 0 0;
+                font-family: 'Helvetica', sans-serif;
+                font-size: 11.5pt;
                 font-weight: bold;
-                min-height: 20px;
-                margin-bottom: 20px;
             }
-            .workexp-header-title {
-                float: left;
+            .workexp-description {
+                margin: 10px 0 0;
+                color: #4b586f;
             }
-            .workexp-header-date {
-                float: right;
+            .workexp-list {
+                margin: 10px 0 0;
+                padding-left: 18px;
             }
             .workexp-list li {
-                margin-bottom: 3px;
+                margin-bottom: 4px;
             }
         </style>
     </head>
     <body>
-        <div>
-            @isset ($profile)
-                <div class="section">
-                    <h1>{{ $profile['fullname'] }}</h1>
-                    <p>{{ $profile['intro'] }}</p>
-                    <div class="profile-row">
-                        <span class="profile-row-label">Location:</span>
-                        <span>{{ $profile['location'] }}</span>
-                    </div>
-                    @foreach ($profile['sites'] as $profileSite)
-                        <div class="profile-row">
-                            <span class="profile-row-label">{{ $profileSite['name'] }}:</span>
-                            <span>{{ $profileSite['url'] }}</span>
-                        </div>
+        @isset ($profile)
+            <div class="profile">
+                <h1>{{ $profile['fullname'] }}</h1>
+                <p class="profile-intro">{{ $profile['intro'] }}</p>
+                <p class="profile-meta sans">
+                    @if (!empty($profile['location']))
+                        <span><b class="profile-meta-label">Location:</b> {{ $profile['location'] }}</span>
+                    @endif
+                    @foreach ($profile['sites'] ?? [] as $profileSite)
+                        <span><b class="profile-meta-label">{{ $profileSite['name'] }}:</b> {{ preg_replace(['#^https?://(www\.)?#', '#/$#'], '', $profileSite['url']) }}</span>
                     @endforeach
-                </div>
-            @endisset
-            @isset ($skills)
+                </p>
+            </div>
+        @endisset
+
+        @isset ($skills)
+            @if (count($skills) > 0)
                 <div class="section">
                     <h2>Skills</h2>
-                    <div class="skill-groups">
+                    <table>
                         @foreach ($skills as $skillGroup)
-                            <div class="skill-group">
-                                <div class="skill-group-label">{{ $skillGroup['name'] }}</div>
-                                <ul class="skill-list">
-                                    @foreach ($skillGroup['technologies'] as $technology)
-                                        <li>{{ $technology['name'] }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                            <tr class="skill-row">
+                                <td class="label-col skill-name">{{ $skillGroup['name'] }}</td>
+                                <td class="soft">{{ collect($skillGroup['technologies'])->pluck('name')->implode(', ') }}</td>
+                            </tr>
                         @endforeach
-                    </div>
+                    </table>
                 </div>
-            @endisset
-            @isset ($workExperiences)
+            @endif
+        @endisset
+
+        @isset ($workExperiences)
+            @if (count($workExperiences) > 0)
                 <div class="section">
-                    <h2>Work Experience</h2>
+                    <h2>Work experience</h2>
                     @foreach ($workExperiences as $workExperience)
-                        <div class="workexp-row">
-                            <div class="workexp-header">
-                                <span class="workexp-header-title">{{ $workExperience['title'] }} - {{ $workExperience['company'] }}</span>
-                                <span class="workexp-header-date">{{ $workExperience['location'] }} | {{ date('M y', strtotime($workExperience['start_date'])) }} - {{ $workExperience['end_date'] ? date('M y', strtotime($workExperience['end_date'])) : 'Present' }}</span>
-                            </div>
-                            <div>{{ $workExperience['description'] }}</div>
-                            <ul class="workexp-list">
-                                @foreach ($workExperience['responsibilities'] as $responsibility)
-                                    <li>{{ $responsibility }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        @php($isCurrent = empty($workExperience['end_date']))
+                        <table class="workexp {{ $loop->last ? 'workexp-last' : '' }}">
+                            <tr>
+                                <td class="label-col workexp-dates">
+                                    <div class="range {{ $isCurrent ? 'workexp-current' : '' }}">
+                                        {{ date('M Y', strtotime($workExperience['start_date'])) }} &ndash;
+                                        {{ $isCurrent ? 'Present' : date('M Y', strtotime($workExperience['end_date'])) }}
+                                    </div>
+                                    <div class="soft">{{ $workExperience['location'] }}</div>
+                                </td>
+                                <td>
+                                    <h3 class="workexp-title">{{ $workExperience['title'] }}</h3>
+                                    <p class="workexp-company">{{ $workExperience['company'] }}</p>
+                                    @if (!empty($workExperience['description']))
+                                        <p class="workexp-description">{{ $workExperience['description'] }}</p>
+                                    @endif
+                                    @if (!empty($workExperience['responsibilities']))
+                                        <ul class="workexp-list">
+                                            @foreach ($workExperience['responsibilities'] as $responsibility)
+                                                <li>{{ $responsibility }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
                     @endforeach
                 </div>
-            @endisset
-        </div>
+            @endif
+        @endisset
     </body>
 </html>
