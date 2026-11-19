@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PortfolioController extends Controller
 {
-    private const int LIVESTREAM_LIMIT = 9;
+    private const int LIVESTREAM_LIMIT = 6;
 
     public function get(GetPortfolioAction $getPortfolioAction): JsonResponse
     {

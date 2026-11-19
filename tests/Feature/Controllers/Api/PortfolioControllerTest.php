@@ -32,7 +32,7 @@ describe('Api\PortfolioController tests', function () {
     });
 
     describe('livestreams', function () {
-        it('gets the 9 latest livestreams', function () {
+        it('gets the 6 latest livestreams', function () {
             // Arrange
             Livestream::query()->delete();
 
@@ -46,11 +46,11 @@ describe('Api\PortfolioController tests', function () {
 
             // Assert
             $response->assertOk()
-                     ->assertJsonCount(9, 'data')
+                     ->assertJsonCount(6, 'data')
                      ->assertJsonPath('data.0.title', $livestreams->first()->title)
                      ->assertJsonPath('data.0.status', 'completed')
                      ->assertJsonPath('data.0.url', $livestreams->first()->url)
-                     ->assertJsonPath('data.8.title', $livestreams[8]->title)
+                     ->assertJsonPath('data.5.title', $livestreams[5]->title)
                      ->assertJsonStructure(['data' => ['*' => [
                          'title', 'description', 'url', 'thumbnail', 'status',
                          'scheduled_start_at', 'actual_start_at', 'actual_end_at',
