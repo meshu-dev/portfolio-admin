@@ -2,6 +2,7 @@
 
 namespace App\Actions\File;
 
+use App\Enums\FileTypeEnum;
 use App\Models\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,7 @@ class UploadFileAction
 
         return File::create([
             'user_id' => Auth::id(),
+            'type'    => FileTypeEnum::fromDisk($fileDriver)->value,
             'name'    => $originalName,
             'url'     => $filePath
         ]);
