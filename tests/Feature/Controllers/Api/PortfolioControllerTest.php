@@ -32,7 +32,7 @@ describe('Api\PortfolioController tests', function () {
     });
 
     describe('livestreams', function () {
-        it('gets the 6 latest livestreams', function () {
+        it('gets the 6 latest livestreams and the total number of livestreams', function () {
             // Arrange
             Livestream::query()->delete();
 
@@ -47,6 +47,7 @@ describe('Api\PortfolioController tests', function () {
             // Assert
             $response->assertOk()
                      ->assertJsonCount(6, 'data')
+                     ->assertJsonPath('total', 12)
                      ->assertJsonPath('data.0.title', $livestreams->first()->title)
                      ->assertJsonPath('data.0.status', 'completed')
                      ->assertJsonPath('data.0.url', $livestreams->first()->url)
@@ -72,6 +73,7 @@ describe('Api\PortfolioController tests', function () {
             // Assert
             $response->assertOk()
                      ->assertJsonCount(1, 'data')
+                     ->assertJsonPath('total', 1)
                      ->assertJsonPath('data.0.title', $completed->title);
         });
 
@@ -83,7 +85,7 @@ describe('Api\PortfolioController tests', function () {
             $response = $this->get(route('portfolio.livestreams'));
 
             // Assert
-            $response->assertOk()->assertExactJson(['data' => []]);
+            $response->assertOk()->assertExactJson(['data' => [], 'total' => 0]);
         });
 
         it('requires authentication', function () {

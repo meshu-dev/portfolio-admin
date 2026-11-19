@@ -31,7 +31,8 @@ class PortfolioController extends Controller
         $livestreams = $livestreamRepository->getLatest((int) Auth::id(), self::LIVESTREAM_LIMIT);
 
         return response()->json([
-            'data' => LivestreamResource::collection($livestreams),
+            'data'  => LivestreamResource::collection($livestreams),
+            'total' => $livestreamRepository->countCompleted((int) Auth::id()),
         ]);
     }
 

@@ -28,6 +28,16 @@ class LivestreamRepository
     }
 
     /**
+     * Count all of the user's completed livestreams, however many getLatest() is limited to.
+     */
+    public function countCompleted(int $userId): int
+    {
+        return Livestream::where('user_id', $userId)
+                         ->where('status', LivestreamStatusEnum::COMPLETED)
+                         ->count();
+    }
+
+    /**
      * Create the user's livestream, or update it if it has already been saved.
      */
     public function upsert(int $userId, LivestreamResponseData $data): Livestream
