@@ -8,7 +8,6 @@ use App\Actions\File\UploadFileAction;
 use App\Models\About;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class UpdateAboutAction
 {
@@ -74,16 +73,7 @@ class UpdateAboutAction
      */
     private function addImage(About $about, UploadedFile $newFile): void
     {
-        try {
-            $file = resolve(UploadFileAction::class)->execute($newFile);
-        } catch (\Throwable $e) {
-            Log::error('upload failed', [
-                'message'  => $e->getMessage(),
-                'previous' => $e->getPrevious()?->getMessage(),
-                'trace'    => $e->getPrevious()?->getTraceAsString(),
-            ]);
-            throw $e;
-        }
+        $file = resolve(UploadFileAction::class)->execute($newFile);
 
         if ($file->id > 0) {
             $about->file_id = $file->id;
